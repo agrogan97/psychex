@@ -1,0 +1,2 @@
+Handling Static Content
+=======================

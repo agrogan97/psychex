@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial: N-Arm Bandit Task &mdash; Psychex 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Handling Static Content" href="loading_static_content.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Psychex
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_static_content.html">Handling Static Content</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial: N-Arm Bandit Task</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#html-setup">HTML Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#js-setup">JS Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#drawing-text">Drawing text</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Psychex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial: N-Arm Bandit Task</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/n_arm_bandit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tutorial-n-arm-bandit-task">
+<h1>Tutorial: N-Arm Bandit Task<a class="headerlink" href="#tutorial-n-arm-bandit-task" title="Link to this heading"></a></h1>
+<p>This tutorial will show how you can build a variable N-arm bandit task from scratch using Psychex. In particular, we’ll demonstrate:</p>
+<ul class="simple">
+<li><p>How to setup Psychex</p></li>
+<li><p>How to load static content</p></li>
+<li><p>How to use the Psychex <em>NArmBandit</em> class</p></li>
+<li><p>How to extend Psychex classes</p></li>
+<li><p>How to listen for user clicks</p></li>
+<li><p>How to store and store user data</p></li>
+</ul>
+<p>Wow, sounds like a lot! Luckily, Psychex makes all of this a blissful experience. Let’s get started!</p>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
+<p>If you haven’t already, download Psychex from Github. We’ll set up a standard directory structure for a vanilla web-project,
+which will look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Bandit_Tutorial_Project</span>
+<span class="o">|---</span> <span class="n">static</span><span class="o">/</span>
+<span class="o">|---</span> <span class="n">lib</span><span class="o">/</span>
+     <span class="o">|---</span> <span class="n">lodash</span>
+          <span class="o">|---</span> <span class="n">lodash</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">js</span>
+     <span class="o">|---</span> <span class="n">p5</span>
+          <span class="o">|---</span> <span class="n">p5</span><span class="o">.</span><span class="n">js</span>
+     <span class="o">|---</span> <span class="n">psychex</span>
+          <span class="o">|---</span> <span class="n">psychex</span><span class="o">.</span><span class="n">js</span>
+<span class="o">|---</span> <span class="n">js</span>
+     <span class="o">|---</span> <span class="n">main</span><span class="o">.</span><span class="n">js</span>
+<span class="o">|---</span> <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<section id="html-setup">
+<h3>HTML Setup<a class="headerlink" href="#html-setup" title="Link to this heading"></a></h3>
+<p>We can start by populating our HTML entrypoint, <cite>index.html</cite>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;MyTestProject&lt;/title&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+    &lt;!-- Lib files --&gt;
+    &lt;script src=&quot;lib/lodash/lodash.core.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;lib/p5/p5.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;lib/psychex.js&quot;&gt;&lt;/script&gt;
+    &lt;!-- Stylesheets --&gt;
+&lt;/head&gt;
+
+&lt;body style=&quot;overflow-y: hidden; overflow-x: hidden;&quot;&gt;
+    &lt;div class=&quot;mainContent&quot;&gt;
+        &lt;div id=&quot;gameCanvas&quot; class=&quot;gameCanvas&quot;&gt;
+            &lt;!-- Canvas inserted via JavaScript --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script src=&quot;js/main.js&quot;&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</pre></div>
+</div>
+<p>Let’s break down the contents of this file and look at what isn’t boilerplate HTML.</p>
+<p>First, we import our library files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- Lib files --&gt;
+&lt;script src=&quot;lib/lodash/lodash.core.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lib/p5/p5.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lib/psychex.js&quot;&gt;&lt;/script&gt;
+</pre></div>
+</div>
+<p>Next, we’ll set use an inline style to block x and y-scrolling on our page.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">body</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;overflow-y: hidden; overflow-x: hidden;&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;...&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>We want the experiment to feel like a single page,
+but if you want scrollable content, then feel free to remove this.</p>
+<p>Importantly, we define a div that will hold our canvas.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;div id=&quot;gameCanvas&quot; class=&quot;gameCanvas&quot;&gt;
+    &lt;!-- Canvas inserted via JavaScript --&gt;
+&lt;/div&gt;
+</pre></div>
+</div>
+<p>We’ve named it <cite>gameCanvas</cite> - you can name this whatever you want, but it will be referenced when we initialise Psychex in the next steps.</p>
+<p>Finally, we import our entrypoint javascript:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;js/main.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Now we can set up our main Psychex file.</p>
+</section>
+<section id="js-setup">
+<h3>JS Setup<a class="headerlink" href="#js-setup" title="Link to this heading"></a></h3>
+<p>Open <cite>js/main.js</cite> in your code editor of choice, and paste the following code in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Global</span> <span class="n">settings</span>
+<span class="n">var</span> <span class="n">assets</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;imgs&quot;</span> <span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;fonts&quot;</span> <span class="p">:</span> <span class="p">{}};</span>
+<span class="n">var</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">verbose</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">positionMode</span><span class="p">:</span> <span class="s2">&quot;PERCENTAGE&quot;</span><span class="p">,</span> <span class="n">textAlign</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span> <span class="n">imageMode</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span> <span class="n">rectMode</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">};</span>
+
+<span class="n">function</span> <span class="n">preload</span><span class="p">(){</span>
+
+<span class="p">};</span>
+
+<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+
+<span class="p">};</span>
+
+<span class="n">function</span> <span class="n">draw</span><span class="p">()</span> <span class="p">{</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Let’s go through each of these sections and explain what they do.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">assets</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;imgs&quot;</span> <span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;fonts&quot;</span> <span class="p">:</span> <span class="p">{}}</span>
+<span class="n">var</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">verbose</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">positionMode</span><span class="p">:</span> <span class="s2">&quot;PERCENTAGE&quot;</span><span class="p">,</span> <span class="n">textAlign</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span> <span class="n">imageMode</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span> <span class="n">rectMode</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The first variable, <cite>assets</cite> is an object that will store static content for use later on. Psychex comes with a custom image object, <cite>PImage</cite>. When we load
+images and other static files like fonts and gifs, it’s we’ll load them as either Psychex or p5.js objects, so it’s useful to keep a mapping of
+asset name to object. We’ll show how this works shortly.</p>
+<p>The second variable, <cite>params</cite> defines some global parameters that will tell Psychex how to render content.</p>
+<ul class="simple">
+<li><p><cite>verbose</cite>: setting to <cite>true</cite> will log extra information to the console.</p></li>
+<li><p><cite>positionMode</cite>: This can be set to either <cite>PERCENTAGE</cite> or <cite>PIXELS</cite>. Using <cite>PERCENTAGE</cite> will tell Psychex to expect dimensions such as x,y coordinates, width, and height, in terms of their percentage of the total available screen width or height, respectively. E.g., if positionMode: “PERCENTAGE”, the centre of the screen would be <cite>(x,y) = (50, 50)</cite>. Setting this to <cite>PIXELS</cite> will use pixel values as default instead.</p></li>
+<li><p><cite>textAlign</cite> : Sets the anchor point for text. If <cite>CENTER</cite>, then the position specified will be the center of the text. If <cite>CORNER</cite>, the anchor point will be the top left-hand corner.</p></li>
+<li><p><cite>imageMode</cite> : Sets the anchor point for an image. Same as previously, <cite>CENTER</cite> uses the centre of the image for positioning, <cite>CORNER</cite> uses the top left-hand corner.</p></li>
+<li><p><cite>rectMode</cite> : Sets the anchor point for a rectangle shape. Uses the same rules as <cite>imageMode</cite>.</p></li>
+</ul>
+<p>After defining these parameters, we create 3 empty functions:</p>
+<ul class="simple">
+<li><p><cite>preload()</cite> loads static content in advance.</p></li>
+<li><p><cite>setup()</cite> contains code to be run once at the start of the experiment</p></li>
+<li><p><cite>draw()</cite> contains renderable content that can be run many times per second.</p></li>
+</ul>
+</section>
+</section>
+<section id="drawing-text">
+<h2>Drawing text<a class="headerlink" href="#drawing-text" title="Link to this heading"></a></h2>
+<p>Let’s start by displaying some header text. We’ll create a global variable that can hold our renderable objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">assets</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;imgs&quot;</span> <span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;fonts&quot;</span> <span class="p">:</span> <span class="p">{}};</span>
+<span class="n">var</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">verbose</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">positionMode</span><span class="p">:</span> <span class="s2">&quot;PERCENTAGE&quot;</span><span class="p">,</span> <span class="n">textAlign</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span> <span class="n">imageMode</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">,</span> <span class="n">rectMode</span><span class="p">:</span> <span class="s2">&quot;CENTER&quot;</span><span class="p">};</span>
+<span class="o">//</span> <span class="o">--</span> <span class="n">INSERT</span> <span class="n">HERE</span> <span class="o">--</span> <span class="o">//</span>
+<span class="n">var</span> <span class="n">canvas</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">gameContent</span> <span class="o">=</span> <span class="p">{};</span>
+</pre></div>
+</div>
+<p>Before we can define anything, we need to create a canvas. Add the following to <cite>setup()</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+    <span class="n">var</span> <span class="n">canvas</span> <span class="o">=</span> <span class="n">createCanvas</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">window</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">height</span><span class="p">);</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">parent</span><span class="p">(</span><span class="s2">&quot;gameCanvas&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This references the <cite>gameCanvas</cite> div we made before in <cite>main.html</cite> - so make sure the IDs match! Now we can add our first text component.
+Psychex renderable classes have a lower case <cite>p</cite> as a prefix. The text class is called <cite>pText</cite>. If you want more details about each of the classes described
+here, check the individual pages within the docs.</p>
+<p><cite>pText</cite> is instatiated with 3 parameters: <cite>text</cite>, <cite>x</cite>, <cite>y</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+    <span class="n">var</span> <span class="n">canvas</span> <span class="o">=</span> <span class="n">createCanvas</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">window</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">height</span><span class="p">);</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">parent</span><span class="p">(</span><span class="s2">&quot;gameCanvas&quot;</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="o">--</span> <span class="n">New</span> <span class="n">code</span> <span class="o">--</span> <span class="o">//</span>
+    <span class="n">gameContent</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;My Bandit Task!&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Finally, we need to add this to the draw loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+    <span class="n">clear</span><span class="p">();</span>
+
+    <span class="n">gameContent</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>All Psychex objects have a <cite>draw</cite> method that tells the main draw loop what they should look like. We’ve also added <cite>clear()</cite> at the start of the loop.
+This removes all rendered content from the screen at the start of the function, before drawing it again. If we didn’t do this, our content would be
+overlayed ontop of itself 30 (or more) times per second, which can create some weird effects, especially if we add animations!</p>
+<p>// TODO add in details about changing font size etc. //</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="loading_static_content.html" class="btn btn-neutral float-left" title="Handling Static Content" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grogan, A..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

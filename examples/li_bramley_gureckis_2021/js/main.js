@@ -25,7 +25,6 @@ function setup(){
     frameRate(60)
     canvas.parent("gameCanvas")
     
-
     // Game content
     // content.card1 = new Card(50, 50, 7, 7, {});
     content.deck = new Deck(50, 50, _.shuffle(_.range(0, 8)))

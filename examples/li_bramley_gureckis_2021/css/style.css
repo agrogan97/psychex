@@ -22,7 +22,12 @@ body {
     position: absolute;
     width: 100%;
     min-height: 60%;
-    bottom: 0;
+    bottom: 0px;
+}
+
+.gameCanvas {
+    position: absolute;
+    bottom: 0px;
 }
 
 .chartDiv {

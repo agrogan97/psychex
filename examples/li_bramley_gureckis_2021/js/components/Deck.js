@@ -11,8 +11,9 @@ class Card extends Primitive {
         this.show = true;
         this.shuffleCoords = {x: [], y: []};
         // NB: must give x and y, not this.position.x and this.position.y - as positionMode = "PERCENTAGE"
-        this.img = new pImage(x, y, assets.imgs.card);
-        this.label = new pText(this.value, x, y, {fontSize: 36});
+        this.img = new pImage(x, y, assets.imgs.card, kwargs).setScale(0.5);
+        this.centerPoint = this.img.centerPoint;
+        this.label = new pText(this.value, this.pos.x + this.img.width/4, this.pos.y + this.img.height/4, {fontSize: 36, textAlign:"CENTER", positionMode: "PIXELS", ...kwargs});
     }
 
     setValue(value){
@@ -68,20 +69,21 @@ class Card extends Primitive {
             }
         }
 
-        this.img.draw({position: this.pos, positionMode: "PIXELS"})
-        this.label.draw({position: this.pos, "text" : this.value, positionMode: "PIXELS"});
+        this.img.draw({position: this.pos, positionMode: "PIXELS", imageMode: "CORNER"})
+        this.label.draw({position: createVector(this.pos.x + this.img.width/4, this.pos.y + this.img.height/4), positionMode: "PIXELS" , "text" : this.value, textAlign: "CENTER"});
 
     }
 }
 
 class Deck extends Primitive {
     constructor(x, y, cardVals, kwargs={}){
-        super(x, y, kwargs={});
+        super(x, y, kwargs);
         this.initPos = createVector(x, y)
         this.nCards = cardVals.length;
         this.cardVals = cardVals;
-        this.xOffset = 10;
-        this.yOffset = 30;
+        const offset = Primitive.toPercentage(createVector(assets.imgs.card.width, assets.imgs.card.height))
+        this.xOffset = offset.x*0.65;
+        this.yOffset = offset.y*0.55;
         this.animationLength = 1.5;
         console.log(`Using ${this.nCards}-card deck`);
 
@@ -101,7 +103,8 @@ class Deck extends Primitive {
                             this.initPos.y + this.yOffset*rowIx, // y-pos
                             rowIx*this.nRows + colIx, // id
                             // rowIx*this.nRows + colIx, // value
-                            this.cardVals[rowIx*this.nRows + colIx]
+                            this.cardVals[rowIx*this.nRows + colIx],
+                            {imageMode: "CORNER", textAlign: "LEFT"}
                         )
                     )
                 }
@@ -110,8 +113,8 @@ class Deck extends Primitive {
 
         // Create 2 placeholder cards that represent 'drawn' cards
         this.drawnCards = [
-            new Card(this.initPos.x - this.xOffset, this.initPos.y + 0.5*this.yOffset, 'drawn1', {scale: 0.75}),
-            new Card(this.initPos.x - this.xOffset, this.initPos.y + 1.5*this.yOffset, 'drawn2', {scale: 0.75})
+            new Card(this.initPos.x - this.xOffset, this.initPos.y + 0.5*this.yOffset, 'drawn1'),
+            new Card(this.initPos.x - this.xOffset, this.initPos.y + 1.5*this.yOffset, 'drawn2')
         ]
         this.drawnCards.forEach(card => {card.toggleDisplay()})
     }

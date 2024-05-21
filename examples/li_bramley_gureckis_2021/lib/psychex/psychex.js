@@ -149,9 +149,9 @@ class Psychex{
         // Check inputs on vertical text alignment
         if (![LEFT, CENTER, RIGHT, "LEFT", "CENTER", "RIGHT"].includes(newHorizAlign)){throw new Error(`Vertical text align: ${newHorizAlign} not recognised. Must be one of LEFT, CENTER, RIGHT.`)};
         this.constants.textAlign = newHorizAlign;
-        if (this.constants.textAlign == LEFT || this.constants.textAlign == "LEFT"){textAlign(LEFT)}
-        else if (this.constants.textAlign == CENTER || this.constants.textAlign == "CENTER"){textAlign(CENTER)}
-        else if (this.constants.textAlign == RIGHT || this.constants.textAlign == "RIGHT"){textAlign(RIGHT)}
+        if (this.constants.textAlign == LEFT || this.constants.textAlign == "LEFT"){textAlign(LEFT, CENTER)}
+        else if (this.constants.textAlign == CENTER || this.constants.textAlign == "CENTER"){textAlign(CENTER, CENTER)}
+        else if (this.constants.textAlign == RIGHT || this.constants.textAlign == "RIGHT"){textAlign(RIGHT, CENTER)}
 
         if (this.constants.verbose) console.log("textAlign:", this.constants.textAlign)
     }
@@ -338,6 +338,20 @@ class Primitive extends Psychex{
         return this;
     }
 
+    getCenter(positionMode){
+        // Compute the center point of the primitive
+        if (this.type == "pImage"){
+            // Will return as pixels unless specified otherwise
+            if (this.constants.imageMode == "CENTER"){
+                this.centerPoint = this.pos;
+            } else {
+                this.centerPoint = createVector(this.pos.x + this.img.width/2, this.pos.y + this.img.height/2)
+            }
+            if (positionMode == "PERCENTAGE"){this.centerPoint = Primitive.toPercentage(this.centerPoint)}
+            return this.centerPoint;
+        }
+    }
+
     updatePosition(x, y){
         if (this.constants.positionMode == "PERCENTAGE"){
             // If percentage provided, convert to pixels to use under the hood
@@ -397,6 +411,7 @@ class pText extends Primitive {
         this.type="pText";
         this.text = text;
         this.textSize = 32;
+        this.scaleBy = 1;
     }
 
     setTextSize(newSize){
@@ -451,6 +466,11 @@ class pText extends Primitive {
         return this;
     }
 
+    setScale(s){
+        this.scaleBy = s;
+        return this;
+    }
+
     update(update={}){
         super.update(update);
         Object.keys(update).forEach(arg => {
@@ -479,6 +499,7 @@ class pText extends Primitive {
         push();
         translate(pos.x, pos.y);
         textSize(this.textSize)
+        scale(this.scaleBy);
         text(this.text, 0, 0);
         pop();
     }
@@ -557,13 +578,15 @@ class pImage extends Primitive{
     /*
         Expects a p5 image object reference, from assets.imgs as input
     */
-    constructor(x, y, imgObj, kwargs={}){
+    constructor(x, y, img, kwargs={}){
         super(x, y, kwargs);
         this.type="pImage";
-        this.imgObj = imgObj;
-        this.width = this.imgObj.width;
-        this.height = this.imgObj.height;
+        this.img = img;
+        this.width = this.img.width;
+        this.height = this.img.height;
         this.scaleBy = 1;
+        // compute and store the centre point for later use if needed
+        this.getCenter(); // PIXELS as default, can be overriden manually
     }
 
     setScale(s){
@@ -579,7 +602,7 @@ class pImage extends Primitive{
         super.update(update);
         Object.keys(update).forEach(arg => {
             if (arg == "image" || arg == "img"){
-                this.imgObj = arg;
+                this.img = arg;
             }
         })
 
@@ -603,7 +626,7 @@ class pImage extends Primitive{
         push();
         translate(pos.x, pos.y)
         scale(this.scaleBy)
-        image(this.imgObj, 0, 0)
+        image(this.img, 0, 0)
         pop();
     }
 }

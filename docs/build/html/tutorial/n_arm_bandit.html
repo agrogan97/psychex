@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Primitives" href="../code_docs/primitives.html" />
-    <link rel="prev" title="Handling Static Content" href="loading_static_content.html" /> 
+    <link rel="next" title="Handling Static Content" href="loading_static_content.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,7 +46,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loading_static_content.html">Handling Static Content</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial: N-Arm Bandit Task</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#html-setup">HTML Setup</a></li>
@@ -54,10 +53,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#drawing-text">Drawing text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-narmbandit-class">The NArmBandit Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#click-listeners">Click Listeners</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="loading_static_content.html">Handling Static Content</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/primitives.html">Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/paradigms.html">Paradigm-Based Composite Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aesthetics.html">Styles and Aesthetics</a></li>
 </ul>
 
         </div>
@@ -263,14 +266,88 @@ This removes all rendered content from the screen at the start of the function, 
 overlayed ontop of itself 30 (or more) times per second, which can create some weird effects, especially if we add animations!</p>
 <p>// TODO add in details about changing font size etc. //</p>
 </section>
+<section id="the-narmbandit-class">
+<h2>The NArmBandit Class<a class="headerlink" href="#the-narmbandit-class" title="Link to this heading"></a></h2>
+<p>Psychex offers a number of base classes for common experiments. One of these is the <cite>NArmBandit</cite> class. Psychex classes are designed to be extended
+so that custom functionality can be built, while commonly used base components avoid the experimenter from duplicating effort.</p>
+<p>We’ll start by defining our own class, and extending the base class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BanditTask</span> <span class="n">extends</span> <span class="n">NArmBandit</span> <span class="p">{</span>
+    <span class="n">constructor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nArms</span><span class="p">,</span> <span class="n">probs</span><span class="p">){</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nArms</span><span class="p">,</span> <span class="n">probs</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><cite>NArmBandit</cite> expects 4 parameters: <em>x</em>, <em>y</em>, <em>nArms</em> and <em>probs</em>. The first two are coordinates, which can be useful as an anchor point for adding renderables
+later (such as images as we’ll see shortly). If you don’t need these, simply use 0, 0 as inputs. nArms describes the number of arms in the task, and probs
+is an array of probabilities for each arm. See <a class="reference internal" href="../code_docs/primitives.html"><span class="doc">Primitives</span></a> for details on the class.</p>
+<p>We can immediately use this created class for a bandit task. For instance the parent method <cite>pullArm</cite> will pull a specific arm and return a <em>boolean</em>
+based on the assigned probabilities, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">let</span> <span class="n">myBanditTask</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BanditTask</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">myBanditTask</span><span class="o">.</span><span class="n">pullArm</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s build upon our class by adding some visuals. We’ll add 2 slot machine images to represent the 2 arms in our task. First, let’s load the slot machine img:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">preload</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">assets</span><span class="o">.</span><span class="n">imgs</span><span class="o">.</span><span class="n">slotMachine</span> <span class="o">=</span> <span class="n">loadImage</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/agrogan97/psychex/dev/docs/build/html/_static/slotMachine.png&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and now we’ll add copies of this image to our new class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">constructor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nArms</span><span class="p">,</span> <span class="n">probs</span><span class="p">){</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nArms</span><span class="p">,</span> <span class="n">probs</span><span class="p">);</span>
+
+        <span class="o">//</span> <span class="o">--</span> <span class="n">New</span> <span class="n">code</span> <span class="o">--</span> <span class="o">//</span>
+
+        <span class="n">this</span><span class="o">.</span><span class="n">slotMachines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">let</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">Arms</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">slotMachines</span><span class="o">.</span><span class="n">push</span><span class="p">(</span>
+                <span class="n">new</span> <span class="n">pImage</span><span class="p">(</span><span class="mi">25</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">assets</span><span class="o">.</span><span class="n">imgs</span><span class="o">.</span><span class="n">slotMachine</span><span class="p">);</span>
+            <span class="p">)</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>We can now add a <cite>draw()</cite> method to the class, to contain the individual draw methods for each <em>pImage</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">BanditTask</span> <span class="k">class</span> <span class="nc">preamble</span> <span class="o">...</span> <span class="o">//</span>
+
+<span class="n">draw</span><span class="p">(){</span>
+    <span class="nb">super</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+
+    <span class="n">this</span><span class="o">.</span><span class="n">slotMachines</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">sm</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">sm</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Let’s instantiate the class and render our images! If you didn’t previously, create a reference within <cite>gameContent</cite>, which we made earlier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gameContent</span><span class="o">.</span><span class="n">myBanditTask</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BanditTask</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>and add call its draw method inside the draw loop:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+    <span class="n">clear</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="o">--</span> <span class="n">Draw</span> <span class="n">bandit</span> <span class="n">task</span> <span class="n">here</span> <span class="o">--</span> <span class="o">//</span>
+    <span class="n">gameContent</span><span class="o">.</span><span class="n">myBanditTask</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Refresh the page, and behold your slot machines. Now, we want a player to be able to choose a slot machine to sample from. To do this, we’ll use a <em>click listener</em>.</p>
+</section>
+<section id="click-listeners">
+<h2>Click Listeners<a class="headerlink" href="#click-listeners" title="Link to this heading"></a></h2>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="loading_static_content.html" class="btn btn-neutral float-left" title="Handling Static Content" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../code_docs/primitives.html" class="btn btn-neutral float-right" title="Primitives" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="loading_static_content.html" class="btn btn-neutral float-right" title="Handling Static Content" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

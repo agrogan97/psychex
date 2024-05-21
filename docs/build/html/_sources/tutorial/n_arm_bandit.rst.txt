@@ -188,3 +188,82 @@ This removes all rendered content from the screen at the start of the function, 
 overlayed ontop of itself 30 (or more) times per second, which can create some weird effects, especially if we add animations!
 
 // TODO add in details about changing font size etc. //
+
+The NArmBandit Class
+--------------------
+
+Psychex offers a number of base classes for common experiments. One of these is the `NArmBandit` class. Psychex classes are designed to be extended
+so that custom functionality can be built, while commonly used base components avoid the experimenter from duplicating effort.
+
+We'll start by defining our own class, and extending the base class: ::
+
+    class BanditTask extends NArmBandit {
+        constructor(x, y, nArms, probs){
+            super(x, y, nArms, probs);
+        }
+    }
+
+`NArmBandit` expects 4 parameters: *x*, *y*, *nArms* and *probs*. The first two are coordinates, which can be useful as an anchor point for adding renderables
+later (such as images as we'll see shortly). If you don't need these, simply use 0, 0 as inputs. nArms describes the number of arms in the task, and probs 
+is an array of probabilities for each arm. See :doc:`../code_docs/primitives` for details on the class.
+
+We can immediately use this created class for a bandit task. For instance the parent method `pullArm` will pull a specific arm and return a *boolean*
+based on the assigned probabilities, e.g.: ::
+
+    let myBanditTask = new BanditTask(0, 0, 2, [0.5, 0.5])
+    myBanditTask.pullArm(1)
+
+Let's build upon our class by adding some visuals. We'll add 2 slot machine images to represent the 2 arms in our task. First, let's load the slot machine img: ::
+
+    preload() {
+        assets.imgs.slotMachine = loadImage("https://raw.githubusercontent.com/agrogan97/psychex/dev/docs/build/html/_static/slotMachine.png")
+    }
+
+and now we'll add copies of this image to our new class: ::
+
+    constructor(x, y, nArms, probs){
+            super(x, y, nArms, probs);
+
+            // -- New code -- //
+
+            this.slotMachines = []
+
+            for (let i=0; i<Arms; i++){
+                this.slotMachines.push(
+                    new pImage(25 + i*50, 50, assets.imgs.slotMachine);
+                )
+            }
+
+        }
+
+We can now add a `draw()` method to the class, to contain the individual draw methods for each *pImage*: ::
+
+    // ... BanditTask class preamble ... //
+
+    draw(){
+        super.draw();
+
+        this.slotMachines.forEach(sm => {
+            sm.draw();
+        })
+    }
+
+Let's instantiate the class and render our images! If you didn't previously, create a reference within `gameContent`, which we made earlier: ::
+
+    gameContent.myBanditTask = new BanditTask(0, 0, 2, [50, 50]);
+
+and add call its draw method inside the draw loop: ::
+
+    function draw(){
+        clear();
+
+        // -- Draw bandit task here -- //
+        gameContent.myBanditTask.draw();
+    }
+
+Refresh the page, and behold your slot machines. Now, we want a player to be able to choose a slot machine to sample from. To do this, we'll use a *click listener*.
+
+Click Listeners
+---------------
+
+

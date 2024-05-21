@@ -10,10 +10,11 @@ Psychex
    :maxdepth: 1
 
    tutorial/getting_started
-   tutorial/loading_static_content
    tutorial/n_arm_bandit
+   tutorial/loading_static_content
    code_docs/primitives
    code_docs/paradigms
+   tutorial/aesthetics
 
 .. Indices and tables
 .. ==================

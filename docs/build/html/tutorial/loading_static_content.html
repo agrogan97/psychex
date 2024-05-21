@@ -20,7 +20,9 @@
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Primitives" href="../code_docs/primitives.html" />
+    <link rel="prev" title="Tutorial: N-Arm Bandit Task" href="n_arm_bandit.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,8 +44,18 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Handling Static Content</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#images">Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fonts">Fonts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other">Other</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/primitives.html">Primitives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/paradigms.html">Paradigm-Based Composite Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aesthetics.html">Styles and Aesthetics</a></li>
 </ul>
 
         </div>
@@ -72,12 +84,54 @@
              
   <section id="handling-static-content">
 <h1>Handling Static Content<a class="headerlink" href="#handling-static-content" title="Link to this heading"></a></h1>
+<p>Static content is loaded within the p5.js <cite>preload()</cite> function. It’s typically stored within the object <cite>assets</cite>, but this is optional.</p>
+<section id="images">
+<h2>Images<a class="headerlink" href="#images" title="Link to this heading"></a></h2>
+<p>Images are loaded within <em>preload</em> as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">preload</span><span class="p">(){</span>
+    <span class="n">assets</span><span class="o">.</span><span class="n">imgs</span><span class="p">[</span><span class="s2">&quot;image1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loadImage</span><span class="p">(</span><span class="s2">&quot;path/to/image1.png&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To use this image, load it into a <em>pImage</em>, as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">let</span> <span class="n">img1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pImage</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">assets</span><span class="o">.</span><span class="n">imgs</span><span class="o">.</span><span class="n">image1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>See the <em>pImage</em> docs for details on using this class. loadImage can also be used to load gifs.</p>
+</section>
+<section id="fonts">
+<h2>Fonts<a class="headerlink" href="#fonts" title="Link to this heading"></a></h2>
+<p>Fonts are loaded within <em>preload</em> as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">preload</span><span class="p">(){</span>
+    <span class="n">assets</span><span class="o">.</span><span class="n">fonts</span><span class="p">[</span><span class="s2">&quot;font1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loadImage</span><span class="p">(</span><span class="s2">&quot;path/to/font1.ttf&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To use the font, add it to the <cite>aesthetics</cite> object on a pText object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">let</span> <span class="n">newText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;My new text&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;fontFamily&quot;</span> <span class="p">:</span> <span class="n">assets</span><span class="o">.</span><span class="n">fonts</span><span class="o">.</span><span class="n">font1</span><span class="p">});</span>
+</pre></div>
+</div>
+<p>For details on aesthetics, see <a class="reference internal" href="aesthetics.html"><span class="doc">Styles and Aesthetics</span></a>.</p>
+</section>
+<section id="other">
+<h2>Other<a class="headerlink" href="#other" title="Link to this heading"></a></h2>
+<p>Other datatypes can be loaded in this way:</p>
+<ul class="simple">
+<li><p>JSON via <em>loadJson()</em></p></li>
+<li><p>XML via <cite>loadXML()</cite></p></li>
+<li><p>Files via <cite>loadBytes()</cite></p></li>
+</ul>
+<p>For more details, see the p5.js documentation.</p>
+</section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="n_arm_bandit.html" class="btn btn-neutral float-left" title="Tutorial: N-Arm Bandit Task" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../code_docs/primitives.html" class="btn btn-neutral float-right" title="Primitives" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

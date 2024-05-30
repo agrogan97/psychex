@@ -56,6 +56,10 @@ function pClickListener(e) {
     })
 }
 
+function pKeyboardInput(){
+    // Add rules for a keyboard input
+}
+
 class Psychex{
     // Check for local parameter `params`
     // if no local version check for global variable `params`
@@ -145,9 +149,9 @@ class Psychex{
         // Check inputs on vertical text alignment
         if (![LEFT, CENTER, RIGHT, "LEFT", "CENTER", "RIGHT"].includes(newHorizAlign)){throw new Error(`Vertical text align: ${newHorizAlign} not recognised. Must be one of LEFT, CENTER, RIGHT.`)};
         this.constants.textAlign = newHorizAlign;
-        if (this.constants.textAlign == LEFT || this.constants.textAlign == "LEFT"){textAlign(LEFT)}
-        else if (this.constants.textAlign == CENTER || this.constants.textAlign == "CENTER"){textAlign(CENTER)}
-        else if (this.constants.textAlign == RIGHT || this.constants.textAlign == "RIGHT"){textAlign(RIGHT)}
+        if (this.constants.textAlign == LEFT || this.constants.textAlign == "LEFT"){textAlign(LEFT, CENTER)}
+        else if (this.constants.textAlign == CENTER || this.constants.textAlign == "CENTER"){textAlign(CENTER, CENTER)}
+        else if (this.constants.textAlign == RIGHT || this.constants.textAlign == "RIGHT"){textAlign(RIGHT, CENTER)}
 
         if (this.constants.verbose) console.log("textAlign:", this.constants.textAlign)
     }
@@ -197,8 +201,8 @@ class Primitive extends Psychex{
                 x = 50;
                 y = 50;
             } else {
-                x = window.innerWidth/2;
-                y = window.innerHeight/2;
+                x = canvas.width/2;
+                y = canvas.height/2;
             }
         }
         this.initPos = createVector(x, y)
@@ -206,65 +210,85 @@ class Primitive extends Psychex{
         if (this.constants.positionMode == "PERCENTAGE"){
             // If percentage provided, convert to pixels to use under the hood
             this.pos = Primitive.toPixels(this.initPos)
+            this.pcPos = createVector(x, y)
         } else {
             this.pos = this.initPos;
         }        
 
         this.isClickable = false;
+        this.scaleBy = 1;
+        this.rotateBy = 0;
 
         // Control settings
         // fill, stroke, linewidth
     }
 
     static toPixels(pos){
+        // Check if vector or array - either allowed, but convert to vector internally
+        pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
         return createVector(
-            pos.x*(window.innerWidth/100),
-            pos.y*(window.innerHeight/100)
+            pos.x*(canvas.width/100),
+            pos.y*(canvas.height/100)
         )
     }
 
     static toPercentage(pos){
+        // Check if vector or array - either allowed, but convert to vector internally
+        pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
         return createVector(
-            100*pos.x/window.innerWidth,
-            100*pos.y/window.innerHeight
+            100*pos.x/canvas.width,
+            100*pos.y/canvas.height
         )
     }
 
-    _handleKwargs(){
+    _handleKwargs(kwargs){
         // TODO: Would likely benefit from some input sanitisation
         // Handle kwarg inputs and feed them into the relevant methods
-        if (this.kwargs == undefined) {return}
+        // If an obj is provided then use those inputs - otherwise use this.kwargs
+        let _kwargs;
+        if (kwargs == undefined || kwargs == {}){
+            if (this.kwargs == undefined){
+                return
+            } else {
+                _kwargs = this.kwargs
+            }
+        } else {
+            _kwargs = kwargs;
+        }
         // Define the mapping between aesthetic kwargs and p5.js render instructions - and try to keep original p5 keys too
+        // TODO fill out this mapping
         this.aestheticsMapping = {
             fill: (c) => {fill(c)},
             backgroundColor: (c) => {fill(c)},
             stroke: (c) => {stroke(c)},
             borderColor: (c) => {stroke(c)},
             strokeWeight: (c) => {strokeWeight(c)},
-            borderWidth: (c) => {strokeWeight(c)}
+            borderWidth: (c) => {strokeWeight(c)},
+            textSize: (c) => {textSize(c)},
+            fontSize: (c) => {textSize(c)},
+            textFont: (c) => {textFont(c)},
+            fontFamily: (c) => {textFont(c)},
+            color: (c) => (fill(c)), // NB: font color, not background color, same as CSS
+            scale: (c) => (scale(c)),
         }
         this.aesthetics = [];
-        Object.keys(this.kwargs).forEach(kwarg => {
+        Object.keys(_kwargs).forEach(kwarg => {
             // Overwrite the methods in constants for this specific object
             // NB: this.constants is initialised from the global params, but set per object and can be overriden
 
             // Handle kwargs in this.constants
             if (Object.keys(this.constants).includes(kwarg)){
-                this.constants[kwarg] = this.kwargs[kwarg];
-            // Handle aesthetics kwarg
+                this.constants[kwarg] = _kwargs[kwarg];
+            // Handle aesthetics kwarg by translating to p5.js rendering funcs
             } else if (Object.keys(this.aestheticsMapping).includes(kwarg)){
                 // Store the function and the supplied values, so they're not rendered prematurely
                 this.aesthetics.push(
                     {
                         _func: this.aestheticsMapping[kwarg],
-                        _val: this.kwargs[kwarg]
+                        _val: _kwargs[kwarg]
                     }
                 )
             }
-
-            // TODO: Handle aesthetic params like colour, outline, etc.
-            // Translate kwargs into p5.js draw instructions
-            
         })
 
         // Update settings with Psychex method
@@ -272,9 +296,12 @@ class Primitive extends Psychex{
     }
 
     updateAesthetics(aes){
+        // input aes is a dict of aesthetics instruction
         if (typeof(aes) != "object"){throw new Error(`aesthetics must be an object, not: ${typeof(aes)}.`)}
         // Update the values stored in this.aesthetics upon user request
         Object.keys(aes).forEach(kwarg => {
+            // Check if the names aesthetic is in the accepted list
+            if (!Object.keys(this.aestheticsMapping).includes(kwarg)){return}
             // Define new aesthetics object
             let newAesObj = {
                 _func: this.aestheticsMapping[kwarg],
@@ -287,6 +314,16 @@ class Primitive extends Psychex{
                 this.aesthetics.push(newAesObj);
             }
         })
+    }
+
+    setScale(s){
+        this.scaleBy = s;
+        return this;
+    }
+
+    setRotate(r){
+        this.rotateBy = r;
+        return this;
     }
 
     toggleClickable(){
@@ -307,6 +344,20 @@ class Primitive extends Psychex{
         return this;
     }
 
+    getCenter(positionMode){
+        // Compute the center point of the primitive
+        if (this.type == "pImage"){
+            // Will return as pixels unless specified otherwise
+            if (this.constants.imageMode == "CENTER"){
+                this.centerPoint = this.pos;
+            } else {
+                this.centerPoint = createVector(this.pos.x + this.img.width/2, this.pos.y + this.img.height/2)
+            }
+            if (positionMode == "PERCENTAGE"){this.centerPoint = Primitive.toPercentage(this.centerPoint)}
+            return this.centerPoint;
+        }
+    }
+
     updatePosition(x, y){
         if (this.constants.positionMode == "PERCENTAGE"){
             // If percentage provided, convert to pixels to use under the hood
@@ -314,6 +365,40 @@ class Primitive extends Psychex{
         } else {
             this.pos = createVector(x, y);
         }  
+    }
+
+    update(update={}){
+        if (update == {} || update == undefined){return}
+        // A wrapper that processes kwargs and updates position and/or image
+        if (typeof(update) != "object"){throw new Error(`Expected param 'update' to be an object. Instead got: ${typeof(update)}.`)}
+        // Also accept kwargs
+        this._handleKwargs(update);
+        Object.keys(update).forEach(arg => {
+            if (arg == "pos" || arg == "position"){
+                // handle percentage-based position updates
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    this.pos = Primitive.toPixels(update[arg]);
+                } else {
+                    this.pos = update[arg];
+                }
+                // console.log(this.pos)
+            } else if (arg == "x"){
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    this.pos.x = Primitive.toPixels(update[arg]).x;
+                } else {
+                    this.pos.x = update[arg].x;
+                }
+            } else if (arg == "y"){
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    this.pos.y = Primitive.toPixels(update[arg]).y;
+                } else {
+                    this.pos.y = update[arg].y;
+                }
+            }
+            // ... //
+            // -- can be extended by sub-classes for class-specific updates -- //
+            // ... //
+        })
     }
 
     onClick(e){}
@@ -327,11 +412,12 @@ class Primitive extends Psychex{
 }
 
 class pText extends Primitive {
-    constructor(text, x, y){
-        super(x, y)
+    constructor(text, x, y, kwargs={}){
+        super(x, y, kwargs);
         this.type="pText";
         this.text = text;
         this.textSize = 32;
+        this.scaleBy = 1;
     }
 
     setTextSize(newSize){
@@ -386,17 +472,47 @@ class pText extends Primitive {
         return this;
     }
 
-    draw(){
+    setScale(s){
+        this.scaleBy = s;
+        return this;
+    }
+
+    update(update={}){
+        super.update(update);
+        Object.keys(update).forEach(arg => {
+            if (arg == "text"){
+                this.text = update[arg];
+            }
+        })
+    }
+
+    static draw_(textContent, x, y, kwargs={}){
+        // Static draw method
+        if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
+        // Create new local primitive object to call aesthetic functions and handle coords
+        push();
+        const primitiveObject = new Primitive(x, y, kwargs);
+        primitiveObject.draw()
+        translate(primitiveObject.pos.x, primitiveObject.pos.y);
+        text(textContent, 0, 0);
+        pop();
+    }
+
+    draw(update={}){
+        super.draw()
+        this.update(update)
         let pos = this.pos
         push();
         translate(pos.x, pos.y);
         textSize(this.textSize)
+        scale(this.scaleBy);
         text(this.text, 0, 0);
         pop();
     }
 }
 
 class pRectangle extends Primitive{
+    // TODO: Option to leave y=undefined (or y="auto") which autocalculates and makes it a square rather than make the user do the maths
     constructor(x, y, w, h, kwargs={}){
         super(x, y, kwargs);
         this.type="pRectangle";
@@ -409,7 +525,26 @@ class pRectangle extends Primitive{
 
     withImage(imgObj, kwargs){
         // Overlay an image on the rectangle - common in gridworlds, etc.
+        // TODO add with image option too
         this.img = new pImage(this.pos.x, this.pos.y, imgObj, kwargs);
+    }
+
+    static draw_(x, y, w, h, kwargs){
+        // Static draw method for rect
+        if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
+        push();
+        const primitiveObject = new Primitive(x, y, kwargs);
+        // Convert width and height to pixels (or not) from kwargs
+        let dims;
+        if (primitiveObject.constants.positionMode == "PERCENTAGE"){
+            dims = Primitive.toPixels(createVector(w, h));
+        } else {
+            dims = createVector(w, h);
+        }
+        primitiveObject.draw();
+        translate(primitiveObject.pos.x, primitiveObject.pos.y);
+        rect(0, 0, dims.x, dims.y)
+        pop();
     }
 
     draw(){
@@ -426,20 +561,74 @@ class pRectangle extends Primitive{
 
 class pCircle extends Primitive{
     // pCircle % radius scaling is based on width
-    constructor(x, y, r){
-        super(x, y);
+    constructor(x, y, r, kwargs={}){
+        super(x, y, kwargs);
         this.type="pCircle";
         if (this.constants.positionMode == "PERCENTAGE"){this.radius = r*(window.innerWidth/100)}
         else {this.radius = r};
     }
 
     draw(){
+        super.draw()
         let pos = this.pos;
         let r = this.radius;
-        fill('black')
         push();
         translate(pos.x, pos.y);
         circle(0, 0, r*2);
+        pop();
+    }
+}
+
+class pTriangle extends Primitive{
+    constructor(x1, y1, x2, y2, x3, y3, kwargs={}){
+        super(x1, y1, kwargs)
+        if (this.constants.positionMode == "PERCENTAGE"){
+            this.pos1 = Primitive.toPixels(createVector(x1, y1));
+            this.pos2 = Primitive.toPixels(createVector(x2, y2));
+            this.pos3 = Primitive.toPixels(createVector(x3, y3));
+        } else {
+            this.pos1 = createVector(x1, y1);
+            this.pos2 = createVector(x2, y2);
+            this.pos3 = createVector(x3, y3);
+        }
+
+        this.x2Diff = createVector(this.pos2.x - this.pos1.x, this.pos2.y - this.pos1.y)
+        this.x3Diff = createVector(this.pos1.x - this.pos3.x, this.pos1.y - this.pos3.y)
+    }
+
+    static draw_(x1, y1, x2, y2, x3, y3, kwargs={}){
+        if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
+        push();
+        const primitiveObject = new Primitive(x1, y1, kwargs);
+        let pm;
+        if (Object.keys(kwargs).includes("positionMode")){
+            pm = kwargs["positionMode"];
+        } else {
+            pm = (primitiveObject.constants.positionMode == "PERCENTAGE" ? "PERCENTAGE" : "PIXELS")
+        }
+        let pos1, pos2, pos3;
+        if (pm == "PERCENTAGE"){
+            pos1 = Primitive.toPixels(createVector(x1, y1));
+            pos2 = Primitive.toPixels(createVector(x2, y2));
+            pos3 = Primitive.toPixels(createVector(x3, y3));
+        } else {
+            pos1 = createVector(x1, y1);
+            pos2 = createVector(x2, y2);
+            pos3 = createVector(x3, y3);
+        }
+
+        push();
+        translate(0, 0);
+        // TODO finish
+        triangle(this.pos1.x, this.pos1.y, this.pos2.x, this.pos2.y, this.pos3.x, this.pos3.y);
+        pop();
+    }
+
+    draw(){
+        super.draw();
+        push();
+        translate(this.pos1.x, this.pos1.y);
+        triangle(0, 0, this.x2Diff.x, this.x2Diff.y, -this.x3Diff.x, this.x3Diff.y);
         pop();
     }
 }
@@ -448,13 +637,15 @@ class pImage extends Primitive{
     /*
         Expects a p5 image object reference, from assets.imgs as input
     */
-    constructor(x, y, imgObj){
-        super(x, y);
+    constructor(x, y, img, kwargs={}){
+        super(x, y, kwargs);
         this.type="pImage";
-        this.imgObj = imgObj;
-        this.width = this.imgObj.width;
-        this.height = this.imgObj.height;
+        this.img = img;
+        this.width = this.img.width;
+        this.height = this.img.height;
         this.scaleBy = 1;
+        // compute and store the centre point for later use if needed
+        this.getCenter(); // PIXELS as default, can be overriden manually
     }
 
     setScale(s){
@@ -463,15 +654,39 @@ class pImage extends Primitive{
     }
     
     onClick(){
-        this.setScale(this.scaleBy+0.1);
+        // this.setScale(this.scaleBy+0.1);
     }
 
-    draw() {
+    update(update={}){
+        super.update(update);
+        Object.keys(update).forEach(arg => {
+            if (arg == "image" || arg == "img"){
+                this.img = arg;
+            }
+        })
+
+    }
+
+    static draw_(x, y, img, kwargs){
+        // Static draw method for rect
+        if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
+        push();
+        const primitiveObject = new Primitive(x, y, kwargs);
+        primitiveObject.draw();
+        translate(primitiveObject.pos.x, primitiveObject.pos.y);
+        image(img, 0, 0);
+        pop();
+    }
+
+    draw(update= {}) {
+        super.draw();
+        this.update(update)
         let pos = this.pos;
         push();
         translate(pos.x, pos.y)
-        scale(this.scaleBy)
-        image(this.imgObj, 0, 0)
+        scale(this.scaleBy);
+        rotate(this.rotateBy);
+        image(this.img, 0, 0)
         pop();
     }
 }
@@ -555,9 +770,11 @@ class NArmBandit extends Primitive{
     }
 }
 
-class Player {
+class Game {
     constructor(){
         this.data = [];
+        // Add dedicated screens that can be rendered as needed - e.g. fullscreen warnings, intersitials, etc.
+        this.screens = {};
     }
 
     async saveData(data){
@@ -572,6 +789,57 @@ class Player {
         })
 
         return response;
+    }
+
+    addScreen(name, callback){
+        /*
+        // Adds a screen that can be rendered when needed
+        // Expects a name and a callback, which will be a function with draw instructions
+        // Eg.
+
+            const intersitial = () => {
+                // Using primitive static methods rather than creating variables, since we don't need them to be dynamic
+                pImage.draw_(`Intersitial screen with user instructions`, 50, 50, {...kwargs})
+            }
+
+            var game = new Game();
+            game.addScreen("myIntersitial", intersitial);
+
+            // Inside global draw method
+            draw() {
+                clear();
+                // ... //
+                if (game.data.roundIndex = 10){
+                    game.displayScreen("myIntersitial", {...kwargs})
+                }
+
+            }
+        */
+    }
+
+    displayScreen(name, kwargs={}){
+        return this.screens[name](kwargs)
+    }
+
+    nextRound(){
+
+    }
+
+    end(){
+
+    }
+
+    restart(){
+
+    }
+
+    skip(){
+
+    }
+
+    addHud(kwargs={}){
+        // Add a hud (heads up display) to the screen
+        // Offers raw functionality to include round counter, title, score, skip, restart, etc. elements, and can be extended to include custom components
     }
 }
 
@@ -658,7 +926,6 @@ class GridWorld extends Primitive {
         // This makes them individually clickable
         const xOffset = this.dims.x/this.nCols;
         const yOffset = this.dims.y/this.nRows;
-        console.log(xOffset, yOffset);
 
         _.range(this.nRows).forEach((row, r_ix) => {
             _.range(this.nCols).forEach((col, c_ix) => {
@@ -687,6 +954,43 @@ class GridWorld extends Primitive {
         // TODO (but not rn): add an object that defines a play schema, overlaying images and click rules at certain indices/coords
     }
 
+    setCellProps(id, props={}){
+        // Set the properties on a single cell
+        // The input, id, can either be the index or coords, and the method will adapt
+        let ix;
+
+        if (typeof(id) == "number"){
+            if (id >= this.nRows*this.nCols){throw new Error(`Index ${id} out of bounds. Max index is ${this.nRows*this.nCols - 1}. Indexing starts at 0 inclusive.`)}
+            ix = id;
+        } else if (id.isPInst){
+            // Convert vector to index
+            ix = this.coordsToIndex([id.x, id.y]);
+        } else if (typeof(id) == "object"){
+            // Convert array to index
+            ix = this.coordsToIndex([id[0], id[1]]);
+        }
+
+        // Get cell ref
+        let cell = this.cells.filter(cell => cell.ix == ix)[0].obj
+        cell.updateAesthetics(props)
+    }
+
+    indexToCoords(ix){
+        // Convert index to grid coordinates
+        return [(ix % this.nRows), Math.floor(ix/this.nRows)]
+    }
+
+    coordsToIndex(coords){
+        // Convert coords to grid index
+        if (coords.isPInst){
+            coords = [coords.x, coords.y]
+        } else if (typeof(coords) != "object"){
+            throw new Error(`Got input type ${coords}, expected either a p5.Vector or an array of coords (eg. [1, 2])`)
+        }
+
+        return ((coords[0])*this.nRows + coords[1]);
+    }
+
     toggleClickable(){
         // Extend parent class to make each composite item clickable
         this.cells.forEach(cell => {
@@ -698,8 +1002,6 @@ class GridWorld extends Primitive {
     }
 
     onClick(e){
-        console.log(`Clicked on ${e.coords}`);
-        // console.log(e)
         e.updateAesthetics({backgroundColor: "pink"})
     }
 
@@ -711,3 +1013,23 @@ class GridWorld extends Primitive {
         pop();
     }
 }
+ 
+/*
+Main TODO:
+    - Add image overlay on rect
+    - Add to the aesthetics list
+    - Add click listener to pText
+    - Handle keyboard input and assign functionality
+    - Tidying and testing the fullscreen checker; move it to a Utils class instead?
+
+Classes to add:
+    - Slideshow
+    - Stages 
+    - UI/HUD
+    - Progress bar/timer
+
+Extra thoughts:
+    - Better to build with npm and then use webpack - since it depends on lodash and p5.js
+    - An animations class would be great - but not hugely useful within the lab
+    - Functionality for multiplayer modes would be super, using socket.js or something, but again we need a lab use case first
+*/

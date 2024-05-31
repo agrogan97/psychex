@@ -21,7 +21,8 @@ class Wheel extends Primitive {
         // Pre-generate the fixed spin values - the changes in rotation after the player releases the 'spin' key
         this.generateSpinValues();
         // Set the key index of the key to be pressed to spin the wheel
-        this.key = LEFT_ARROW;
+        // See https://www.toptal.com/developers/keycode for keycodes
+        this.key = 32; // space bar
     }
 
 
@@ -123,6 +124,16 @@ class Wheel extends Primitive {
         this.rotationAngle = 0;
         this.isSpinning = true;
         // Reset this value so only initialises once
+        this.spinningAllowed = false;
+        this.expectingSpin = false;
+    }
+
+    allowSpin(){
+        this.spinningAllowed = true;
+        this.expectingSpin = true;
+    }
+
+    disallowSpin(){
         this.spinningAllowed = false;
         this.expectingSpin = false;
     }

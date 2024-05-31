@@ -35,22 +35,16 @@ function setup(){
     })
     
     // Game content
-    // content.card1 = new Card(50, 50, 7, 7, {});
     content.deck = new Deck(75, 15, myGame.gameSettings.deck, {imageMode: "CORNER", color: "black"}).setScale(1);
     content.wheel = new Wheel(20, 55, assets.imgs.wheel);
     content.instructions = new pText(`Draw a card!`, 50, 30, {fontSize: 32});
     content.drawCardBtn = new pButton(50, 50, 7.5, 12.5, {backgroundColor: "white", borderWidth: 4}).addText("Draw", {color: "black", textSize: 32});
-    // content.spinWheelBtn = new pButton(55, 50, 7.5, 12.5, {backgroundColor: "white", borderWidth: 4}).addText("Spin", {color: "black", textSize: 32})
-    //     .toggleClickable();
-    content.drawCounter = new pText(`Drawn ${myGame.roundIndex}/5 cards`, 50, 75, {fontSize: 32})
+    content.drawCounter = new pText(`Drawn ${myGame.roundIndex}/5 cards`, 50, 75, {fontSize: 32});
+    content.suspenseQuery = new SuspenseQuery(50, 5, {color: 'black', textSize: 32, lineSpacing: 8});
 
     content.drawCardBtn.onClick = () => {
         myGame.start();
     }
-
-    // content.spinWheelBtn.onClick = () => {
-    //     myGame.handleSpin()
-    // }
 }
 
 function windowResized() {
@@ -68,4 +62,5 @@ function draw(){
     // content.spinWheelBtn.draw();
     // content.drawCounter.draw();
     pText.draw_(`Drawn ${myGame.roundIndex}/5 cards`, 50, 75, {fontSize: 32})
+    content.suspenseQuery.draw();
     }

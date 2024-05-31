@@ -269,7 +269,8 @@ class Primitive extends Psychex{
             textColor: (c) => {fill(c); stroke(c)},
             color: (c) => (fill(c)), // NB: font color, not background color, same as CSS
             scale: (c) => (scale(c)),
-            borderRadius: () => {throw new Error(`You've included the property borderRadius in your styling - unfortunately this isn't yet supported. You could use p5.js geometries to try and build your own shape, or create the shape you need in an illustration software (eg. Paint or equivalent) and load it as a pImage. If you have a creative solution, feel free to submit a PR!`)}
+            borderRadius: () => {throw new Error(`You've included the property borderRadius in your styling - unfortunately this isn't yet supported. You could use p5.js geometries to try and build your own shape, or create the shape you need in an illustration software (eg. Paint or equivalent) and load it as a pImage. If you have a creative solution, feel free to submit a PR!`)},
+            lineSpacing: (c) => {this.lineSpacing = c}, // NB: line spacing is change in font size, not %
         }
         Object.keys(_kwargs).forEach(kwarg => {
             // Overwrite the methods in constants for this specific object
@@ -467,9 +468,10 @@ class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         super(x, y, kwargs);
         this.type="pText";
-        this.text = text;
+        this.text = text.toString();
         this.textSize = 32;
         this.scaleBy = 1;
+        this.lineSpacing = 0;
     }
 
     setTextSize(newSize){
@@ -538,8 +540,25 @@ class pText extends Primitive {
         })
     }
 
+    handleNewLine(t){
+        t = t.toString()
+        try{
+            if (!t.includes("\n")){return [t]}
+        } catch {
+            console.log(t)
+        }
+        try{
+            return t.split("\n")
+        } catch {
+            console.log(t)
+        }
+        
+
+    }
+
     static draw_(textContent, x, y, kwargs={}){
         // Static draw method
+        textContent = textContent.toString();
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         // Create new local primitive object to call aesthetic functions and handle coords
         push();
@@ -557,7 +576,13 @@ class pText extends Primitive {
         translate(p.x, p.y);
         textSize(this.textSize)
         scale(this.scaleBy);
-        text(this.text, 0, 0);
+        // Check if text contains a newline, and handle that
+        let nls = this.handleNewLine(this.text);
+        nls.forEach((ln, ix) => {
+            // console.log(this.lineSpacing+(ix*textSize()))
+            text(ln, 0, (ix*(textSize() + this.lineSpacing)));
+        })
+        // text(this.text, 0, 0);
         pop();
     }
 }

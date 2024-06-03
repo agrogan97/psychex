@@ -39,7 +39,7 @@ Other
 Other datatypes can be loaded in this way:
 
 - JSON via *loadJson()*
-- XML via `loadXML()`
-- Files via `loadBytes()`
+- XML via *loadXML()*
+- Files via *loadBytes()*
 
 For more details, see the p5.js documentation.

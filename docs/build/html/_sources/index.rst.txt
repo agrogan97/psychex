@@ -14,6 +14,7 @@ Psychex
    tutorial/loading_static_content
    code_docs/primitives
    code_docs/paradigms
+   code_docs/Utilities
    tutorial/aesthetics
 
 .. Indices and tables

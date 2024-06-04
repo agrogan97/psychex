@@ -12,43 +12,47 @@ var begin;
 var blockLoop = false;
 
 function pClickListener(e) {
-    // console.log(e)
+    // Check what global positioning system is being used
+    const convertTo = (params.positionMode == "PERCENTAGE" ? "PIXELS" : "IGNORE");
+    // If positionMode == "PERCENTAGE", we want to convert mouse click coords from pixels (the default) to percentage
+    // If positionMode == "PIXELS", we want it to stay as pixels, so we can use the "IGNORE" setting in _convertCoordinates to do nothing essentially
+    const C = Primitive._convertCoordinates(createVector(mouseX, mouseY), convertTo); // NB: setting "PIXELS" converts to percentages
     clickables.forEach(obj => {
         if (obj.type == "pImage"){
             if (obj.constants.imageMode == "CENTER") {
                 // -- Image / Center -- //
-                if (_.inRange(e.clientX, (obj.pos.x-obj.width/2), (obj.pos.x+obj.width/2))){
-                    if (_.inRange(e.clientY, (obj.pos.y-obj.height/2), (obj.pos.y+obj.height/2))){
+                if (_.inRange(C.x, (obj.pos.x-obj.width/2), (obj.pos.x+obj.width/2))){
+                    if (_.inRange(C.y, (obj.pos.y-obj.height/2), (obj.pos.y+obj.height/2))){
                         obj.onClick(obj)
                     }
                 }
             } else if (obj.constants.imageMode == "CORNER"){
                 // -- Image / Corner -- //
-                if (_.inRange(e.clientX, obj.pos.x, obj.pos.x+obj.width)){
-                    if (_.inRange(e.clientY, obj.pos.y, obj.pos.y+obj.height)){
+                if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.width)){
+                    if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.height)){
                         obj.onClick(obj)
                     }
                 }
             }
-        } else if (obj.type == "pRectangle") { 
+        } else if (obj.type == "pRectangle" || obj.type == "pButton") { 
             if (obj.constants.rectMode == "CENTER"){
                 // -- Rect / Center -- //
-                if (_.inRange(e.clientX, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
-                    if (_.inRange(e.clientY, obj.pos.y-obj.dims.y/2, obj.pos.y+obj.dims.y)){
+                if (_.inRange(C.x, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
+                    if (_.inRange(C.y, obj.pos.y-obj.dims.y/2, obj.pos.y+obj.dims.y/2)){
                         obj.onClick(obj)
                     }
                 }
             } else if (obj.constants.rectMode == "CORNER") {
                 // -- Rect / Corner -- //
-                if (_.inRange(e.clientX, obj.pos.x, obj.pos.x+obj.dims.x)){
-                    if (_.inRange(e.clientY, obj.pos.y, obj.pos.y+obj.dims.y)){
+                if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
+                    if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
                         obj.onClick(obj)
                     }
                 }
             } 
         } else {
-            if (_.inRange(e.clientX, obj.pos.x*0.9, obj.pos.x*1.1)){
-                if (_.inRange(e.clientY, obj.pos.y*0.9, obj.pos.y*1.1)){
+            if (_.inRange(C.x, obj.pos.x*0.9, obj.pos.x*1.1)){
+                if (_.inRange(C.y, obj.pos.y*0.9, obj.pos.y*1.1)){
                     obj.onClick(obj)
                 }
             }
@@ -149,9 +153,9 @@ class Psychex{
         // Check inputs on vertical text alignment
         if (![LEFT, CENTER, RIGHT, "LEFT", "CENTER", "RIGHT"].includes(newHorizAlign)){throw new Error(`Vertical text align: ${newHorizAlign} not recognised. Must be one of LEFT, CENTER, RIGHT.`)};
         this.constants.textAlign = newHorizAlign;
-        if (this.constants.textAlign == LEFT || this.constants.textAlign == "LEFT"){textAlign(LEFT)}
-        else if (this.constants.textAlign == CENTER || this.constants.textAlign == "CENTER"){textAlign(CENTER)}
-        else if (this.constants.textAlign == RIGHT || this.constants.textAlign == "RIGHT"){textAlign(RIGHT)}
+        if (this.constants.textAlign == LEFT || this.constants.textAlign == "LEFT"){textAlign(LEFT, CENTER)}
+        else if (this.constants.textAlign == CENTER || this.constants.textAlign == "CENTER"){textAlign(CENTER, CENTER)}
+        else if (this.constants.textAlign == RIGHT || this.constants.textAlign == "RIGHT"){textAlign(RIGHT, CENTER)}
 
         if (this.constants.verbose) console.log("textAlign:", this.constants.textAlign)
     }
@@ -193,6 +197,7 @@ class Primitive extends Psychex{
         super();
         // Handle kwarg overwrites
         this.kwargs = kwargs;
+        this.aesthetics = [];
         this._handleKwargs()
         // Store initial raw position from user as p5 vector
         // Accessible by this.initPos.x, this.initPos.y for x and y respectively
@@ -201,43 +206,52 @@ class Primitive extends Psychex{
                 x = 50;
                 y = 50;
             } else {
-                x = window.innerWidth/2;
-                y = window.innerHeight/2;
+                x = canvas.width/2;
+                y = canvas.height/2;
             }
         }
-        this.initPos = createVector(x, y)
-        // If PERCENTAGE mode, convert to pixels under the hood
-        if (this.constants.positionMode == "PERCENTAGE"){
-            // If percentage provided, convert to pixels to use under the hood
-            this.pos = Primitive.toPixels(this.initPos)
-        } else {
-            this.pos = this.initPos;
-        }        
+        this.pos = createVector(x, y);
 
         this.isClickable = false;
+        this.scaleBy = 1;
+        this.rotateBy = 0;
 
         // Control settings
         // fill, stroke, linewidth
     }
 
     static toPixels(pos){
+        // Check if vector or array - either allowed, but convert to vector internally
+        pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
         return createVector(
-            pos.x*(window.innerWidth/100),
-            pos.y*(window.innerHeight/100)
+            pos.x*(canvas.width/100),
+            pos.y*(canvas.height/100)
         )
     }
 
     static toPercentage(pos){
+        // Check if vector or array - either allowed, but convert to vector internally
+        pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
         return createVector(
-            100*pos.x/window.innerWidth,
-            100*pos.y/window.innerHeight
+            100*pos.x/canvas.width,
+            100*pos.y/canvas.height
         )
     }
 
-    _handleKwargs(){
+    _handleKwargs(kwargs){
         // TODO: Would likely benefit from some input sanitisation
         // Handle kwarg inputs and feed them into the relevant methods
-        if (this.kwargs == undefined) {return}
+        // If an obj is provided then use those inputs - otherwise use this.kwargs
+        let _kwargs;
+        if (kwargs == undefined || kwargs == {}){
+            if (this.kwargs == undefined){
+                return
+            } else {
+                _kwargs = this.kwargs
+            }
+        } else {
+            _kwargs = kwargs;
+        }
         // Define the mapping between aesthetic kwargs and p5.js render instructions - and try to keep original p5 keys too
         // TODO fill out this mapping
         this.aestheticsMapping = {
@@ -251,23 +265,27 @@ class Primitive extends Psychex{
             fontSize: (c) => {textSize(c)},
             textFont: (c) => {textFont(c)},
             fontFamily: (c) => {textFont(c)},
+            fontColor: (c) => {fill(c); stroke(c)},
+            textColor: (c) => {fill(c); stroke(c)},
             color: (c) => (fill(c)), // NB: font color, not background color, same as CSS
+            scale: (c) => (scale(c)),
+            borderRadius: () => {throw new Error(`You've included the property borderRadius in your styling - unfortunately this isn't yet supported. You could use p5.js geometries to try and build your own shape, or create the shape you need in an illustration software (eg. Paint or equivalent) and load it as a pImage. If you have a creative solution, feel free to submit a PR!`)},
+            lineSpacing: (c) => {this.lineSpacing = c}, // NB: line spacing is change in font size, not %
         }
-        this.aesthetics = [];
-        Object.keys(this.kwargs).forEach(kwarg => {
+        Object.keys(_kwargs).forEach(kwarg => {
             // Overwrite the methods in constants for this specific object
             // NB: this.constants is initialised from the global params, but set per object and can be overriden
 
             // Handle kwargs in this.constants
             if (Object.keys(this.constants).includes(kwarg)){
-                this.constants[kwarg] = this.kwargs[kwarg];
+                this.constants[kwarg] = _kwargs[kwarg];
             // Handle aesthetics kwarg by translating to p5.js rendering funcs
             } else if (Object.keys(this.aestheticsMapping).includes(kwarg)){
                 // Store the function and the supplied values, so they're not rendered prematurely
                 this.aesthetics.push(
                     {
                         _func: this.aestheticsMapping[kwarg],
-                        _val: this.kwargs[kwarg]
+                        _val: _kwargs[kwarg]
                     }
                 )
             }
@@ -290,12 +308,24 @@ class Primitive extends Psychex{
                 _val: aes[kwarg]
             }
             // Check if updating or creating new value to prevent duplicates
-            if (Object.keys(this.aesthetics).includes(aes)){
-                this.aesthetics[aes] = newAesObj;
-            } else {
-                this.aesthetics.push(newAesObj);
-            }
+            if (this.aesthetics.map(i => i._func.name).includes(kwarg)){
+                // If we already have an aesthetic of this type, remove the previous
+                this.aesthetics = this.aesthetics.filter(i => i._func.name != kwarg) 
+            } 
+            // And add the new aesthetic to the list    
+            this.aesthetics.push(newAesObj);
+            
         })
+    }
+
+    setScale(s){
+        this.scaleBy = s;
+        return this;
+    }
+
+    setRotate(r){
+        this.rotateBy = r;
+        return this;
     }
 
     toggleClickable(){
@@ -316,6 +346,19 @@ class Primitive extends Psychex{
         return this;
     }
 
+    getCenter(){
+        // return the center of the primitive - basically only useful if set to CORNER mode
+        if (this.type == "pImage" || this.type == "pRectangle"){
+            // They're both 4 sided shapes, so same method either way
+            if (this.constants.rectMode == "CORNER" || this.constants.imageMode == "CORNER"){
+                this.centerPoint = createVector(this.pos.x + this.dims.x/4, this.pos.y + this.dims.y/4)
+            } else {
+                this.centerPoint = this.pos;
+            }
+        } 
+        return this.centerPoint;
+    }
+
     updatePosition(x, y){
         if (this.constants.positionMode == "PERCENTAGE"){
             // If percentage provided, convert to pixels to use under the hood
@@ -325,6 +368,85 @@ class Primitive extends Psychex{
         }  
     }
 
+    update(update={}){
+        if (update == {} || update == undefined){return}
+        // A wrapper that processes kwargs and updates position and/or image
+        if (typeof(update) != "object"){throw new Error(`Expected param 'update' to be an object. Instead got: ${typeof(update)}.`)}
+        // Also accept kwargs
+        this._handleKwargs(update);
+        Object.keys(update).forEach(arg => {
+            if (arg == "pos" || arg == "position"){
+                // handle percentage-based position updates
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    this.pos = Primitive.toPixels(update[arg]);
+                } else {
+                    this.pos = update[arg];
+                }
+            } else if (arg == "x"){
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    this.pos.x = Primitive.toPixels(update[arg]).x;
+                } else {
+                    this.pos.x = update[arg].x;
+                }
+            } else if (arg == "y"){
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    this.pos.y = Primitive.toPixels(update[arg]).y;
+                } else {
+                    this.pos.y = update[arg].y;
+                }
+            }
+            // ... //
+            // -- can be extended by sub-classes for class-specific updates -- //
+            // ... //
+        })
+    }
+
+    convertCoordinates(coords=undefined){
+        // Check the positionMode setting and return either coordinates as pixels or percentage
+        // Creates this._pos, which stores the pixel value of the position, while pos keeps the user inputted version
+        // if inPlace is set then this doesn't set this._pos, and just returns the vector - useful for setting dims
+        if (coords == undefined){
+            if (this.constants.positionMode == "PERCENTAGE"){
+                // If percentage provided, convert to pixels to use under the hood
+                this._pos = Primitive.toPixels(createVector(this.pos.x, this.pos.y));
+            } else {
+                this._pos = createVector(this.x, this.y);
+            }
+        } else {
+            if (this.constants.positionMode == "PERCENTAGE"){
+                // If percentage provided, convert to pixels to use under the hood
+                return Primitive.toPixels(createVector(coords.x, coords.y));
+            } else {
+                return createVector(coords.x, coords.y);
+            }
+        }
+    }
+    
+    static _convertCoordinates(coords, positionMode=undefined){
+        // The point of this method is to wrap all the sanitisation into one call to clean up code elsewhere, 
+        // it essentially just converts between coordinate systems through a static call, for use by click listeners eg.
+        let pm;
+        if (params == undefined && positionMode == undefined){
+            throw new Error(`Could not find object 'params' - this needs to be set so Psychex knows what positionMode to use.`)
+        } else if (params.positionMode == undefined && positionMode == undefined){
+            throw new Error(`Could not find 'params.positionMode' - this needs to be set so Psychex knows what positionMode to use.`)
+        } else if (positionMode != undefined){
+            pm = positionMode;
+        } else {
+            pm = params.positionMode;
+        }
+
+        if (pm == "PERCENTAGE"){
+            // If percentage provided, convert to pixels to use under the hood
+            return Primitive.toPixels(createVector(coords.x, coords.y));
+        } else if (pm == "PIXELS") {
+            return Primitive.toPercentage(createVector(coords.x, coords.y))
+        } else if (pm == "IGNORE") {
+            return createVector(coords.x, coords.y)
+        }
+
+    }
+
     onClick(e){}
 
     draw(){
@@ -332,6 +454,9 @@ class Primitive extends Psychex{
         Object.keys(this.aesthetics).forEach(aes => {
             this.aesthetics[aes]._func(this.aesthetics[aes]._val);
         })
+        // this._pos = this.pos;
+        this.convertCoordinates();
+        return this._pos;
     }
 }
 
@@ -339,8 +464,10 @@ class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         super(x, y, kwargs);
         this.type="pText";
-        this.text = text;
+        this.text = text.toString();
         this.textSize = 32;
+        this.scaleBy = 1;
+        this.lineSpacing = 0;
     }
 
     setTextSize(newSize){
@@ -395,25 +522,62 @@ class pText extends Primitive {
         return this;
     }
 
+    setScale(s){
+        this.scaleBy = s;
+        return this;
+    }
+
+    update(update={}){
+        super.update(update);
+        Object.keys(update).forEach(arg => {
+            if (arg == "text"){
+                this.text = update[arg];
+            }
+        })
+    }
+
+    handleNewLine(t){
+        t = t.toString()
+        try{
+            if (!t.includes("\n")){return [t]}
+        } catch {
+            console.log(t)
+        }
+        try{
+            return t.split("\n")
+        } catch {
+            console.log(t)
+        }
+        
+
+    }
+
     static draw_(textContent, x, y, kwargs={}){
         // Static draw method
+        textContent = textContent.toString();
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         // Create new local primitive object to call aesthetic functions and handle coords
         push();
         const primitiveObject = new Primitive(x, y, kwargs);
-        primitiveObject.draw()
-        translate(primitiveObject.pos.x, primitiveObject.pos.y);
+        let p = primitiveObject.draw()
+        translate(p.x, p.y);
         text(textContent, 0, 0);
         pop();
     }
 
-    draw(){
-        super.draw()
-        let pos = this.pos
+    draw(update={}){
+        let p = super.draw()
+        this.update(update)
         push();
-        translate(pos.x, pos.y);
+        translate(p.x, p.y);
         textSize(this.textSize)
-        text(this.text, 0, 0);
+        scale(this.scaleBy);
+        // Check if text contains a newline, and handle that
+        let nls = this.handleNewLine(this.text);
+        nls.forEach((ln, ix) => {
+            text(ln, 0, (ix*(textSize() + this.lineSpacing)));
+        })
+        // text(this.text, 0, 0);
         pop();
     }
 }
@@ -423,11 +587,7 @@ class pRectangle extends Primitive{
     constructor(x, y, w, h, kwargs={}){
         super(x, y, kwargs);
         this.type="pRectangle";
-        if (this.constants.positionMode == "PERCENTAGE"){
-            this.dims = Primitive.toPixels(createVector(w, h));
-        } else if (this.constants.positionMode == "PIXELS") {
-            this.dims = createVector(w, h);
-        }
+        this.dims = createVector(w, h);
     }
 
     withImage(imgObj, kwargs){
@@ -441,25 +601,18 @@ class pRectangle extends Primitive{
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         push();
         const primitiveObject = new Primitive(x, y, kwargs);
-        // Convert width and height to pixels (or not) from kwargs
-        let dims;
-        if (primitiveObject.constants.positionMode == "PERCENTAGE"){
-            dims = Primitive.toPixels(createVector(w, h));
-        } else {
-            dims = createVector(w, h);
-        }
-        primitiveObject.draw();
-        translate(primitiveObject.pos.x, primitiveObject.pos.y);
+        let dims = super.convertCoordinates(createVector(w, h))
+        let p = primitiveObject.draw();
+        translate(p.x, p.y);
         rect(0, 0, dims.x, dims.y)
         pop();
     }
 
     draw(){
-        super.draw();
-        let pos = this.pos;
-        let dims = this.dims;
+        let p = super.draw();
+        let dims = super.convertCoordinates(this.dims);
         push();
-        translate(pos.x, pos.y)
+        translate(p.x, p.y)
         rect(0, 0, dims.x, dims.y);
         if (this.img != undefined){this.img.draw()};
         pop();
@@ -479,10 +632,65 @@ class pCircle extends Primitive{
         super.draw()
         let pos = this.pos;
         let r = this.radius;
-        fill('black')
         push();
         translate(pos.x, pos.y);
         circle(0, 0, r*2);
+        pop();
+    }
+}
+
+class pTriangle extends Primitive{
+    constructor(x1, y1, x2, y2, x3, y3, kwargs={}){
+        super(x1, y1, kwargs);
+        this.type="pTriangle";
+
+        if (this.constants.positionMode == "PERCENTAGE"){
+            this.pos1 = Primitive.toPixels(createVector(x1, y1));
+            this.pos2 = Primitive.toPixels(createVector(x2, y2));
+            this.pos3 = Primitive.toPixels(createVector(x3, y3));
+        } else {
+            this.pos1 = createVector(x1, y1);
+            this.pos2 = createVector(x2, y2);
+            this.pos3 = createVector(x3, y3);
+        }
+
+        this.x2Diff = createVector(this.pos2.x - this.pos1.x, this.pos2.y - this.pos1.y)
+        this.x3Diff = createVector(this.pos1.x - this.pos3.x, this.pos1.y - this.pos3.y)
+    }
+
+    static draw_(x1, y1, x2, y2, x3, y3, kwargs={}){
+        if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
+        push();
+        const primitiveObject = new Primitive(x1, y1, kwargs);
+        let pm;
+        if (Object.keys(kwargs).includes("positionMode")){
+            pm = kwargs["positionMode"];
+        } else {
+            pm = (primitiveObject.constants.positionMode == "PERCENTAGE" ? "PERCENTAGE" : "PIXELS")
+        }
+        let pos1, pos2, pos3;
+        if (pm == "PERCENTAGE"){
+            pos1 = Primitive.toPixels(createVector(x1, y1));
+            pos2 = Primitive.toPixels(createVector(x2, y2));
+            pos3 = Primitive.toPixels(createVector(x3, y3));
+        } else {
+            pos1 = createVector(x1, y1);
+            pos2 = createVector(x2, y2);
+            pos3 = createVector(x3, y3);
+        }
+
+        push();
+        translate(0, 0);
+        // TODO finish
+        triangle(this.pos1.x, this.pos1.y, this.pos2.x, this.pos2.y, this.pos3.x, this.pos3.y);
+        pop();
+    }
+
+    draw(){
+        let p = super.draw();
+        push();
+        translate(p.x, p.y);
+        triangle(0, 0, this.x2Diff.x, this.x2Diff.y, -this.x3Diff.x, this.x3Diff.y);
         pop();
     }
 }
@@ -491,13 +699,16 @@ class pImage extends Primitive{
     /*
         Expects a p5 image object reference, from assets.imgs as input
     */
-    constructor(x, y, imgObj, kwargs={}){
+    constructor(x, y, img, kwargs={}){
         super(x, y, kwargs);
         this.type="pImage";
-        this.imgObj = imgObj;
-        this.width = this.imgObj.width;
-        this.height = this.imgObj.height;
+        this.img = img;
+        this.width = this.img.width;
+        this.height = this.img.height;
         this.scaleBy = 1;
+        this.dims = Primitive._convertCoordinates(createVector(this.img.width, this.img.height), "PIXELS");
+        // compute and store the centre point for later use if needed
+        this.getCenter(); // Sets this.centerPoint
     }
 
     setScale(s){
@@ -506,17 +717,84 @@ class pImage extends Primitive{
     }
     
     onClick(){
-        this.setScale(this.scaleBy+0.1);
+        // this.setScale(this.scaleBy+0.1);
     }
 
-    draw() {
-        super.draw();
-        let pos = this.pos;
+    update(update={}){
+        super.update(update);
+        Object.keys(update).forEach(arg => {
+            if (arg == "image" || arg == "img"){
+                this.img = arg;
+            }
+        })
+
+    }
+
+    static draw_(x, y, img, kwargs){
+        // Static draw method for rect
+        if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         push();
-        translate(pos.x, pos.y)
-        scale(this.scaleBy)
-        image(this.imgObj, 0, 0)
+        const primitiveObject = new Primitive(x, y, kwargs);
+        primitiveObject.draw();
+        translate(primitiveObject.pos.x, primitiveObject.pos.y);
+        image(img, 0, 0);
         pop();
+    }
+
+    draw(update= {}) {
+        super.draw();
+        this.update(update)
+        // let pos = this.pos;
+        push();
+        translate(this._pos.x, this._pos.y)
+        scale(this.scaleBy);
+        rotate(this.rotateBy);
+        image(this.img, 0, 0)
+        pop();
+    }
+}
+
+class pButton extends Primitive {
+    // A button is a pRectangle object with the option to add text or an image to the centre and is automatically clickable
+    constructor(x, y, w, h, kwargs={}){
+        super(x, y, {});
+        this.type = "pButton"
+        this.kwargs = kwargs;
+        this.initDims = createVector(w, h);
+        this.rect = new pRectangle(x, y, w, h, kwargs);
+        this.dims = this.rect.dims;
+        this.text = undefined;
+        this.img = undefined;
+        this.toggleClickable();
+    }
+
+    addImage(){
+
+    }
+
+    addText(text, kwargs={textAlign: "CENTER"}){
+        // Place at x, y with option to override
+        const myKwargs = {...kwargs};
+        this.text = new pText(text, this.pos.x, this.pos.y, kwargs);
+        return this;
+    } 
+
+    clickAnimation(){
+        // A default click animation that can be overridden
+    }
+
+    onClick(){
+    }
+
+    draw(){
+        let p = super.draw();
+        this.rect.draw();
+        if (this.text != undefined){
+            this.text.draw();
+        }
+        if (this.img != undefined){
+            this.img.draw();
+        }
     }
 }
 
@@ -650,6 +928,10 @@ class Game {
         return this.screens[name](kwargs)
     }
 
+    start(){
+
+    }
+
     nextRound(){
 
     }
@@ -690,6 +972,27 @@ class Utils{
                 wscript.SendKeys("{F11}");
             }
         }
+    }
+
+    static getUrlParams(searchParams=[], url=undefined){
+        /*
+            Search the URL for params
+            If a list of params provided use those, if not return a searchable object
+            Can be searched with obj.get(param)
+        */
+        // If a url is provided use that, if not use the current window url
+        let myUrl = (url == undefined ? window.location : url);
+        let urlObj = new URL(myUrl).searchParams;
+        if (searchParams.length == 0){
+            return _.cloneDeep(Object.fromEntries(urlObj))
+        } else {
+            let vals = {}
+            searchParams.forEach(p => {
+                vals[p] = urlObj.get(p);
+            })
+            return vals
+        }
+
     }
 
 }
@@ -850,6 +1153,7 @@ Main TODO:
     - Add click listener to pText
     - Handle keyboard input and assign functionality
     - Tidying and testing the fullscreen checker; move it to a Utils class instead?
+    - A global aesthetics dict to use as default
 
 Classes to add:
     - Slideshow

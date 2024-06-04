@@ -382,7 +382,6 @@ class Primitive extends Psychex{
                 } else {
                     this.pos = update[arg];
                 }
-                // console.log(this.pos)
             } else if (arg == "x"){
                 if (this.constants.positionMode == "PERCENTAGE"){
                     this.pos.x = Primitive.toPixels(update[arg]).x;
@@ -410,7 +409,6 @@ class Primitive extends Psychex{
             if (this.constants.positionMode == "PERCENTAGE"){
                 // If percentage provided, convert to pixels to use under the hood
                 this._pos = Primitive.toPixels(createVector(this.pos.x, this.pos.y));
-                // console.log(this._pos)
             } else {
                 this._pos = createVector(this.x, this.y);
             }
@@ -418,7 +416,6 @@ class Primitive extends Psychex{
             if (this.constants.positionMode == "PERCENTAGE"){
                 // If percentage provided, convert to pixels to use under the hood
                 return Primitive.toPixels(createVector(coords.x, coords.y));
-                // console.log(this._pos)
             } else {
                 return createVector(coords.x, coords.y);
             }
@@ -442,7 +439,6 @@ class Primitive extends Psychex{
         if (pm == "PERCENTAGE"){
             // If percentage provided, convert to pixels to use under the hood
             return Primitive.toPixels(createVector(coords.x, coords.y));
-            // console.log(this._pos)
         } else if (pm == "PIXELS") {
             return Primitive.toPercentage(createVector(coords.x, coords.y))
         } else if (pm == "IGNORE") {
@@ -579,7 +575,6 @@ class pText extends Primitive {
         // Check if text contains a newline, and handle that
         let nls = this.handleNewLine(this.text);
         nls.forEach((ln, ix) => {
-            // console.log(this.lineSpacing+(ix*textSize()))
             text(ln, 0, (ix*(textSize() + this.lineSpacing)));
         })
         // text(this.text, 0, 0);
@@ -789,14 +784,12 @@ class pButton extends Primitive {
     }
 
     onClick(){
-        console.log("hi")
     }
 
     draw(){
         let p = super.draw();
         this.rect.draw();
         if (this.text != undefined){
-            // console.log(this.text.aesthetics)
             this.text.draw();
         }
         if (this.img != undefined){
@@ -979,6 +972,27 @@ class Utils{
                 wscript.SendKeys("{F11}");
             }
         }
+    }
+
+    static getUrlParams(searchParams=[], url=undefined){
+        /*
+            Search the URL for params
+            If a list of params provided use those, if not return a searchable object
+            Can be searched with obj.get(param)
+        */
+        // If a url is provided use that, if not use the current window url
+        let myUrl = (url == undefined ? window.location : url);
+        let urlObj = new URL(myUrl).searchParams;
+        if (searchParams.length == 0){
+            return _.cloneDeep(Object.fromEntries(urlObj))
+        } else {
+            let vals = {}
+            searchParams.forEach(p => {
+                vals[p] = urlObj.get(p);
+            })
+            return vals
+        }
+
     }
 
 }

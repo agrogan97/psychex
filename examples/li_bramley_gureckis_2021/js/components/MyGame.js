@@ -6,12 +6,26 @@ class MyGame extends Game {
 
         // Define some game settings we might want, like the deck to show and the preset draws
         this.gameSettings = {
-            deck: [1, 2, 3, 4, 5, 6, 7, 8],
-            draws: [4, 1, 6, 7, 3],
             cumulativeScore: 0,
             numQueries: 0, // the number of times their suspense has been queried
             queryRounds : _.sampleSize([1, 2, 3, 4, 5], _.sample([2, 3])) // the rounds on which the user will be queried
         }
+
+        // Randomly sample from either the low or high suspense batches based on URL params
+        try {
+            this.gameSettings.suspenseGroup = Utils.getUrlParams()["mode"]; // low
+        } catch (error) {
+            console.log(`Suspense group provided in URL params not recognised - defaulting to 0.`)
+            this.gameSettings.suspenseGroup = 0;
+        }
+        
+        // this.gameSettings.suspenseGroup
+        // Get the deck according to the suspense group
+        let deckJson = (this.gameSettings.suspenseGroup == 0 ? assets.jsons.bottom10 : assets.jsons.top5);
+        this.gameSettings.deckIndex = _.sample(Object.keys(deckJson.pairSequence));
+        this.gameSettings.deck = deckJson.deck[this.gameSettings.deckIndex]
+        this.gameSettings.draws = deckJson.pairSequence[this.gameSettings.deckIndex].map(d => d[0]);
+        this.gameSettings.randDraws = deckJson.pairSequence[this.gameSettings.deckIndex].map(d => d[1]);
     }
 
     start(){
@@ -22,8 +36,8 @@ class MyGame extends Game {
             content.wheel.rotationAngle = 0;
         }
         // Shuffle the deck and draw 2 cards, then spin the wheel
-        this.drawnCard = this.gameSettings.draws[this.roundIndex]
-        this.randCard = _.sample(this.gameSettings.deck.filter(i => i != this.drawnCard));
+        this.drawnCard = this.gameSettings.draws[this.roundIndex];
+        this.randCard = this.gameSettings.randDraws[this.roundIndex];
         this.data.rounds[this.roundIndex] = {
             drew: this.drawnCard,
             randCard: this.randCard,
@@ -103,7 +117,7 @@ class MyGame extends Game {
 
     endGame(){
         content.instructions.text = `Final score: ${this.gameSettings.cumulativeScore}`;
-        content.drawCardBtn.text.text = "Done!";
+        content.drawCardBtn.text.text = (this.gameSettings.cumulativeScore > 21 ? "Bust!" : "You Win!");
     }
 
     nextRound(){

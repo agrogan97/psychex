@@ -24,7 +24,7 @@ something like: ::
 (if you encounter an error such as *command python not recognised*, try running `python3 -m http.server` or running `python -v` to check if you have Python installed). If you're more inclined towards JavaScript, instead run: ::
 
     npm install http-server -g
-    http-server -p 8080
+    http-server -p 8000
 
 Or with php: ::
 

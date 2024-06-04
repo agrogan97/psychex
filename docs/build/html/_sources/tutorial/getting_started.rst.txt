@@ -12,6 +12,29 @@ Import the file into your project by referencing in your base HTML file, as such
     <script src="lib/psychex.core.js"></script>
 
 Psychex is a wrapper to the .. _p5.js library: https://p5js.org/ and uses the same required functions. 
+
+Skeleton Setup 
+--------------
+
+Alternatively, download the skeleton folder from examples/skeleton - this contains barebones files that will work out of the box. If you choose to do this, you can serve the file by opening a terminal of your choice, navigating to the project root, and running
+something like: ::
+
+    python -m http.server
+
+(if you encounter an error such as *command python not recognised*, try running `python3 -m http.server` or running `python -v` to check if you have Python installed). If you're more inclined towards JavaScript, instead run: ::
+
+    npm install http-server -g
+    http-server -p 8080
+
+Or with php: ::
+
+    php -S 0.0.0.0:8000
+
+In a browser, navigate to `http://127.0.0.1:8000` to view your project.
+
+Manual Setup
+------------
+
 The following can be used as a basic template::
 
     function preload(){

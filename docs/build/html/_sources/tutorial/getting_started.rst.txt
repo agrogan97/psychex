@@ -11,7 +11,7 @@ Import the file into your project by referencing in your base HTML file, as such
 
     <script src="lib/psychex.core.js"></script>
 
-Psychex is a wrapper to the .. _p5.js library: https://p5js.org/ and uses the same required functions. 
+Psychex is a wrapper for the `p5.js <https://p5js.org/>`_ library and uses the same required functions. 
 
 Skeleton Setup 
 --------------
@@ -31,6 +31,11 @@ Or with php: ::
     php -S 0.0.0.0:8000
 
 In a browser, navigate to `http://127.0.0.1:8000` to view your project.
+
+Running Psychex with JATOS
+--------------------------
+
+Psychex integrates nicely with JATOS, if you're using that to serve experiments, and requires minimal changes to your codebase - in fact, they're a great pairing!
 
 Manual Setup
 ------------

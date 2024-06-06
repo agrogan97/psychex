@@ -31,7 +31,7 @@ Primitives are the building bones of more complex composite classes, and represe
         multiLineText.draw();
     }
 
-    > // -- How to extend -- //
+    // -- How to extend -- //
 
     class customText extends pText {
         constructor(text, x, y, kwargs={}){

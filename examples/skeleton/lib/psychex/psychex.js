@@ -10,8 +10,89 @@ var roundData;
 var isFullScreen = false;
 var begin;
 var blockLoop = false;
+var psychex = {};
+psychex.aesthetics = {
+    show : () => {
+        console.log(`Aesthetics are set for:`);
+        Object.keys(psychex.aesthetics).filter(i => !["show", "_edit", "_show"].includes(i)).forEach(i => {
+            console.log(`- ${i}`)}
+        );
+        console.log(`For more details, run psychex.aesthetics.[element].show(), replacing [element] with the primitive type (eg. pText)`)
+    },
+    pText : {
+        textColor: 'black',
+        textSize: 20,
+        textStyle: "NORMAL",
+        strokeWeight: 0.5,
+        fontFamily: "sans-serif",
+        edit : (aes) => {
+            if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {textColor: 'blue'}`)}
+            // Sanitise inputs, especially re: textStyle and the p5 constants
+            Object.keys(aes).forEach(a => {
+                // Check if the values of the aesthetics provided match those available in aesthetics.pText, discluding the edit and show funcs
+                if (Object.keys(psychex.aesthetics.pText).filter(i => !i.includes(["edit", "show"]))){
+                    try {
+                        // Update the value
+                        psychex.aesthetics.pText[a] = aes[a];
+                    } catch (error) {
+                        console.log(`Provided param ${a} not a default property of pText. To edit this, add it to the object kwargs, or add it manually.`)
+                    }
+                }
+            })
+        },
+        show : () => {
+            console.log(`-- pText default aesthetics --\n- textColor: ${psychex.aesthetics.pText.textColor}\n- textSize: ${psychex.aesthetics.pText.textSize}\n- textStyle: ${psychex.aesthetics.pText.textStyle}\n- strokeWeight: ${psychex.aesthetics.pText.strokeWeight}\n- fontFamily: ${psychex.aesthetics.pText.fontFamily}
+            `)
+        }
+    },
+    pRectangle : {
+        backgroundColor: 'white',
+        borderColor: 'black',
+        borderWidth: 2,
+        edit : (aes) => {psychex._edit(aes, "pRectangle")},
+        show: () => {psychex.aesthetics._show("pRectangle")},
+    },
+    pCircle: {
+        backgroundColor: 'white',
+        borderColor: 'black',
+        borderWidth: 2,
+        edit : (aes) => {psychex._edit(aes, "pCircle")},
+        show: () => {psychex.aesthetics._show("pCircle")},
+    },
+    pTriangle: {
+        backgroundColor: 'white',
+        borderColor: 'black',
+        borderWidth: 2,
+        edit : (aes) => {psychex._edit(aes, "pTriangle")},
+        show: () => {psychex.aesthetics._show("pTriangle")},
+    },
+    _edit : (aes, obj) => {
+        if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {backgroundColor: 'blue'}`)}
+        // Sanitise inputs, especially re: textStyle and the p5 constants
+        Object.keys(aes).forEach(a => {
+            // Check if the values of the aesthetics provided match those available in aesthetics.pText, discluding the edit and show funcs
+            if (Object.keys(psychex.aesthetics[obj]).filter(i => !i.includes(["edit", "show"]))){
+                try {
+                    // Update the value
+                    psychex.aesthetics[obj][a] = aes[a];
+                } catch (error) {
+                    console.log(`Provided param ${a} not a default property of ${obj}. To edit this, add it to the object kwargs, or add it manually.`)
+                }
+            }
+        })
+    },
+    _show: (obj) => {
+        console.log(`-- ${obj} default aesthetics --`)
+        Object.keys(psychex.aesthetics[obj]).filter(i => !i.includes(["edit", "show"])).forEach(aes => {
+            console.log(`- ${aes} : ${psychex.aesthetics[obj][aes]}`)
+        })
+    }
+}
+
+// TODO: Currently we need to manually attach a click event listener to the window - this should be done automatically by Psychex surely?
 
 function pClickListener(e) {
+    // TODO circle click listener
     // Check what global positioning system is being used
     const convertTo = (params.positionMode == "PERCENTAGE" ? "PIXELS" : "IGNORE");
     // If positionMode == "PERCENTAGE", we want to convert mouse click coords from pixels (the default) to percentage
@@ -234,7 +315,7 @@ class Primitive extends Psychex{
         pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
         return createVector(
             100*pos.x/canvas.width,
-            100*pos.y/canvas.height
+            100*pos.y/canvas.height,
         )
     }
 
@@ -254,34 +335,59 @@ class Primitive extends Psychex{
         }
         // Define the mapping between aesthetic kwargs and p5.js render instructions - and try to keep original p5 keys too
         // TODO fill out this mapping
+        // this.aestheticsMapping = {
+        //     fill: (c) => {fill(c)},
+        //     backgroundColor: (c) => {fill(c)},
+        //     stroke: (c) => {stroke(c)},
+        //     borderColor: (c) => {stroke(c)},
+        //     strokeWeight: (c) => {strokeWeight(c)},
+        //     borderWidth: (c) => {strokeWeight(c)},
+        //     textSize: (c) => {textSize(c)},
+        //     fontSize: (c) => {textSize(c)},
+        //     textFont: (c) => {textFont(c)},
+        //     textStyle: (c => {textStyle(c)}),
+        //     fontFamily: (c) => {textFont(c)},
+        //     fontColor: (c) => {fill(c); stroke(c)},
+        //     textColor: (c) => {fill(c); stroke(c)},
+        //     color: (c) => (fill(c)), // NB: font color, not background color, same as CSS
+        //     scale: (c) => (scale(c)),
+        //     borderRadius: () => {throw new Error(`You've included the property borderRadius in your styling - unfortunately this isn't yet supported. You could use p5.js geometries to try and build your own shape, or create the shape you need in an illustration software (eg. Paint or equivalent) and load it as a pImage. If you have a creative solution, feel free to submit a PR!`)},
+        //     lineSpacing: (c) => {this.lineSpacing = c}, // NB: line spacing is change in font size, not %
+        // }
+
         this.aestheticsMapping = {
-            fill: (c) => {fill(c)},
-            backgroundColor: (c) => {fill(c)},
-            stroke: (c) => {stroke(c)},
-            borderColor: (c) => {stroke(c)},
-            strokeWeight: (c) => {strokeWeight(c)},
-            borderWidth: (c) => {strokeWeight(c)},
+            // pText
+            textColor: (c) => {fill(c)},
             textSize: (c) => {textSize(c)},
-            fontSize: (c) => {textSize(c)},
-            textFont: (c) => {textFont(c)},
+            textStyle: (c) => {textStyle(c)},
+            strokeWeight: (c) => {strokeWeight(c)},
             fontFamily: (c) => {textFont(c)},
-            fontColor: (c) => {fill(c); stroke(c)},
-            textColor: (c) => {fill(c); stroke(c)},
-            color: (c) => (fill(c)), // NB: font color, not background color, same as CSS
-            scale: (c) => (scale(c)),
-            borderRadius: () => {throw new Error(`You've included the property borderRadius in your styling - unfortunately this isn't yet supported. You could use p5.js geometries to try and build your own shape, or create the shape you need in an illustration software (eg. Paint or equivalent) and load it as a pImage. If you have a creative solution, feel free to submit a PR!`)},
             lineSpacing: (c) => {this.lineSpacing = c}, // NB: line spacing is change in font size, not %
+
+            // shared
+            backgroundColor: (c) => {fill(c)},
+            borderColor: (c) => {stroke(c)},
+            color: (c) => {stroke(c); fill(c)},
+            borderWidth: (c) => {strokeWeight(c)},
+            scale : (c) => {scale(c)}
         }
+
         Object.keys(_kwargs).forEach(kwarg => {
             // Overwrite the methods in constants for this specific object
             // NB: this.constants is initialised from the global params, but set per object and can be overriden
 
-            // Handle kwargs in this.constants
+            // Check if overwriting a value from this.constants (e.g. positionMode)
             if (Object.keys(this.constants).includes(kwarg)){
                 this.constants[kwarg] = _kwargs[kwarg];
-            // Handle aesthetics kwarg by translating to p5.js rendering funcs
+            // Check if kwargs contains a value from this.aestheticsMapping
             } else if (Object.keys(this.aestheticsMapping).includes(kwarg)){
                 // Store the function and the supplied values, so they're not rendered prematurely
+                // If existing, overwrite
+                if (this.aesthetics.map(i => i._func.name).includes(kwarg)){
+                    // existing instance of this aesthetic in this.aesthetics -> remove it
+                    this.aesthetics = this.aesthetics.filter(i => i._func.name != kwarg)
+                }
+                // write aesthetic to list
                 this.aesthetics.push(
                     {
                         _func: this.aestheticsMapping[kwarg],
@@ -462,16 +568,22 @@ class Primitive extends Psychex{
 
 class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
-        super(x, y, kwargs);
+        // -- Set default aesthetics -- //
+        super(x, y, {...kwargs});
         this.type="pText";
         this.text = text.toString();
-        this.textSize = 32;
         this.scaleBy = 1;
         this.lineSpacing = 0;
+        // add default aesthetics to the pText object
+        this.defaultAesthetics = psychex.aesthetics.pText;
+        this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
+        
     }
 
     setTextSize(newSize){
         /*
+        // Old version before aesthetics were introduced - needs updating to new pattern
+        
         Takes sizing as either a font (eg. 32, 36, 42, etc.) or a screen size (sm, md, lg, xl, 2xl, 3xl, 4xl) and will offer scaling based on that 
 
         // TODO: An optional feature would be to look in this.constants for a screen size setting and use that as default, then make scaling relative.
@@ -570,7 +682,7 @@ class pText extends Primitive {
         this.update(update)
         push();
         translate(p.x, p.y);
-        textSize(this.textSize)
+        // textSize(this.textSize)
         scale(this.scaleBy);
         // Check if text contains a newline, and handle that
         let nls = this.handleNewLine(this.text);
@@ -588,6 +700,9 @@ class pRectangle extends Primitive{
         super(x, y, kwargs);
         this.type="pRectangle";
         this.dims = createVector(w, h);
+        // Add default aesthetics
+        this.defaultAesthetics = psychex.aesthetics.pRectangle;
+        this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
     withImage(imgObj, kwargs){
@@ -601,12 +716,14 @@ class pRectangle extends Primitive{
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         push();
         const primitiveObject = new Primitive(x, y, kwargs);
-        let dims = super.convertCoordinates(createVector(w, h))
+        let dims = primitiveObject.convertCoordinates(createVector(w, h))
         let p = primitiveObject.draw();
         translate(p.x, p.y);
         rect(0, 0, dims.x, dims.y)
         pop();
     }
+
+    onClick(){}
 
     draw(){
         let p = super.draw();
@@ -626,6 +743,9 @@ class pCircle extends Primitive{
         this.type="pCircle";
         if (this.constants.positionMode == "PERCENTAGE"){this.radius = r*(window.innerWidth/100)}
         else {this.radius = r};
+        // Add default aesthetics
+        this.defaultAesthetics = psychex.aesthetics.pCircle;
+        this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
     draw(){
@@ -656,6 +776,10 @@ class pTriangle extends Primitive{
 
         this.x2Diff = createVector(this.pos2.x - this.pos1.x, this.pos2.y - this.pos1.y)
         this.x3Diff = createVector(this.pos1.x - this.pos3.x, this.pos1.y - this.pos3.y)
+
+        // Add default aesthetics
+        this.defaultAesthetics = psychex.aesthetics.Triangle;
+        this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
     static draw_(x1, y1, x2, y2, x3, y3, kwargs={}){
@@ -798,6 +922,97 @@ class pButton extends Primitive {
     }
 }
 
+class Countdown extends Primitive {
+    // TODO needs polishing, refinement, testing etc.
+    constructor(x, y, endtime, kwargs={}){
+        super(x, y, kwargs);
+        this.endtime = endtime;
+        this.initTime = Date.now();
+        this.stop = true;
+        this.prop = 0;
+        this.graphic = undefined;
+    }
+
+    setGraphic(graphic, params={}){
+        /*
+            Set the graphic to be either a circular arc that varies between full 360 deg and 0 deg, or a progress bar.
+
+        */
+
+        if (graphic == "arc"){
+            if (params.w == undefined || params.h == undefined){throw new Error("When setting an arc, please provide a width and height via the params. For example: setGraphic('arc', {w: 1, h: 1})")}
+            this.graphic = new Primitive(this.x, this.y, {...psychex.aesthetics.pCircle, ...params});
+            this.graphic.draw = () => {
+                push();
+                this.graphic.pos.x = this.pos.x;
+                this.graphic.pos.y = this.pos.y;
+                let pos = createVector(this.pos.x, this.pos.y);
+                let dims = createVector(params.w, params.h);
+                if (this.constants.positionMode == "PERCENTAGE"){
+                    pos = Primitive.toPixels(createVector(this.pos.x, this.pos.y));
+                    dims = Primitive.toPixels(createVector(params.w, params.h));
+                } else {
+                    pos = createVector(this.pos.x, this.pos.y);
+                }
+                translate(pos.x, pos.y);
+                // Run aesthetics
+                Object.keys(this.graphic.aesthetics).forEach(aes => {
+                    this.graphic.aesthetics[aes]._func(this.graphic.aesthetics[aes]._val);
+                })
+                arc(0, 0, dims.x, dims.y, 0, (1-this.prop)*360);
+                pop();
+            }
+            return this;
+        } else if (graphic == "bar"){
+            if (params.w == undefined || params.h == undefined){throw new Error("When setting an arc, please provide a width and height via the params. For example: setGraphic('arc', {w: 1, h: 1})")}
+            this.graphic = new Primitive(this.x, this.y, this.kwargs);
+            this.graphic.draw = () => {
+                pRectangle.draw_(this.pos.x, this.pos.y, params.w, params.h, {...psychex.aesthetics.pCircle, ...params}) // Background bar, unchanging
+                pRectangle.draw_(this.pos.x-params.w/2, this.pos.y-params.h/2, (1-this.prop)*params.w, params.h, {rectMode: "CORNER", ...{...psychex.aesthetics.pCircle, ...params}}) // inner bar
+            }
+            return this;
+        } else if (graphic == "custom"){
+            this.graphic = new Primitive(this.x, this.y, this.kwargs);
+            // The user can manually overwrite the draw method if they want, either using Psychex primitives or p5.js geometries
+            this.graphic.draw = () => {}
+        } else {
+            throw new Error(`Graphic type ${graphic} not recognised.`)
+        }
+    }
+
+    reset(){
+        this.initTime = Date.now();
+        this.stop = false;
+    }
+
+    onTimeUp(){
+        // Callback for when timer elapses
+    }
+
+    pause(){
+        this.stop = true;
+    }
+
+    draw(){
+        if (!this.stop){
+            let timeDiff = (Date.now() - this.initTime)/1000; // Difference between start and now in seconds
+            this.prop = timeDiff / this.endtime;
+            if (this.prop >= 1){
+                this.onTimeUp();
+                this.prop = 0;
+            }
+        }
+        if (this.graphic == undefined){
+            return
+        } else {
+            super.draw();
+            this.graphic.draw();
+        }
+        // draw obj
+
+    }
+}
+
 class NArmBandit extends Primitive{
     constructor(x, y, nArms=2, probabilities="random"){
         super();
@@ -898,6 +1113,15 @@ class Game {
         return response;
     }
 
+    registerUUID(){
+        /*
+            TODO
+
+            Either read a UUID from the URL, or create one and register it in this.data
+            Alternatively create a this.metadata object that tracks user id, time loaded, etc.
+        */
+    }
+
     addScreen(name, callback){
         /*
         // Adds a screen that can be rendered when needed
@@ -993,6 +1217,14 @@ class Utils{
             return vals
         }
 
+    }
+
+    static generateUUID(){
+        /*
+        TODO
+
+        Generate and return a random UUID 
+        */
     }
 
 }
@@ -1154,12 +1386,13 @@ Main TODO:
     - Handle keyboard input and assign functionality
     - Tidying and testing the fullscreen checker; move it to a Utils class instead?
     - A global aesthetics dict to use as default
+    - Add JATOS saving to Game class
 
 Classes to add:
     - Slideshow
     - Stages 
     - UI/HUD
-    - Progress bar/timer
+    - Progress bar/timer (copy over from inverted pointer)
 
 Extra thoughts:
     - Better to build with npm and then use webpack - since it depends on lodash and p5.js

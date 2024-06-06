@@ -21,11 +21,10 @@ function setup(){
     canvas.parent("gameCanvas")
     myGame = new Game();
     content.myText = new pText("Psychex", 50, 50, {fontSize: 32});
-
-
 }
 
 function draw(){
     clear();
     content.myText.draw();
+    content.countdown.draw();
 }

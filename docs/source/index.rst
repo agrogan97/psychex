@@ -16,6 +16,7 @@ Psychex
    code_docs/paradigms
    code_docs/Utilities
    tutorial/aesthetics
+   tutorial/interactions
 
 .. Indices and tables
 .. ==================

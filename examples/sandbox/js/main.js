@@ -106,7 +106,22 @@ function setup(){
         content.parc.reset();
     }
 
-    content.parc.reset();
+    // content.parc.reset();
+
+    // Click event listener tests
+    content.clicks = {};
+    const colours = ["green", "yellow", "red", "blue", "pink", "orange", "grey"]
+    content.clicks.rect = new pRectangle(20, 75, 5, 10, {backgroundColor: "white"}).toggleClickable();
+    content.clicks.rect.onClick = () => {
+        content.clicks.rect.update({backgroundColor: _.sample(colours)});
+    }
+    content.clicks.circle = new pCircle(30, 75, 5, {backgroundColor: 'white'}).toggleClickable();
+    content.clicks.circle.onClick = () => {
+        content.clicks.circle.update({backgroundColor: _.sample(colours)});
+    }
+    content.clicks.triangle = new pTriangle(40, 75, 45, 75, 45, 70, {backgroundColor: "white"}).toggleClickable();
+    content.clicks.txt = new pText("Click me!", 50, 75, {textColor: "black"}).toggleClickable();
+
 }
 
 function draw(){
@@ -126,4 +141,9 @@ function draw(){
     content.crossing.draw();
 
     content.parc.draw();
+
+    Object.keys(content.clicks).forEach(i => content.clicks[i].draw());
+
+    // content.clicks.rect.draw();
+    // content.clicks.circle.draw()
 }

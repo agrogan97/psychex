@@ -104,14 +104,14 @@ function pClickListener(e) {
                 // -- Image / Center -- //
                 if (_.inRange(C.x, (obj.pos.x-obj.width/2), (obj.pos.x+obj.width/2))){
                     if (_.inRange(C.y, (obj.pos.y-obj.height/2), (obj.pos.y+obj.height/2))){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             } else if (obj.constants.imageMode == "CORNER"){
                 // -- Image / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.width)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.height)){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             }
@@ -120,21 +120,45 @@ function pClickListener(e) {
                 // -- Rect / Center -- //
                 if (_.inRange(C.x, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
                     if (_.inRange(C.y, obj.pos.y-obj.dims.y/2, obj.pos.y+obj.dims.y/2)){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             } else if (obj.constants.rectMode == "CORNER") {
                 // -- Rect / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             } 
+        } else if (obj.type == "pCircle") { 
+            let CPix = Primitive.toPixels(C)
+            let posPix = Primitive.toPixels(obj.pos)
+            // ((pos.x - C.x)^2 + (pos.y-C.y)^2)**1/2
+            let a = (CPix.x - posPix.x)**2;
+            let b = (CPix.y - posPix.y)**2;
+            let c = Math.sqrt(a+b);
+            console.log(`(${C.x}, ${C.y})`, c);
+            if (_.inRange(C.x, obj.pos.x-obj.radius, obj.pos.x+obj.radius)){
+                if (_.inRange(C.y, obj.pos.y-obj.radius*(Math.sqrt(innerWidth*innerWidth + innerHeight*innerHeight)), obj.pos.y+obj.radius*(Math.sqrt(innerWidth*innerWidth + innerHeight*innerHeight)))){
+                    obj.onClick(obj);
+                }
+            }
+        } else if (obj.type == "pTriangle"){
+            // Find the lowest and highest x values
+            let xLims = [];
+            let yLims = [];
+            if (_.inRange(C.x, xLims[0], xLims[1])){
+                if (_.inRange(X.y, yLims[0], yLims[1])){
+                    obj.onClick(obj);
+                }
+            }
+        
         } else {
             if (_.inRange(C.x, obj.pos.x*0.9, obj.pos.x*1.1)){
                 if (_.inRange(C.y, obj.pos.y*0.9, obj.pos.y*1.1)){
-                    obj.onClick(obj)
+                    console.log("other")
+                    obj.onClick(obj);
                 }
             }
         }
@@ -741,19 +765,26 @@ class pCircle extends Primitive{
     constructor(x, y, r, kwargs={}){
         super(x, y, kwargs);
         this.type="pCircle";
-        if (this.constants.positionMode == "PERCENTAGE"){this.radius = r*(window.innerWidth/100)}
-        else {this.radius = r};
+        this.radius = r;
+        // if (this.constants.positionMode == "PERCENTAGE"){this.radius = r*(window.innerWidth/100)}
+        // else {this.radius = r};
+        console.log(this.radius)
         // Add default aesthetics
         this.defaultAesthetics = psychex.aesthetics.pCircle;
         this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
+    handleRadius(){
+        // Convert radius to appropriate positionMode val
+        if (this.constants.positionMode == "PERCENTAGE"){return this.radius*(innerWidth/100)}
+        else {return this.radius}
+    }
+
     draw(){
-        super.draw()
-        let pos = this.pos;
-        let r = this.radius;
+        let p = super.draw()
+        let r = this.handleRadius();
         push();
-        translate(pos.x, pos.y);
+        translate(p.x, p.y);
         circle(0, 0, r*2);
         pop();
     }
@@ -1390,9 +1421,8 @@ Main TODO:
 
 Classes to add:
     - Slideshow
-    - Stages 
+    - Stages (integrated within game class now) 
     - UI/HUD
-    - Progress bar/timer (copy over from inverted pointer)
 
 Extra thoughts:
     - Better to build with npm and then use webpack - since it depends on lodash and p5.js

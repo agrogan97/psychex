@@ -4,6 +4,7 @@ var params = {verbose: false, positionMode: "PERCENTAGE", textAlign: "CENTER", i
 // ------------
 var content = {};
 var myGame;
+var fs = new Fullscreen();
 
 function handleClick(e){
     // -- p5.js click listener -- //
@@ -14,22 +15,18 @@ function preload(){
 
 }
 
-function setup(){
+function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
     pixelDensity(1);
     frameRate(60)
     canvas.parent("gameCanvas")
 
     document.getElementById("gameCanvas").addEventListener("click", (e) => {
-        handleClick(e)
+        handleClick(e);
     })
 
 
     myGame = new Game();
-    // content.countdown = new Countdown(50, 20, 3, {}).setGraphic("bar", {w: 8, h: 4, bgColor: 'white', fgColor: 'green'});
-    // content.countdown.onTimeUp = () => {
-    //     content.countdown.reset();
-    // }
 
     content.testRect = new pRectangle(50, 10, 10, 10, {borderWidth: 4});
 
@@ -37,9 +34,9 @@ function setup(){
     content.redText = new pText("Red Psychex", 50, 35, {textColor: 'red'})
     content.blackText = new pText("Black Psychex", 50, 40, {textColor: 'black', textSize: 14, strokeWeight: 2})
     // Update the default
-    psychex.aesthetics.pText.edit({textColor: "blue", textSize: 34});
+    // psychex.aesthetics.pText.edit({textColor: "blue", textSize: 34}); // commented out to not confuse things later!
     content.defaultText = new pText("Default", 50, 45)
-    content.anotherDefault = new pText("Default 2", 50, 50, {strokeWeight: 3})
+    content.anotherDefault = new pText("Default 2", 50, 50, {strokeWeight: 0.01})
 
     content.someRect = new pRectangle(10, 10, 10, 10, {backgroundColor: "green", stroke: "green"});
     content.someRect.toggleClickable();
@@ -119,13 +116,30 @@ function setup(){
     content.clicks.circle.onClick = () => {
         content.clicks.circle.update({backgroundColor: _.sample(colours)});
     }
-    content.clicks.triangle = new pTriangle(40, 75, 45, 75, 45, 70, {backgroundColor: "white"}).toggleClickable();
-    content.clicks.txt = new pText("Click me!", 50, 75, {textColor: "black"}).toggleClickable();
 
+    content.clicks.txt = new pText("Click me!", 50, 75, {textColor: "black"}).toggleClickable();
+    content.clicks.txt.onClick = () => {
+        content.clicks.txt.update({backgroundColor: _.sample(colours)})
+    }
+
+    fs.beforeFullscreen(() => {
+        pText.draw_("The game must be played in fullscreen. Click anywhere to launch.", 50, 50, {textSize: 42});
+        return true;
+    })
+
+    fs.onFullscreenExit = () => {
+        pText.draw_("Fullscreen exit detected.", 50, 50, {textSize: 34})
+        return true;
+    };
 }
 
-function draw(){
+function draw() {
     clear();
+
+    // fs.detect();
+    let a = fs.draw();
+    if (a) {return}
+
     content.testRect.draw();
     content.myText.draw();
     // content.countdown.draw();
@@ -144,6 +158,6 @@ function draw(){
 
     Object.keys(content.clicks).forEach(i => content.clicks[i].draw());
 
-    // content.clicks.rect.draw();
-    // content.clicks.circle.draw()
+    content.clicks.rect.draw();
+    content.clicks.circle.draw()
 }

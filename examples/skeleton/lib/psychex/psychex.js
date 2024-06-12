@@ -25,45 +25,47 @@ psychex.aesthetics = {
         textStyle: "NORMAL",
         strokeWeight: 0.5,
         fontFamily: "sans-serif",
-        edit : (aes) => {
-            if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {textColor: 'blue'}`)}
-            // Sanitise inputs, especially re: textStyle and the p5 constants
-            Object.keys(aes).forEach(a => {
-                // Check if the values of the aesthetics provided match those available in aesthetics.pText, discluding the edit and show funcs
-                if (Object.keys(psychex.aesthetics.pText).filter(i => !i.includes(["edit", "show"]))){
-                    try {
-                        // Update the value
-                        psychex.aesthetics.pText[a] = aes[a];
-                    } catch (error) {
-                        console.log(`Provided param ${a} not a default property of pText. To edit this, add it to the object kwargs, or add it manually.`)
-                    }
-                }
-            })
-        },
-        show : () => {
-            console.log(`-- pText default aesthetics --\n- textColor: ${psychex.aesthetics.pText.textColor}\n- textSize: ${psychex.aesthetics.pText.textSize}\n- textStyle: ${psychex.aesthetics.pText.textStyle}\n- strokeWeight: ${psychex.aesthetics.pText.strokeWeight}\n- fontFamily: ${psychex.aesthetics.pText.fontFamily}
-            `)
-        }
+        edit : (aes) => {psychex.aesthetics._edit(aes, "pText")},
+        show: () => {psychex.aesthetics._show("pText")},
+        // edit : (aes) => {
+        //     if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {textColor: 'blue'}`)}
+        //     // Sanitise inputs, especially re: textStyle and the p5 constants
+        //     Object.keys(aes).forEach(a => {
+        //         // Check if the values of the aesthetics provided match those available in aesthetics.pText, discluding the edit and show funcs
+        //         if (Object.keys(psychex.aesthetics.pText).filter(i => !i.includes(["edit", "show"]))){
+        //             try {
+        //                 // Update the value
+        //                 psychex.aesthetics.pText[a] = aes[a];
+        //             } catch (error) {
+        //                 console.log(`Provided param ${a} not a default property of pText. To edit this, add it to the object kwargs, or add it manually.`)
+        //             }
+        //         }
+        //     })
+        // },
+        // show : () => {
+        //     console.log(`-- pText default aesthetics --\n- textColor: ${psychex.aesthetics.pText.textColor}\n- textSize: ${psychex.aesthetics.pText.textSize}\n- textStyle: ${psychex.aesthetics.pText.textStyle}\n- strokeWeight: ${psychex.aesthetics.pText.strokeWeight}\n- fontFamily: ${psychex.aesthetics.pText.fontFamily}
+        //     `)
+        // }
     },
     pRectangle : {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
-        edit : (aes) => {psychex._edit(aes, "pRectangle")},
+        edit : (aes) => {psychex.aesthetics._edit(aes, "pRectangle")},
         show: () => {psychex.aesthetics._show("pRectangle")},
     },
     pCircle: {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
-        edit : (aes) => {psychex._edit(aes, "pCircle")},
+        edit : (aes) => {psychex.aesthetics._edit(aes, "pCircle")},
         show: () => {psychex.aesthetics._show("pCircle")},
     },
     pTriangle: {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
-        edit : (aes) => {psychex._edit(aes, "pTriangle")},
+        edit : (aes) => {psychex.aesthetics._edit(aes, "pTriangle")},
         show: () => {psychex.aesthetics._show("pTriangle")},
     },
     _edit : (aes, obj) => {
@@ -97,21 +99,21 @@ function pClickListener(e) {
     const convertTo = (params.positionMode == "PERCENTAGE" ? "PIXELS" : "IGNORE");
     // If positionMode == "PERCENTAGE", we want to convert mouse click coords from pixels (the default) to percentage
     // If positionMode == "PIXELS", we want it to stay as pixels, so we can use the "IGNORE" setting in _convertCoordinates to do nothing essentially
-    const C = Primitive._convertCoordinates(createVector(mouseX, mouseY), convertTo); // NB: setting "PIXELS" converts to percentages
+    const C = Primitive._convertCoordinates(createVector(mouseX, mouseY), convertTo);
     clickables.forEach(obj => {
         if (obj.type == "pImage"){
             if (obj.constants.imageMode == "CENTER") {
                 // -- Image / Center -- //
                 if (_.inRange(C.x, (obj.pos.x-obj.width/2), (obj.pos.x+obj.width/2))){
                     if (_.inRange(C.y, (obj.pos.y-obj.height/2), (obj.pos.y+obj.height/2))){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             } else if (obj.constants.imageMode == "CORNER"){
                 // -- Image / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.width)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.height)){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             }
@@ -120,21 +122,63 @@ function pClickListener(e) {
                 // -- Rect / Center -- //
                 if (_.inRange(C.x, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
                     if (_.inRange(C.y, obj.pos.y-obj.dims.y/2, obj.pos.y+obj.dims.y/2)){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             } else if (obj.constants.rectMode == "CORNER") {
                 // -- Rect / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
-                        obj.onClick(obj)
+                        obj.onClick(obj);
                     }
                 }
             } 
+        } else if (obj.type == "pCircle") { 
+            let CPix = obj.constants.positionMode == "PERCENTAGE" ? Primitive.toPixels(C) : C; 
+            let posPix = obj.constants.positionMode == "PERCENTAGE" ? Primitive.toPixels(obj.pos) : obj.pos; 
+            let radiusPix = (obj.constants.positionMode == "PERCENTAGE" ? obj.radius*(innerWidth/100) : obj.radius)
+
+            const isInCircle = (x, y, cx, cy, r) => {
+                let dx = x - cx;
+                let dy = y - cy;
+                return dx*dx + dy*dy <= r*r
+            }
+
+            let inCircle = isInCircle(posPix.x, posPix.y, CPix.x, CPix.y, radiusPix)
+            if (inCircle){
+                obj.onClick(obj)
+            }
+        } else if (obj.type == "pTriangle"){
+            // Find the lowest and highest x values
+            // This could be implemented by taking click position and finding the closest triangle point, then
+            // checking if angle between point and click is outside of the angle between the point and the other 2 points
+            // but the amount of computation to do here might be really heavy, so needs testing
+            throw new Error("FYI, triangle clicking isn't currently supported.")
+        
+        } else if (obj.type = "pText") {
+            // Width uses p5.textWidth(), height taken from textSize (which is height of text in pixels by definition)
+            let CPix = obj.constants.positionMode == "PERCENTAGE" ? Primitive.toPixels(C) : C;
+            let posPix = obj.constants.positionMode == "PERCENTAGE" ? Primitive.toPixels(obj.pos) : obj.pos; 
+            if (_.inRange(CPix.x, posPix.x-textWidth(obj.text)/2, posPix.x+textWidth(obj.text/2))){
+                let fsize;
+                try {
+                    // Try and read textSize from aesthetics list
+                    fsize = content.clicks.txt.aesthetics.filter(i => i._func.name == "textSize")[0]._val;
+                } catch (error) {
+                    // If not found use a default val of 30
+                    fsize = 30;
+                }
+                if (_.inRange(CPix.y, posPix.y-fsize/2, posPix.y+fsize/2)){
+                    obj.onClick(obj);
+                }
+            }
+
+        
         } else {
             if (_.inRange(C.x, obj.pos.x*0.9, obj.pos.x*1.1)){
                 if (_.inRange(C.y, obj.pos.y*0.9, obj.pos.y*1.1)){
-                    obj.onClick(obj)
+                    console.log("other")
+                    obj.onClick(obj);
                 }
             }
         }
@@ -660,8 +704,6 @@ class pText extends Primitive {
         } catch {
             console.log(t)
         }
-        
-
     }
 
     static draw_(textContent, x, y, kwargs={}){
@@ -670,7 +712,7 @@ class pText extends Primitive {
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         // Create new local primitive object to call aesthetic functions and handle coords
         push();
-        const primitiveObject = new Primitive(x, y, kwargs);
+        const primitiveObject = new Primitive(x, y, {...psychex.aesthetics.pText, ...kwargs});
         let p = primitiveObject.draw()
         translate(p.x, p.y);
         text(textContent, 0, 0);
@@ -741,19 +783,23 @@ class pCircle extends Primitive{
     constructor(x, y, r, kwargs={}){
         super(x, y, kwargs);
         this.type="pCircle";
-        if (this.constants.positionMode == "PERCENTAGE"){this.radius = r*(window.innerWidth/100)}
-        else {this.radius = r};
+        this.radius = r;
         // Add default aesthetics
         this.defaultAesthetics = psychex.aesthetics.pCircle;
         this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
+    handleRadius(){
+        // Convert radius to appropriate positionMode val
+        if (this.constants.positionMode == "PERCENTAGE"){return this.radius*(innerWidth/100)}
+        else {return this.radius}
+    }
+
     draw(){
-        super.draw()
-        let pos = this.pos;
-        let r = this.radius;
+        let p = super.draw()
+        let r = this.handleRadius();
         push();
-        translate(pos.x, pos.y);
+        translate(p.x, p.y);
         circle(0, 0, r*2);
         pop();
     }
@@ -924,6 +970,8 @@ class pButton extends Primitive {
 
 class Countdown extends Primitive {
     // TODO needs polishing, refinement, testing etc.
+    // eg. func for setting separate params per foreground and background rects in progress bar
+    // also we have a pause method but no play method
     constructor(x, y, endtime, kwargs={}){
         super(x, y, kwargs);
         this.endtime = endtime;
@@ -936,7 +984,6 @@ class Countdown extends Primitive {
     setGraphic(graphic, params={}){
         /*
             Set the graphic to be either a circular arc that varies between full 360 deg and 0 deg, or a progress bar.
-
         */
 
         if (graphic == "arc"){
@@ -1097,10 +1144,14 @@ class Game {
         this.data = [];
         // Add dedicated screens that can be rendered as needed - e.g. fullscreen warnings, intersitials, etc.
         this.screens = {};
+
+        // If 'playerId' in URL params, set this.playerId - otherwise generate a string
+        let params = Utils.getUrlParams();
+        Object.keys(params).includes("playerId") ? (this.playerId = params["playerId"]) : this.registerUUID();
     }
 
-    async saveData(data){
-        const URL = `api/save/`;
+    async saveDataToServer(data, url=`api/save/`){
+        const URL = url;
         const response = await fetch(URL, {
             method: 'POST',
             headers: {
@@ -1113,6 +1164,29 @@ class Game {
         return response;
     }
 
+    async loadDataFromServer(data, url=`api/load/`){
+        const URL = url;
+        const response = await fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(data)
+        })
+    }
+
+    saveToLocalStorage(data, key="data"){
+        // Save data to the player's browser
+        let ID = key;
+        localStorage.setItem(ID, data);
+    }
+
+    loadFromLocalStorage(key="data"){
+        let ID = key;
+        localStorage.getItem(ID);
+    }
+
     registerUUID(){
         /*
             TODO
@@ -1120,6 +1194,10 @@ class Game {
             Either read a UUID from the URL, or create one and register it in this.data
             Alternatively create a this.metadata object that tracks user id, time loaded, etc.
         */
+
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        this.playerId =  _.range(1, 16).map(i => _.sample(characters)).join('');
+        
     }
 
     addScreen(name, callback){
@@ -1178,10 +1256,71 @@ class Game {
     }
 }
 
-class Utils{
+class Fullscreen{
+    /* Fullscreen requires a few key components:
+        - A clickable element to trigger fullscreen (typically document, or the canvas, but can be attached to canvas and then narrowed down to an onClick)
+        - A pre-click screen to tell the user to click and launch fullscreen
+        - A listener that takes a callback to run when fullscreen is breached, and stops other functions from running
+        - The method that actually requests fullscreen from the browser
+    */
+    constructor(){
+        this.isPreFullScreen = true;
+        this.isFullScreen = false;
+        this.settings = {
+            initialOffsetTime: 1000,
+        }
+        this.preClickCallback;
+
+    }
+
+    beforeFullscreen(callback = () => {return undefined}){
+        // Do some behind-the-scenes handling, and then call the user callback which might define some text or an image to show the user
+        this.draw = callback;
+        // Create the event listener after a certain amount of time
+        // This stops the user from accidentally launching the game immediately without seeing the text if they click too soon, double click on the previous screen, etc.
+        // this initial offset can be changed with this.settings.initialOffsetTime
+        if (this.fsClickListener != undefined){return}
+        setTimeout(() => {
+            this.fsClickListener = document.addEventListener("click", () => {
+                if (this.isPreFullScreen){
+                    Fullscreen.requestFullScreen(document.documentElement);
+                    this.isFullScreen = true;
+                    // empty draw so nothing happens during the gap
+                    // this.draw = undefined
+                    setTimeout(() => {
+                        // Hold the detection for 0.1 second to avoid race condition
+                        this.isPreFullScreen = false;
+                        this.draw = this.detect
+                    }, 250); // this needs to be at least 250
+                    
+                    // this.draw = this.detect;
+                    
+                }
+            })
+        }, this.settings.initialOffsetTime)
+    }
+
+    detect(){
+        // console.log("detecting...")
+        this.isFullScreen = Fullscreen.detectFullscreen();
+        // The pre-fullscreen checks might seem over-zealous, but it mitigates against any race conditions that can lead to immediate exit of the game
+        if (!this.isPreFullScreen){
+            // console.log(this.isFullScreen)
+            if (this.isFullScreen == false){
+                console.log("call")
+                this.draw = this.onFullscreenExit;
+            }
+        }
+        
+    }
+
+    onFullscreenExit(){}
+
+    draw(){
+    }
 
     static detectFullscreen(){
-        return (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement);
+        return (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement) != undefined;
     }
     
     static requestFullScreen(element) {
@@ -1197,6 +1336,9 @@ class Utils{
             }
         }
     }
+}
+
+class Utils{
 
     static getUrlParams(searchParams=[], url=undefined){
         /*
@@ -1216,17 +1358,7 @@ class Utils{
             })
             return vals
         }
-
     }
-
-    static generateUUID(){
-        /*
-        TODO
-
-        Generate and return a random UUID 
-        */
-    }
-
 }
 
 class GridWorld extends Primitive {
@@ -1377,22 +1509,42 @@ class GridWorld extends Primitive {
         pop();
     }
 }
+
+psychex.setup = (callback = () => {return undefined}) => {
+    psychex.canvas = createCanvas(windowWidth, windowHeight);
+    pixelDensity(1);
+    frameRate(60);
+    canvas.parent("gameCanvas");
+    callback();
+
+    // Check if a fullscreen listener is attached - if so, don't register document click listener yet, the fs listener will do this after fs is triggered
+}
  
+psychex.draw = function(callback = () => {return undefined}){
+    callback();
+}
+
+function setup(){
+    psychex.setup();
+}
+
+
+function draw(){
+    clear();
+    psychex.draw();
+}
+
 /*
 Main TODO:
     - Add image overlay on rect
     - Add to the aesthetics list
-    - Add click listener to pText
     - Handle keyboard input and assign functionality
-    - Tidying and testing the fullscreen checker; move it to a Utils class instead?
-    - A global aesthetics dict to use as default
     - Add JATOS saving to Game class
 
 Classes to add:
     - Slideshow
-    - Stages 
+    - Stages (integrated within game class now) 
     - UI/HUD
-    - Progress bar/timer (copy over from inverted pointer)
 
 Extra thoughts:
     - Better to build with npm and then use webpack - since it depends on lodash and p5.js

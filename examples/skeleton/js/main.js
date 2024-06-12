@@ -26,5 +26,4 @@ function setup(){
 function draw(){
     clear();
     content.myText.draw();
-    content.countdown.draw();
 }

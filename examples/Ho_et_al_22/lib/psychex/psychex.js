@@ -25,32 +25,15 @@ psychex.aesthetics = {
         textStyle: "NORMAL",
         strokeWeight: 0.5,
         fontFamily: "sans-serif",
+        textAlign: "CENTER",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pText")},
         show: () => {psychex.aesthetics._show("pText")},
-        // edit : (aes) => {
-        //     if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {textColor: 'blue'}`)}
-        //     // Sanitise inputs, especially re: textStyle and the p5 constants
-        //     Object.keys(aes).forEach(a => {
-        //         // Check if the values of the aesthetics provided match those available in aesthetics.pText, discluding the edit and show funcs
-        //         if (Object.keys(psychex.aesthetics.pText).filter(i => !i.includes(["edit", "show"]))){
-        //             try {
-        //                 // Update the value
-        //                 psychex.aesthetics.pText[a] = aes[a];
-        //             } catch (error) {
-        //                 console.log(`Provided param ${a} not a default property of pText. To edit this, add it to the object kwargs, or add it manually.`)
-        //             }
-        //         }
-        //     })
-        // },
-        // show : () => {
-        //     console.log(`-- pText default aesthetics --\n- textColor: ${psychex.aesthetics.pText.textColor}\n- textSize: ${psychex.aesthetics.pText.textSize}\n- textStyle: ${psychex.aesthetics.pText.textStyle}\n- strokeWeight: ${psychex.aesthetics.pText.strokeWeight}\n- fontFamily: ${psychex.aesthetics.pText.fontFamily}
-        //     `)
-        // }
     },
     pRectangle : {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
+        rectMode: "CENTER",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pRectangle")},
         show: () => {psychex.aesthetics._show("pRectangle")},
     },
@@ -91,6 +74,21 @@ psychex.aesthetics = {
     }
 }
 
+// Keypress events module that stores callbacks for different click events and allows you to register new ones and update existing ones
+psychex.keyPressEvents = {
+    events: [],
+    register: (k, callback) => {
+        // Check if an event is written to this key already
+        let existingEvents = psychex.keyPressEvents.events.filter(i => (i.k == k));
+        if (existingEvents.length == 0){
+            // Write new event
+            psychex.keyPressEvents.events.push({k: k, callback: callback});
+        } else {
+            existingEvents[0].callback = callback;
+        }
+    }
+}
+
 // TODO: Currently we need to manually attach a click event listener to the window - this should be done automatically by Psychex surely?
 
 function pClickListener(e) {
@@ -118,6 +116,7 @@ function pClickListener(e) {
                 }
             }
         } else if (obj.type == "pRectangle" || obj.type == "pButton") { 
+            
             if (obj.constants.rectMode == "CENTER"){
                 // -- Rect / Center -- //
                 if (_.inRange(C.x, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
@@ -187,6 +186,25 @@ function pClickListener(e) {
 
 function pKeyboardInput(){
     // Add rules for a keyboard input
+}
+
+// psychex.keyPressEvents.register = (k, callback) => {
+//     // Check if an event is written to this key already
+//     let existingEvents = psychex.keyPressEvents.events.filter(i => (i.k == k));
+//     if (existingEvents.length == 0){
+//         // Write new event
+//         psychex.keyPressEvents.events.push({k: k, callback: callback});
+//     } else {
+//         existingEvents[0].callback = callback;
+//     }
+// }
+
+function keyPressed(e){
+    // p5.js keyPressed function
+    // Iterate over contents of psychex.keyPressEvents and see if one matches the key pressed
+    // Run callback if registered
+    // console.log(key)
+    psychex.keyPressEvents.events.filter(i => (i.k == key)).forEach(i => {i.callback(e)});
 }
 
 class Psychex{
@@ -594,7 +612,6 @@ class Primitive extends Psychex{
         } else if (pm == "IGNORE") {
             return createVector(coords.x, coords.y)
         }
-
     }
 
     onClick(e){}
@@ -1368,12 +1385,9 @@ class GridWorld extends Primitive {
     // Thus, creating onClick() will still work, but the toggleClickable() method used is an overridden version that assigns
     // all composite primitves as individual clickables using the composite onClick() method.
     constructor(x, y, w, h, nRows, nCols, align="CORNER", kwargs={}){
-        super(x, y, {});
-        // Convert width and height to pixels from percentage if req'd
-        if (this.constants.positionMode == "PERCENTAGE"){
-            this.initDims = createVector(w, h);
-            this.dims = Primitive.toPixels(this.initDims);
-        }
+        super(x, y, kwargs);
+        this.initDims = createVector(w, h);
+        this.dims = createVector(w, h)
 
         if (!["CORNER", "CENTER"].includes(align)){
             throw new Error(`alignment ${align} not recognised. Must be one of: CORNER, CENTER`)
@@ -1384,6 +1398,8 @@ class GridWorld extends Primitive {
         this.nCols = nCols;
         this.kwargs = kwargs;
         this.cells = [];
+
+        this.drawOutline();
     }
 
     getWidth(){
@@ -1435,7 +1451,8 @@ class GridWorld extends Primitive {
                     anchor = createVector(this.pos.x - (this.dims.x/2), this.pos.y - (this.dims.y/2));
                 }
                 
-                newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {positionMode:"PIXELS", rectMode: "CORNER", ...this.kwargs});
+                // newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {positionMode:"PIXELS", rectMode: "CORNER", ...this.kwargs});
+                newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {...this.kwargs});
                 // Copy the coords and ix to the object itself - allows for more options with filtering and helps with click listeners
                 newCell.obj.ix = newCell.ix;
                 newCell.obj.coords = newCell.coords;
@@ -1450,9 +1467,8 @@ class GridWorld extends Primitive {
         // TODO (but not rn): add an object that defines a play schema, overlaying images and click rules at certain indices/coords
     }
 
-    setCellProps(id, props={}){
-        // Set the properties on a single cell
-        // The input, id, can either be the index or coords, and the method will adapt
+    getCell(id){
+        // Return a reference to a cell by a variable input that takes either ID (0 -> nRows*nCols-1) or coords ([0, 0] etc.)
         let ix;
 
         if (typeof(id) == "number"){
@@ -1467,8 +1483,18 @@ class GridWorld extends Primitive {
         }
 
         // Get cell ref
-        let cell = this.cells.filter(cell => cell.ix == ix)[0].obj
-        cell.updateAesthetics(props)
+        let cell = this.cells.filter(cell => cell.ix == ix)[0].obj;
+
+        return cell;
+    }
+
+    setCellProps(id, props={}){
+        // Set the properties on a single cell
+        // The input, id, can either be the index or coords, and the method will adapt
+
+        let cell = this.getCell(id);
+        cell.update(props);
+        return cell;
     }
 
     indexToCoords(ix){
@@ -1497,42 +1523,129 @@ class GridWorld extends Primitive {
         })
     }
 
+    onCellClick(id, callback){
+        // Set a click listener for a specific cell by index or coords
+        let cell = this.getCell(id);
+        cell.toggleClickable();
+        cell.onClick = (e) => { 
+            callback(e)
+        };
+        return cell;
+    }
+
+    // TODO the methods below:
+
+    overlay(id, newObj){
+        // Since we use CORNER mode for the grid rects, we can't have these updating it and shifting its position off
+        // newObj.update({"rectMode": "CORNER", "imageMode": "CORNER"})
+        // Overlay another primitive onto a grid cell - such as an image, text, a countdown, etc.
+        let cell = this.getCell(id);
+        let offset = newObj.pos;
+        newObj.pos = createVector(offset.x + cell.pos.x, offset.y + cell.pos.y);
+        // newObj.pos = createVector(offset.x + cell.pos.x+cell.dims.x/2, offset.y + cell.pos.y+cell.dims.y/2);
+        // There may be cases were multiple overlays are used, so either create a new if none exist or add to array if they do
+        if (cell.overlays == undefined){
+            cell.overlays = [newObj];
+        } else {
+            cell.overlays.push(newObj);
+        }
+    }
+
+    clearOverlays(){
+        // Remove all current overlays
+        this.cells.forEach(i => {i.obj.overlays = []});
+    }
+
+    clearSingleOverlay(id){
+        // Clear the overlay on a single cell
+        this.getCell(id).overlays = [];
+    }
+
+    toggleControls(mode, preMovementCallback = () => {}, postMovementCallback = () => {}){
+        // Be either keyboard or click-controllable
+        // Offer callbacks for what happens before movement, and what happens after movement
+        // mode is either 'arrows', 'wasd', 'click'
+        if (!["arrows", "wasd", "click"].includes(mode)){throw new Error(`Mode type ${mode} not recognised. Must be one of: arrows, wasd, click.`)};
+
+        // Define a function that calls the first preMovement callback, and if that returns true, call the post movement callback
+        // For example, the preMovementcallback might contain rules about wall placements, etc.
+        // and the post movement might update some value on a successful move
+        const callback = (e) => {
+            let c1 = preMovementCallback(e);
+            if (c1 == true){postMovementCallback()}
+        }
+
+        if (mode == "arrows"){
+            // Register keypress listeners for the arrow keys
+            const keys = ["ArrowLeft", "ArrowUp", "ArrowDown", "ArrowRight"];
+            // Register the event listeners
+            keys.forEach(k => {psychex.keyPressEvents.register(k, callback)})
+        } else if (mode == "wasd"){
+            // Register keypress listeners for w, a, s, and d
+            const keys = ["w", "a", "s", "d"];
+            // Register the event listeners
+            keys.forEach(k => {psychex.keyPressEvents.register(k, callback)})
+        } else if (mode == "click"){
+            // define onclick rule and then run this.toggleClickable()
+        }
+    }
+
+    checkBounds(pos, k){
+        // Utility function to check if a proposed movement would be within bounds
+        let keyMapping = {
+            'ArrowLeft' : [0, -1],
+            'ArrowRight' : [0, 1],
+            'ArrowUp' : [-1, 0],
+            'ArrowDown' : [1, 0],
+            'a' : [0, -1],
+            'd' : [0, 1],
+            'w' : [-1, 0],
+            's' : [1, 0]
+        }
+        
+        let newPos = [this.playerPos[0] + keyMapping[k][0], this.playerPos[1] + keyMapping[k][1]];
+        if (newPos[0] < 0 || newPos[0] > this.nCols-1 || newPos[1] < 0 || newPos[1] > this.nRows-1){
+            return {allowed: false, pos: pos};
+        } else {
+            return {allowed: true, pos: newPos}
+        };
+    }
+
     onClick(e){
-        e.updateAesthetics({backgroundColor: "pink"})
+        e.update({backgroundColor: "pink"})
     }
 
     draw(){
-        push();
+        this.cells.forEach(cell => {cell.obj.draw()})
         this.cells.forEach(cell => {
-            cell.obj.draw();
+            if (cell.obj.overlays != undefined){cell.obj.overlays.forEach(i => i.draw())}
         })
-        pop();
     }
 }
 
-psychex.setup = (callback = () => {return undefined}) => {
-    psychex.canvas = createCanvas(windowWidth, windowHeight);
-    pixelDensity(1);
-    frameRate(60);
-    canvas.parent("gameCanvas");
-    callback();
+// psychex.setup = (callback = () => {return undefined}) => {
+//     psychex.canvas = createCanvas(windowWidth, windowHeight);
+//     pixelDensity(1);
+//     frameRate(60);
+//     canvas.parent("gameCanvas");
+//     callback();
 
-    // Check if a fullscreen listener is attached - if so, don't register document click listener yet, the fs listener will do this after fs is triggered
-}
+//     // Check if a fullscreen listener is attached - if so, don't register document click listener yet, the fs listener will do this after fs is triggered
+// }
  
-psychex.draw = function(callback = () => {return undefined}){
-    callback();
-}
+// psychex.draw = function(callback = () => {return undefined}){
+//     callback();
+// }
 
-function setup(){
-    psychex.setup();
-}
+// function setup(){
+//     psychex.setup();
+// }
 
 
-function draw(){
-    clear();
-    psychex.draw();
-}
+// function draw(){
+//     clear();
+//     psychex.draw();
+// }
 
 /*
 Main TODO:

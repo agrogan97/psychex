@@ -46,12 +46,27 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/loading_static_content.html">Handling Static Content</a></li>
 <li class="toctree-l1"><a class="reference internal" href="primitives.html">Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="paradigms.html">Paradigm-Based Composite Classes</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Meta-Classes, Utilities, and Support Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fullscreen-mode">Fullscreen Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Fullscreen"><code class="docutils literal notranslate"><span class="pre">Fullscreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.beforeFullscreen"><code class="docutils literal notranslate"><span class="pre">Fullscreen.beforeFullscreen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.onFullscreenExit"><code class="docutils literal notranslate"><span class="pre">Fullscreen.onFullscreenExit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.detect"><code class="docutils literal notranslate"><span class="pre">Fullscreen.detect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.draw"><code class="docutils literal notranslate"><span class="pre">Fullscreen.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -81,6 +96,124 @@
   <section id="meta-classes-utilities-and-support-classes">
 <h1>Meta-Classes, Utilities, and Support Classes<a class="headerlink" href="#meta-classes-utilities-and-support-classes" title="Link to this heading"></a></h1>
 <p>Things like Game, Utils, any comms with server stuff</p>
+<section id="fullscreen-mode">
+<h2>Fullscreen Mode<a class="headerlink" href="#fullscreen-mode" title="Link to this heading"></a></h2>
+<p>In many games, you may wish to enforce that the user is in fullscreen mode to minimise the chance of cheating or distractions.</p>
+<p>Psychex offers a class that supports this and offers some helpful functionality.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Fullscreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fullscreen</span></span><a class="headerlink" href="#Fullscreen" title="Link to this definition"></a></dt>
+<dd><p>A wrapper providing various methods used to handle fullscreen behaviour.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.beforeFullscreen">
+<span class="sig-name descname"><span class="pre">beforeFullscreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.beforeFullscreen" title="Link to this definition"></a></dt>
+<dd><p>In order to turn the window into fullscreen mode, the user must agree by interacting (such as via a click).
+This method sets up the functionality to listen for a user click and launch fullscreen mode. It also takes
+a callback from the user to run additional functionality - such as instructions to render some text explaining
+that the user needs to click.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Render</span> <span class="n">some</span> <span class="n">text</span> <span class="n">explaining</span> <span class="n">that</span> <span class="n">the</span> <span class="n">user</span> <span class="n">can</span> <span class="n">click</span> <span class="n">to</span> <span class="n">launch</span> <span class="n">fullscreen</span>
+<span class="n">var</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Fullscreen</span><span class="p">();</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">beforeFullscreen</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">This</span> <span class="n">uses</span> <span class="n">the</span> <span class="n">pText</span> <span class="n">static</span> <span class="n">method</span><span class="p">,</span> <span class="n">so</span> <span class="n">no</span> <span class="n">need</span> <span class="n">to</span> <span class="n">instantiate</span> <span class="n">the</span> <span class="n">text</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">advance</span>
+    <span class="n">pText</span><span class="o">.</span><span class="n">draw_</span><span class="p">(</span><span class="s2">&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">42</span><span class="p">});</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>callback</strong> (<em>function</em>) – A user-defined callback that will be run before the player clicks to launch fullscreen. Will run every draw loop until fullscreen is launched. Default returns an empty function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.onFullscreenExit">
+<span class="sig-name descname"><span class="pre">onFullscreenExit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.onFullscreenExit" title="Link to this definition"></a></dt>
+<dd><p>Method that is run once every draw loop when the user exits fullscreen mode. This method is <strong>empty</strong> and can be overwritten by the user. May be used to redirect to a new window, call a save method, etc.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Using</span> <span class="n">a</span> <span class="n">previously</span> <span class="n">defined</span> <span class="n">fullscreen</span> <span class="n">instance</span> <span class="n">called</span> <span class="n">fs</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">onFullscreenExit</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">pText</span><span class="o">.</span><span class="n">draw_</span><span class="p">(</span><span class="s2">&quot;Fullscreen exit detected.&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">34</span><span class="p">})</span>
+    <span class="o">//</span> <span class="ow">or</span> <span class="n">perhaps</span> <span class="n">some</span> <span class="n">code</span> <span class="n">to</span> <span class="n">redirect</span> <span class="n">the</span> <span class="n">user</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.detect" title="Link to this definition"></a></dt>
+<dd><p>Logic that handles continuos fullscreen method detection. Once <cite>beforeFullscreen()</cite> detects fullscreen-launch, this method is run continuously until fullscreen mode is no longer detected. Updates the class attribute <cite>isFullScreen</cite>.
+Once isFullScreen = false, the class <cite>draw</cite> method is replaced with <cite>onFullscreenExit()</cite>, which may be defined by the user.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.draw" title="Link to this definition"></a></dt>
+<dd><p>A wrapper that runs one of 3 other methods: <cite>beforeFullscreen</cite> (before the user clicks to launch fullscreen), <cite>detect</cite> (loop that checks if the user is in fullscreen), and <cite>onFullscreenExit</cite> (that loops when fullscreen is exited).
+This method is called in the global <cite>draw</cite> loop, just like any other renderable. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+
+    <span class="n">fullscreenMode</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">other</span> <span class="n">drawables</span> <span class="o">...</span>
+    <span class="o">//</span> <span class="n">eg</span><span class="o">.</span> <span class="n">text</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="o">//</span> <span class="n">eg</span><span class="o">.</span> <span class="n">rect</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="o">//</span> <span class="o">...</span> <span class="n">etc</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>The following is an example of how fullscreen mode can be fully implemented into a game. The flow here needs to work as follows:</dt><dd><ol class="arabic simple">
+<li><p>Tell the user they need to click to enter fullscreen mode, and wait for the click.</p></li>
+<li><p>Launch fullscreen.</p></li>
+<li><p>Render the game content as normal, and listen for if the player leaves fullscreen.</p></li>
+<li><p>Tell the user the game has detected they’ve left fullscreen.</p></li>
+</ol>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// NB: `fullscreen` is protected by p5, and can&#39;t be used as a variable name
+var fs = new Fullscreen()
+
+function setup(){
+    // ... Setup preamble ... //
+    // ... some game objects etc. ///
+    // ... //
+
+    // NB: that beforeFullscreen takes a callback, so it can handle other background logic
+    fs.beforeFullscreen(() =&gt; {
+        pText.draw_(&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;, 50, 50, {textSize: 42});
+        return true;
+    })
+
+    // declare func to run when the user leaves fullscreeen
+    fs.onFullscreenExit = () =&gt; {
+        pText.draw_(&quot;Fullscreen exit detected.&quot;, 50, 50, {textSize: 34})
+        return true;
+    }
+
+}
+
+function draw(){
+    clear();
+
+    // We return true from our pre- and post- fullscreen methods, so we can use that to block any other renders
+    // While in fullscreen, draw just returns undefined
+
+    let block = fs.draw();
+    if (a) {return}
+
+    // ... draw other content as normal ... //
+}
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 

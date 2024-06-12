@@ -192,6 +192,41 @@ Primitives are the building bones of more complex composite classes, and represe
 
         Render the button to the screen.
 
+.. py:class:: Countdown(x, y, endtime, kwargs={})
+
+    A countdown timer that allows a callback to be set for when time elapses, with the option to attach a countdown bar or circular timer.
+
+    :param number x: The x-coordinates of the timer using current *positionMode*
+    :param number y: The y-coordinates of the timer using current *positionMode*
+    :param number endtime: The number of seconds after which the timer elapses.
+    :param object kwargs: An dict-object containing additional keyword args 
+
+    .. py:method:: setGraphic(graphic, params={})
+
+        Sets the countdown graphic to either a circular arc that spans from 360deg to 0, or a progress bar. Also allows the user to extend and add their own graphic using p5.js.
+        TODO: instructions on how to create custom graphic
+
+        :param string graphic: A string denoting the type of graphic to be added. Allows `"arc"` for arc, `"bar"` for progress bar, and `"custom"`, which creates an object called `this.graphic`, where the user can extend the draw method.
+        :param object params: Dict containing params for the graphic. Both arc and bar graphics require width (`w`) and height (`h`)
+
+    .. py:method:: reset()
+
+        Reset the timer. Also used to start the timer.
+
+    .. py:method:: onTimeUp()
+
+        Empty method that can be set to a callback for when the timer elapses. For example: ::
+
+            content.timer.onTimeUp = () => {
+                console.log("Time's up!")
+                // Reset the timer, creating a loop
+                content.timer.reset();
+            }
+
+    .. py:method:: pause()
+
+        Pause the timer.
+
 .. py:function:: send_message(sender, recipient, message_body, [priority=1])
 
    Send a message to a recipient

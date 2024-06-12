@@ -17,6 +17,9 @@ Psychex
    tutorial/aesthetics
    tutorial/interactions
    tutorial/n_arm_bandit
+   examples/ho_22_example
+   examples/faq.rst
+   tutorial/js_background_knowledge
 
 .. Indices and tables
 .. ==================

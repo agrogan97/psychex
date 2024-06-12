@@ -1,6 +1,6 @@
-# Skeleton Template
+# Sandbox
 
-A template containing the bare essentials for setting up a Psychex project.
+A testing area for trying different Psychex tools, populated with examples from the docs.
 
 This can be served by opening a terminal of your choice and navigating to the root dir, then running:
 

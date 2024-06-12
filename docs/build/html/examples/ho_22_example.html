@@ -420,6 +420,25 @@ This function will in due course control what the player sees each round. Update
 <li><p>Start a new round when the countdown elapses, or when they reach the endpoint.</p></li>
 </ul>
 </div></blockquote>
+<p>The first is simple. If the movement is allowed, but before position is updated, we’ll set the colour of the previous cell to be a light green. Inside <em>movementControl</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>if (res.allowed &amp;&amp; !isObstacle){
+    // ... New code ... //
+    // Update cell backgroundColor to be green
+    this.setCellProps(this.playerPos, {backgroundColor: &#39;#5f9c56&#39;}); // a green hex code
+
+    // -- Previous code -- //
+    this.playerPos = res.pos;
+    this.clearOverlays();
+    this.overlay(res.pos, new pCircle(0, 0, 1, {backgroundColor: &quot;yellow&quot;}));
+}
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The authors originally used a line path through, rather than colouring the squares. We could implement this adding an <cite>line</cite> overlay to
+each cell instead of setting the cell props - but changing colour works just fine.</p>
+</div>
+<p>Secondly, we’ll add a countdown timer overlay on the endpoint cell.</p>
 </section>
 </section>
 </section>

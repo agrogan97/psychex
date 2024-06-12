@@ -56,7 +56,7 @@ Here's an example of how to set the global defaults for a pText object: ::
 .. note::
     If you update the default aesthetics, only the elements defined **after** the update will have the new settings applied. 
     If you wish to apply custom defaults to all elements, do this before defining any elements in `setup()`. To apply one set of defaults to a handful
-    of elements, and different default settings to other elements, define the first group, then edit the settings, then define the next group. For instance ::
+    of elements, and different default settings to other elements, define the first group, then edit the settings, then define the next group. For instance: ::
 
         // .. setup preamble .. //
         content.text1a = new pText("Block 1", 50, 30);
@@ -96,7 +96,7 @@ Perhaps you want to update styles in a dynamic way, such as on user-click. No pr
 Each `primitive` object has an `update()` method that allows you to update kwargs and aesthetics at any time. For example: ::
 
     // Imagine a rectangle shape that's initialised with a red background
-    content.someRect = new pRectangle(50, 50, 10, 10, {backgroundColor: "red");
+    content.someRect = new pRectangle(50, 50, 10, 10, {backgroundColor: "red"});
 
     // This can be updated by calling its update method:
 
@@ -122,7 +122,7 @@ Firstly, we'll create a rectangle object inside setup: ::
         // ... setup preamble ... //
 
         // Create a pRectangle inside content
-        content.myRect = new pRectangle(50, 50, 10, 10, {backgroundColor: "green", stroke: "green"});
+        content.myRect = new pRectangle(50, 50, 10, 10, {backgroundColor: "green", borderColor: "green"});
 
     }
 
@@ -143,7 +143,7 @@ check out the tutorial on :doc:`interactions`. Let's register the shape as a cli
     content.myRect.toggleClickable();
     // Define the function to be run when the object is clicked
     content.myRect.onClick = () => {
-        content.myRect.update({backgroundColor: "yellow", stroke: "yellow"});
+        content.myRect.update({backgroundColor: "yellow", borderColor: "yellow"});
     }
 
 Simple as that! Now, when the user clicks the rectangle, it's background and border colour will turn yellow.
@@ -151,10 +151,10 @@ Simple as that! Now, when the user clicks the rectangle, it's background and bor
 We can set this to automatically change back after some time by adding a timeout within the same function: ::
 
     content.myRect.onClick = () => {
-        content.myRect.update({backgroundColor: "yellow", stroke: "yellow"});
+        content.myRect.update({backgroundColor: "yellow", borderColor: "yellow"});
         setTimeout(() => {
             // Change colour back to green after 1 second (1000 milliseconds)
-            content.myRect.update({backgroundColor: "green", stroke: "green"});
+            content.myRect.update({backgroundColor: "green", borderColor: "green"});
         }, 1000)
     }
 
@@ -173,10 +173,10 @@ Let's start by defining all our shapes in `setup`: ::
         // ... setup preamble ... //
 
         // Define 3 lights, and a button to request a change in lights
-        content.redLight = new pRectangle(50, 10, 5, 10, {backgroundColor: "red", stroke: "red"});
-        content.amberLight = new pRectangle(50, 21, 5, 10, {backgroundColor: "white", stroke: "orange"});
-        content.greenLight = new pRectangle(50, 32, 5, 10, {backgroundColor: "white", stroke: "green"});
-        content.crossing = new pButton(50, 45, 3, 6, {backgroundColor: "white", stroke: "black"})
+        content.redLight = new pRectangle(50, 10, 5, 10, {backgroundColor: "red", borderColor: "red"});
+        content.amberLight = new pRectangle(50, 21, 5, 10, {backgroundColor: "white", borderColor: "orange"});
+        content.greenLight = new pRectangle(50, 32, 5, 10, {backgroundColor: "white", borderColor: "green"});
+        content.crossing = new pButton(50, 45, 3, 6, {backgroundColor: "white", borderColor: "black"})
             .addText("Go", {textSize: 24});
     }
 

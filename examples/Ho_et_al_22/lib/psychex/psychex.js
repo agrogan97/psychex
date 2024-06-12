@@ -86,7 +86,8 @@ psychex.keyPressEvents = {
         } else {
             existingEvents[0].callback = callback;
         }
-    }
+    },
+    clear: () => {psychex.keyPressEvents.events = []},
 }
 
 // TODO: Currently we need to manually attach a click event listener to the window - this should be done automatically by Psychex surely?

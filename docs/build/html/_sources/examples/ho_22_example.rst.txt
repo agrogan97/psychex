@@ -341,3 +341,23 @@ We have a couple more changes to make to match the original study, namely:
     - Add a path to show where the player's been
     - Add an endpoint that acts as a countdown timer
     - Start a new round when the countdown elapses, or when they reach the endpoint.
+
+The first is simple. If the movement is allowed, but before position is updated, we'll set the colour of the previous cell to be a light green. Inside *movementControl* ::
+
+    if (res.allowed && !isObstacle){
+        // ... New code ... //
+        // Update cell backgroundColor to be green 
+        this.setCellProps(this.playerPos, {backgroundColor: '#5f9c56'}); // a green hex code
+
+        // -- Previous code -- //
+        this.playerPos = res.pos;
+        this.clearOverlays();
+        this.overlay(res.pos, new pCircle(0, 0, 1, {backgroundColor: "yellow"}));
+    }
+
+.. Note:: 
+
+    The authors originally used a line path through, rather than colouring the squares. We could implement this adding an `line` overlay to
+    each cell instead of setting the cell props - but changing colour works just fine.
+
+Secondly, we'll add a countdown timer overlay on the endpoint cell.

@@ -25,16 +25,12 @@ function setup(){
     myGame = new Game();
     content.myText = new pText("Psychex", 50, 50, {fontSize: 32});
 
-    // content.grid = new GridWorld(50, 40, 50, 70, 16, 16, align="CENTER");
     content.grid = new CustomGrid();
-
-    content.st = new pText("Hi\nThere", 10, 10, {fontSize: 36})
 }
 
 function draw(){
     clear();
     content.grid.draw();
-    content.st.draw()
 }
 
 class CustomGrid extends GridWorld{
@@ -51,17 +47,19 @@ class CustomGrid extends GridWorld{
         this.generateRounds();
 
         this.timer = new Countdown(0, 0, 5).setGraphic("arc", {w: 2, h:4, borderColor: "green", borderWidth: 5, backgroundColor: "white"});
+        this.overlay([0, 10], this.timer);
+
+        // Create an array to store the player path
+        this.path = [];
 
         // Initialise the player token
         this.initialiseRound();
         // Register movement control
         this.movementControl();
 
-        // this.getCell(this.playerEnd).overlays[0].reset()
-        // Create a countdown timer we can reference
-
         // this.timer.reset();
         this.timer.onTimeUp = () => {
+            this.clearSingleOverlay(this.playerPos);
             this.initialiseRound();
             this.timer.pause();
         }
@@ -95,8 +93,11 @@ class CustomGrid extends GridWorld{
         this.playerEnd = [0, 10];
         this.playerPos = this.playerStart;
         this.overlay(this.playerStart, new pCircle(0, 0, 1, {backgroundColor: "yellow"}));
-        // Draw the timer on the endpoint cell
-        this.overlay(this.playerEnd, this.timer);
+        // Clear previous path
+        this.path.forEach(id => {this.setCellProps(id, {backgroundColor: 'white'})});
+
+        // Change the limit to be 5 seconds
+        this.timer.endtime = 5;
 
         // Set all as not obstacles
         this.cells.forEach(cell => {
@@ -113,7 +114,7 @@ class CustomGrid extends GridWorld{
             this.getCell(coord).isObstacle = true;
         })
 
-        this.timer.endtime = 5;
+        // Start timer
         this.timer.reset();
     }
 
@@ -129,6 +130,8 @@ class CustomGrid extends GridWorld{
                 this.setCellProps(this.playerPos, {backgroundColor: '#5f9c56'});
                 // Remove previous cell overlay:
                 this.clearSingleOverlay(this.playerPos);
+                // Add previous position to the path, so we can store the data and clear it more easily later on
+                this.path.push(this.playerPos);
                 // Update current position
                 this.playerPos = res.pos;
                 // Draw overlay in new position
@@ -139,7 +142,7 @@ class CustomGrid extends GridWorld{
         }
 
         const postMovementCallback = () => {
-            this.timer.endtime = 1;
+            this.timer.endtime = 5;
             this.timer.reset();
         }
 

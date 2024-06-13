@@ -189,17 +189,6 @@ function pKeyboardInput(){
     // Add rules for a keyboard input
 }
 
-// psychex.keyPressEvents.register = (k, callback) => {
-//     // Check if an event is written to this key already
-//     let existingEvents = psychex.keyPressEvents.events.filter(i => (i.k == k));
-//     if (existingEvents.length == 0){
-//         // Write new event
-//         psychex.keyPressEvents.events.push({k: k, callback: callback});
-//     } else {
-//         existingEvents[0].callback = callback;
-//     }
-// }
-
 function keyPressed(e){
     // p5.js keyPressed function
     // Iterate over contents of psychex.keyPressEvents and see if one matches the key pressed

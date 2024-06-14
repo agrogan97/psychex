@@ -33,7 +33,7 @@ psychex.aesthetics = {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
-        rectMode: "CENTER",
+        rectMode: "CORNER",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pRectangle")},
         show: () => {psychex.aesthetics._show("pRectangle")},
     },
@@ -50,6 +50,11 @@ psychex.aesthetics = {
         borderWidth: 2,
         edit : (aes) => {psychex.aesthetics._edit(aes, "pTriangle")},
         show: () => {psychex.aesthetics._show("pTriangle")},
+    },
+    pImage: {
+        imageMode: "CENTER",
+        edit : (aes) => {psychex.aesthetics._edit(aes, "pImage")},
+        show: () => {psychex.aesthetics._show("pImage")},
     },
     _edit : (aes, obj) => {
         if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {backgroundColor: 'blue'}`)}
@@ -193,48 +198,42 @@ function keyPressed(e){
     // p5.js keyPressed function
     // Iterate over contents of psychex.keyPressEvents and see if one matches the key pressed
     // Run callback if registered
-    // console.log(key)
     psychex.keyPressEvents.events.filter(i => (i.k == key)).forEach(i => {i.callback(e)});
 }
 
 class Psychex{
     // Check for local parameter `params`
     // if no local version check for global variable `params`
-    constructor(params = undefined){
+    constructor(params){
         // Set defaults and override with params
         this.constants = {
-            positionMode : "PIXELS", // PIXELS or PERCENTAGE
+            positionMode : "PERCENTAGE", // PIXELS or PERCENTAGE
             imageMode: CENTER,
             rectMode: CENTER,
             textAlign: CENTER,
             angleMode: DEGREES,
-            verbose: true
+            verbose: false
         }
+        // Define the allowed kwargs we expect to receive
+        this.allowedKwargs = ["positionMode", "imageMode", "rectMode", "textAlign", "angleMode", "verbose"];
+        // When an object is instantiated, we will pass in the default from psychex.aesthetics, plus any additionals from the constructor
+        // If a specific kwarg is provided, it will overwrite the default due to the nature of the spread operator
+        // Eg. {...{name: 'alex', age: 27}, ...{name: 'gregor', age: 30} } = {name: 'gregor', age: 30}
+        // The filtering of this will happen in this._handleKwargs, except positionMode, which we'll set now
+
         // Local copy of either class or global parameters
-        let paramsLocalInst = {}
+        let paramsLocalInst = {};
         // Check if passed params object to instantiation
         if (params != undefined){
-            paramsLocalInst = params
+            paramsLocalInst = params;
         // If not, check for global params
         } else if (window.params != undefined){
-            paramsLocalInst = window.params
+            paramsLocalInst = window.params;
         }
-        
-        if (paramsLocalInst.verbose != undefined) {this.constants.verbose = paramsLocalInst.verbose}
-
-        // Iterate through params and filter allowed, calling respective setters
-
-        Object.keys(paramsLocalInst).forEach(k => {
-            if (k == "positionMode") {this.setPositionMode(paramsLocalInst[k])}
-            else if (k == "imageMode") {this.setImageMode(paramsLocalInst[k])}
-            else if (k == "rectMode") {this.setRectMode(paramsLocalInst[k])}
-            else if (k == "angleMode") {this.setAngleMode(paramsLocalInst[k])}
-            else if (k == "textAlign") {this.setTextAlign(paramsLocalInst[k])}
-        })
-
-        if (this.constants.verbose) {console.log(this.constants)}
-
-        // After this, propagate params to children as this.constants
+        // Set position mode now
+        if (Object.keys(paramsLocalInst).includes("positionMode")){
+            this.setPositionMode(paramsLocalInst.positionMode);
+        }
     }
 
     updateConstants(){
@@ -245,6 +244,16 @@ class Psychex{
             else if (k == "angleMode") {this.setAngleMode(this.constants[k])}
             else if (k == "textAlign") {this.setTextAlign(this.constants[k])}
         })
+    }
+
+    applyKwargs(type, val){
+        // type is the name of the kwarg, eg. imageMode etc.
+        // val is the actual value to set it to, eg. CENTER etc.
+        if (type == "positionMode") {this.setPositionMode(val)}
+        else if (type == "imageMode") {this.setImageMode(val)}
+        else if (type == "rectMode") {this.setRectMode(val)}
+        else if (type == "angleMode") {this.setAngleMode(val)}
+        else if (type == "textAlign") {this.setTextAlign(val)}
     }
 
     getConstants(){
@@ -375,37 +384,10 @@ class Primitive extends Psychex{
         // TODO: Would likely benefit from some input sanitisation
         // Handle kwarg inputs and feed them into the relevant methods
         // If an obj is provided then use those inputs - otherwise use this.kwargs
-        let _kwargs;
-        if (kwargs == undefined || kwargs == {}){
-            if (this.kwargs == undefined){
-                return
-            } else {
-                _kwargs = this.kwargs
-            }
-        } else {
-            _kwargs = kwargs;
-        }
-        // Define the mapping between aesthetic kwargs and p5.js render instructions - and try to keep original p5 keys too
-        // TODO fill out this mapping
-        // this.aestheticsMapping = {
-        //     fill: (c) => {fill(c)},
-        //     backgroundColor: (c) => {fill(c)},
-        //     stroke: (c) => {stroke(c)},
-        //     borderColor: (c) => {stroke(c)},
-        //     strokeWeight: (c) => {strokeWeight(c)},
-        //     borderWidth: (c) => {strokeWeight(c)},
-        //     textSize: (c) => {textSize(c)},
-        //     fontSize: (c) => {textSize(c)},
-        //     textFont: (c) => {textFont(c)},
-        //     textStyle: (c => {textStyle(c)}),
-        //     fontFamily: (c) => {textFont(c)},
-        //     fontColor: (c) => {fill(c); stroke(c)},
-        //     textColor: (c) => {fill(c); stroke(c)},
-        //     color: (c) => (fill(c)), // NB: font color, not background color, same as CSS
-        //     scale: (c) => (scale(c)),
-        //     borderRadius: () => {throw new Error(`You've included the property borderRadius in your styling - unfortunately this isn't yet supported. You could use p5.js geometries to try and build your own shape, or create the shape you need in an illustration software (eg. Paint or equivalent) and load it as a pImage. If you have a creative solution, feel free to submit a PR!`)},
-        //     lineSpacing: (c) => {this.lineSpacing = c}, // NB: line spacing is change in font size, not %
-        // }
+        if (kwargs == undefined){return}
+        else if (kwargs.length == 0){return};
+
+        this.kwargs = [];
 
         this.aestheticsMapping = {
             // pText
@@ -424,13 +406,16 @@ class Primitive extends Psychex{
             scale : (c) => {scale(c)}
         }
 
-        Object.keys(_kwargs).forEach(kwarg => {
-            // Overwrite the methods in constants for this specific object
-            // NB: this.constants is initialised from the global params, but set per object and can be overriden
-
-            // Check if overwriting a value from this.constants (e.g. positionMode)
-            if (Object.keys(this.constants).includes(kwarg)){
-                this.constants[kwarg] = _kwargs[kwarg];
+        // _kwargs contains both aesthetics and kwargs
+        Object.keys(kwargs).forEach(kwarg => {
+            // Write a kwarg (e.g. rectMode)
+            if (this.allowedKwargs.includes(kwarg)){
+                this.kwargs.push({
+                    type: kwarg,
+                    val: kwargs[kwarg],
+                })
+                // Also store a copy in this dict
+                this.constants[kwarg] = kwargs[kwarg];
             // Check if kwargs contains a value from this.aestheticsMapping
             } else if (Object.keys(this.aestheticsMapping).includes(kwarg)){
                 // Store the function and the supplied values, so they're not rendered prematurely
@@ -443,14 +428,11 @@ class Primitive extends Psychex{
                 this.aesthetics.push(
                     {
                         _func: this.aestheticsMapping[kwarg],
-                        _val: _kwargs[kwarg]
+                        _val: kwargs[kwarg]
                     }
                 )
             }
         })
-
-        // Update settings with Psychex method
-        this.updateConstants();
     }
 
     updateAesthetics(aes){
@@ -527,36 +509,13 @@ class Primitive extends Psychex{
     }
 
     update(update={}){
+        /*
+            This is literally just a wrapper around updateAesthetics() to make calling it shorter and more logical for the developer
+        */
         if (update == {} || update == undefined){return}
         // A wrapper that processes kwargs and updates position and/or image
         if (typeof(update) != "object"){throw new Error(`Expected param 'update' to be an object. Instead got: ${typeof(update)}.`)}
-        // Also accept kwargs
-        this._handleKwargs(update);
-        Object.keys(update).forEach(arg => {
-            if (arg == "pos" || arg == "position"){
-                // handle percentage-based position updates
-                if (this.constants.positionMode == "PERCENTAGE"){
-                    this.pos = Primitive.toPixels(update[arg]);
-                } else {
-                    this.pos = update[arg];
-                }
-            } else if (arg == "x"){
-                if (this.constants.positionMode == "PERCENTAGE"){
-                    this.pos.x = Primitive.toPixels(update[arg]).x;
-                } else {
-                    this.pos.x = update[arg].x;
-                }
-            } else if (arg == "y"){
-                if (this.constants.positionMode == "PERCENTAGE"){
-                    this.pos.y = Primitive.toPixels(update[arg]).y;
-                } else {
-                    this.pos.y = update[arg].y;
-                }
-            }
-            // ... //
-            // -- can be extended by sub-classes for class-specific updates -- //
-            // ... //
-        })
+        this.updateAesthetics(update)
     }
 
     convertCoordinates(coords=undefined){
@@ -611,6 +570,13 @@ class Primitive extends Psychex{
         Object.keys(this.aesthetics).forEach(aes => {
             this.aesthetics[aes]._func(this.aesthetics[aes]._val);
         })
+        // And run each of the kwargs
+        if (Object.keys(this.kwargs).length != 0){
+            this.kwargs.forEach(kwarg => {
+                this.applyKwargs(kwarg.type, kwarg.val)
+            })
+        }
+        
         // this._pos = this.pos;
         this.convertCoordinates();
         return this._pos;
@@ -620,7 +586,7 @@ class Primitive extends Psychex{
 class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         // -- Set default aesthetics -- //
-        super(x, y, {...kwargs});
+        super(x, y, {});
         this.type="pText";
         this.text = text.toString();
         this.scaleBy = 1;
@@ -719,7 +685,8 @@ class pText extends Primitive {
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         // Create new local primitive object to call aesthetic functions and handle coords
         push();
-        const primitiveObject = new Primitive(x, y, {...psychex.aesthetics.pText, ...kwargs});
+        const primitiveObject = new Primitive(x, y);
+        primitiveObject._handleKwargs({...psychex.aesthetics.pText, ...kwargs})
         let p = primitiveObject.draw()
         translate(p.x, p.y);
         text(textContent, 0, 0);
@@ -765,6 +732,7 @@ class pRectangle extends Primitive{
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         push();
         const primitiveObject = new Primitive(x, y, kwargs);
+        primitiveObject._handleKwargs({...psychex.aesthetics.pRectangle, ...kwargs})
         let dims = primitiveObject.convertCoordinates(createVector(w, h))
         let p = primitiveObject.draw();
         translate(p.x, p.y);
@@ -912,6 +880,7 @@ class pImage extends Primitive{
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         push();
         const primitiveObject = new Primitive(x, y, kwargs);
+        primitiveObject._handleKwargs({...psychex.aesthetics.pImage, ...kwargs})
         primitiveObject.draw();
         translate(primitiveObject.pos.x, primitiveObject.pos.y);
         image(img, 0, 0);
@@ -995,7 +964,8 @@ class Countdown extends Primitive {
 
         if (graphic == "arc"){
             if (params.w == undefined || params.h == undefined){throw new Error("When setting an arc, please provide a width and height via the params. For example: setGraphic('arc', {w: 1, h: 1})")}
-            this.graphic = new Primitive(this.x, this.y, {...psychex.aesthetics.pCircle, ...params});
+            this.graphic = new Primitive(this.x, this.y);
+            this.graphic._handleKwargs({...psychex.aesthetics.pCircle, ...params})
             this.graphic.draw = () => {
                 push();
                 this.graphic.pos.x = this.pos.x;
@@ -1013,6 +983,7 @@ class Countdown extends Primitive {
                 Object.keys(this.graphic.aesthetics).forEach(aes => {
                     this.graphic.aesthetics[aes]._func(this.graphic.aesthetics[aes]._val);
                 })
+                angleMode(DEGREES);
                 arc(0, 0, dims.x, dims.y, 0, (1-this.prop)*360);
                 pop();
             }
@@ -1388,6 +1359,8 @@ class GridWorld extends Primitive {
         this.nCols = nCols;
         this.kwargs = kwargs;
         this.cells = [];
+        // Overlays are primitives placed on top of named cells
+        this.overlays = [];
 
         this.drawOutline();
     }
@@ -1431,7 +1404,7 @@ class GridWorld extends Primitive {
 
         _.range(this.nRows).forEach((row, r_ix) => {
             _.range(this.nCols).forEach((col, c_ix) => {
-                let newCell = {ix: c_ix + (this.nCols*r_ix), coords: [c_ix, r_ix]};
+                let newCell = {ix: c_ix + (this.nCols*r_ix), coords: [r_ix, c_ix]};
                 let anchor;
                 if (this.align == "CORNER"){
                     // Align from top-left corner
@@ -1442,7 +1415,7 @@ class GridWorld extends Primitive {
                 }
                 
                 // newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {positionMode:"PIXELS", rectMode: "CORNER", ...this.kwargs});
-                newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {...this.kwargs});
+                newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {rectMode: "CORNER"});
                 // Copy the coords and ix to the object itself - allows for more options with filtering and helps with click listeners
                 newCell.obj.ix = newCell.ix;
                 newCell.obj.coords = newCell.coords;
@@ -1523,35 +1496,180 @@ class GridWorld extends Primitive {
         return cell;
     }
 
-    // TODO the methods below:
+    // -- Updated Overlays -- //
 
-    overlay(id, newObj){
-        // Since we use CORNER mode for the grid rects, we can't have these updating it and shifting its position off
-        // newObj.update({"rectMode": "CORNER", "imageMode": "CORNER"})
-        // Overlay another primitive onto a grid cell - such as an image, text, a countdown, etc.
-        let cell = this.getCell(id);
-        let offset = newObj.pos;
-        newObj.pos = createVector(offset.x + cell.pos.x, offset.y + cell.pos.y);
-        // newObj.pos = createVector(offset.x + cell.pos.x+cell.dims.x/2, offset.y + cell.pos.y+cell.dims.y/2);
-        // There may be cases were multiple overlays are used, so either create a new if none exist or add to array if they do
-        if (cell.overlays == undefined){
-            cell.overlays = [newObj];
+    /*
+        Tests
+        - addOverlay
+        - update the overlay
+        - get a ref to the overlay
+        - clear all overlays
+        - clear the single overlay by name
+        - clear it by cell
+    */
+
+    addOverlay(name, cellId, overlayObj){
+        // Add an overlay to the overlay storage, accessible via this.overlays
+        // this.overlays is an array of object mappings, with keys: name, pos, obj
+        
+        // Get a ref to the target holding cell
+        let holdingCell = this.getCell(cellId);
+        // The pos applied to obj is the offset
+        let offset = overlayObj.pos;
+        // Store a copy of the offset for updating position later
+        overlayObj.overlayOffset = offset;
+        // Update to be the position of the holding cell, with the offset applied
+        overlayObj.pos = createVector(
+            offset.x + holdingCell.pos.x+holdingCell.dims.x/2, 
+            offset.y + holdingCell.pos.y+holdingCell.dims.y/2
+        );
+
+        let cellIx, cellCoords;
+
+        // Store both the index and the coords
+        if (typeof(cellId) == "number"){
+            cellIx = cellId;
+            cellCoords = this.indexToCoords(cellId)
         } else {
-            cell.overlays.push(newObj);
+            cellCoords = cellId;
+            cellIx = this.coordsToIndex(cellId);
+        }
+
+        let newOverlay = {
+            name: name, 
+            ix: cellIx,
+            coords: cellCoords,
+            cell: holdingCell, // reference to the holding cell
+            obj: overlayObj
+        }
+
+        // Add to overlays
+        this.overlays.push(newOverlay);
+    }
+
+    updateOverlay(id, updateParams={}){
+        // get the specific overlay based on input id
+        let overlay = this.getOverlay(id);
+        if (overlay == undefined){
+            throw new Error(`Attempting to update overlay, but could not find one with id: ${id}`)
+        } else if (overlay.length > 1){
+            throw new Error(`Found multiple overlays with the provided id (${id}). Either update these separately, or pass in a unique name identifier to update the target.`)
+        }
+        
+        // If they pass in new positional information, we need to update ix, coords, and a cell ref, and then update obj.pos
+        /*
+            The following section does the following:
+
+                - Checks if an index ("ix") or cell coords ("coords") have been passed in
+                - If they have, checks if they've provided both
+                    - If they've provided both, checks they match, and if they don't, throws an error
+                - If we have at least an ix or coords, it gets a reference to the cell that matches the new id
+                - Then it updates the position based on the original offset
+
+                - If a cell ref is provided, we save that new cell as overlay.cell, and then update ix and coords to match
+
+                - Or, if a name is provided, update the name
+
+                - All of these can be done in tandem through updateParams
+
+        */
+        if (Object.keys(updateParams).includes("ix") || Object.keys(updateParams).includes("coords")){
+            // Update both of these values
+            if (Object.keys(updateParams).includes("ix") && Object.keys(updateParams).includes("coords")){
+                if (updateParams.ix != this.coordsToIndex(updateParams.coords)){
+                    throw new Error(`You've passed in both coordinates and an index, but they don't match the same cell. Please correct this or just pass in one of either index or coords, and the other will be updated automatically.`)
+                }
+            }
+
+            if (Object.keys(updateParams).includes("ix")){
+                // if an index was passed in
+                // Update overlay
+                overlay.ix = updateParams.ix;
+                // Update coords as well
+                overlay.coords = this.indexToCoords(overlay.ix);
+            } else if (Object.keys(updateParams).includes("coords")){
+                // if coords were passed id
+                // Update coords
+                overlay.coords = updateParams.coords;
+                // And index
+                overlay.ix = this.coordsToIndex(overlay.coords);
+            }
+
+            // Update the cell ref
+            overlay.cell = this.getCell(overlay.ix);
+            // Update the object position
+            let objOffset = overlay.obj.overlayOffset;
+            overlay.obj.pos = createVector(
+                objOffset.x + overlay.cell.pos.x+overlay.cell.dims.x/2, 
+                objOffset.y + overlay.cell.pos.y+overlay.cell.dims.y/2
+            );
+
+        }
+
+        if (Object.keys(updateParams).includes("cell")){
+            // They passed in a cell reference, so just apply that directly, but first store the offset
+            let objOffset = overlay.overlayOffset;
+            // Update cell ref
+            overlay.cell = updateParams.cell;
+            overlay.ix = updateParams.cell.ix;
+            overlay.coords = updateParams.cell.coords;
+            overlay.obj.pos = createVector(
+                objOffset.x + overlay.cell.pos.x+overlay.cell.dims.x/2, 
+                objOffset.y + overlay.cell.pos.y+overlay.cell.dims.y/2
+            );
+        }
+
+        if (Object.keys(updateParams).includes("name")){
+            // And if a name is passed in, just update that directly
+            overlay.name = updateParams.name;
+        }
+        
+    }
+
+    getOverlay(id){
+        // Get an overlay object from either name, index, or coords
+        if (typeof(id) == "string"){
+            // filter by name
+            let overlay = this.overlays.filter(ov => (ov.name == id));
+            if (overlay.length == 0){return undefined}
+            else {return overlay[0]};
+        } else if (typeof(id) == "object"){
+            // filter by coords
+            let overlay = this.overlays.filter(ov => (_.isEqual(ov.coords, id)));
+            if (overlay.length == 0){return undefined}
+            else if (overlay.length > 1){return overlay}
+            else {return overlay[0]};
+        } else if (typeof(id) == "number"){
+            // filter by index
+            let overlay = this.overlays.filter(ov => (ov.ix == id));
+            if (overlay.length == 0){return undefined}
+            else if (overlay.length > 1){return overlay}
+            else {return overlay[0]};
+        } else {
+            throw new Error(`Could not recognise index type of input. Received ${id}. id must be a grid index, grid coords, or a name.`)
         }
     }
 
-    clearOverlays(){
-        // Remove all current overlays
-        this.cells.forEach(i => {i.obj.overlays = []});
+    clearAllOverlays(){
+        // Clear all overlays, resetting the grid
+        this.overlays = [];
     }
 
-    clearSingleOverlay(id){
-        // Clear the overlay on a single cell
-        this.getCell(id).overlays = [];
+    removeOverlay(cellId){
+        // Remove overlays by cell index, coords, or name
+        if (typeof(cellId) == "number"){
+            this.overlays = this.overlays.filter(ov => (ov.ix != cellId))
+        } else if (typeof(cellId) == "object") {
+            this.overlays = this.overlays.filter(ov => (!_.isEqual(cellId, ov.coords)))
+        } else if (typeof(cellId) == "string"){
+            this.overlays = this.overlays.filter(ov => (ov.name != cellId));
+        }
+        return this;
     }
 
-    toggleControls(mode, preMovementCallback = () => {}, postMovementCallback = () => {}){
+    // ---------------------- //
+
+    handleMovement(mode, preMovementCallback = () => {}, postMovementCallback = () => {}){
         // Be either keyboard or click-controllable
         // Offer callbacks for what happens before movement, and what happens after movement
         // mode is either 'arrows', 'wasd', 'click'
@@ -1593,7 +1711,7 @@ class GridWorld extends Primitive {
             's' : [1, 0]
         }
         
-        let newPos = [this.playerPos[0] + keyMapping[k][0], this.playerPos[1] + keyMapping[k][1]];
+        let newPos = [pos[0] + keyMapping[k][0], pos[1] + keyMapping[k][1]];
         if (newPos[0] < 0 || newPos[0] > this.nCols-1 || newPos[1] < 0 || newPos[1] > this.nRows-1){
             return {allowed: false, pos: pos};
         } else {
@@ -1606,44 +1724,20 @@ class GridWorld extends Primitive {
     }
 
     draw(){
-        this.cells.forEach(cell => {cell.obj.draw()})
+        // Draw each of the cells
         this.cells.forEach(cell => {
-            if (cell.obj.overlays != undefined){cell.obj.overlays.forEach(i => i.draw())}
+            cell.obj.draw()
         })
+
+        // Draw each of the overlays
+        this.overlays.forEach(overlay => {
+            overlay.obj.draw();
+        })
+
     }
 }
 
-// psychex.setup = (callback = () => {return undefined}) => {
-//     psychex.canvas = createCanvas(windowWidth, windowHeight);
-//     pixelDensity(1);
-//     frameRate(60);
-//     canvas.parent("gameCanvas");
-//     callback();
-
-//     // Check if a fullscreen listener is attached - if so, don't register document click listener yet, the fs listener will do this after fs is triggered
-// }
- 
-// psychex.draw = function(callback = () => {return undefined}){
-//     callback();
-// }
-
-// function setup(){
-//     psychex.setup();
-// }
-
-
-// function draw(){
-//     clear();
-//     psychex.draw();
-// }
-
 /*
-Main TODO:
-    - Add image overlay on rect
-    - Add to the aesthetics list
-    - Handle keyboard input and assign functionality
-    - Add JATOS saving to Game class
-
 Classes to add:
     - Slideshow
     - Stages (integrated within game class now) 

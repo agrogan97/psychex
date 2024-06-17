@@ -46,7 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorial/main_ideas.html">Key Concepts in Psychex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/loading_static_content.html">Handling Static Content</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_docs/primitives.html">Primitives</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code_docs/paradigms.html">Paradigm-Based Composite Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_docs/paradigms.html">Composite Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code_docs/Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/aesthetics.html">Styles and Aesthetics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/interactions.html">Handling User Interactions</a></li>
@@ -88,10 +88,15 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
 </div>
@@ -102,6 +107,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.addOverlay">addOverlay() (Gridworld method)</a>
+</li>
       <li><a href="code_docs/primitives.html#pButton.addText">addText() (pButton method)</a>
 </li>
   </ul></td>
@@ -127,10 +134,16 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="code_docs/primitives.html#pButton.clickAnimation">clickAnimation() (pButton method)</a>
+      <li><a href="code_docs/paradigms.html#Gridworld.checkBounds">checkBounds() (Gridworld method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld.clearAllOverlays">clearAllOverlays() (Gridworld method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/primitives.html#pButton.clickAnimation">clickAnimation() (pButton method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld.coordsToIndex">coordsToIndex() (Gridworld method)</a>
+</li>
       <li><a href="code_docs/primitives.html#Countdown">Countdown (built-in class)</a>
 </li>
   </ul></td>
@@ -144,6 +157,8 @@
       <li><a href="code_docs/Utilities.html#Fullscreen.draw">draw() (Fullscreen method)</a>
 
       <ul>
+        <li><a href="code_docs/paradigms.html#Gridworld.draw">(Gridworld method)</a>
+</li>
         <li><a href="code_docs/primitives.html#pButton.draw">(pButton method)</a>
 </li>
         <li><a href="code_docs/primitives.html#pCircle.draw">(pCircle method)</a>
@@ -167,6 +182,8 @@
         <li><a href="code_docs/primitives.html#pRectangle.draw_">(pRectangle method)</a>
 </li>
       </ul></li>
+      <li><a href="code_docs/paradigms.html#Gridworld.drawOutline">drawOutline() (Gridworld method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -178,13 +195,49 @@
   </ul></td>
 </tr></table>
 
-<h2 id="O">O</h2>
+<h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="code_docs/Utilities.html#Fullscreen.onFullscreenExit">onFullscreenExit() (Fullscreen method)</a>
+      <li><a href="code_docs/paradigms.html#Gridworld.getCell">getCell() (Gridworld method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld.getHeight">getHeight() (Gridworld method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.getOverlay">getOverlay() (Gridworld method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld.getWidth">getWidth() (Gridworld method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld">Gridworld (built-in class)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.handleMovement">handleMovement() (Gridworld method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.indexToCoords">indexToCoords() (Gridworld method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.onCellClick">onCellClick() (Gridworld method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/Utilities.html#Fullscreen.onFullscreenExit">onFullscreenExit() (Fullscreen method)</a>
+</li>
       <li><a href="code_docs/primitives.html#Countdown.onTimeUp">onTimeUp() (Countdown method)</a>
 </li>
   </ul></td>
@@ -222,6 +275,10 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.removeOverlay">removeOverlay() (Gridworld method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code_docs/primitives.html#Countdown.reset">reset() (Countdown method)</a>
 </li>
   </ul></td>
@@ -237,9 +294,31 @@
         <li><a href="code_docs/primitives.html#send_message">built-in function</a>
 </li>
       </ul></li>
+      <li><a href="code_docs/paradigms.html#Gridworld.setCellProps">setCellProps() (Gridworld method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code_docs/primitives.html#Countdown.setGraphic">setGraphic() (Countdown method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld.setHeight">setHeight() (Gridworld method)</a>
+</li>
+      <li><a href="code_docs/paradigms.html#Gridworld.setWidth">setWidth() (Gridworld method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.toggleClickable">toggleClickable() (Gridworld method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code_docs/paradigms.html#Gridworld.updateOverlay">updateOverlay() (Gridworld method)</a>
 </li>
   </ul></td>
 </tr></table>

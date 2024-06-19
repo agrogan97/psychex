@@ -1128,6 +1128,13 @@ class Game {
         Object.keys(params).includes("playerId") ? (this.playerId = params["playerId"]) : this.registerUUID();
     }
 
+    /**
+     * Asynchronous function that saves data to a *HTTP* server via *POST* and returns a Promise.
+     * 
+     * @param {Object} data: The data object to be saved to the server. This data will be prepared for sending within this function call using ``JSON.stringify``.
+     * @param {string} url=`api/save/`: The endpoint URL that the data will be saved to, such as the address on an external server.
+     * @returns {Promise} The promise of a response from the target endpoint.
+     */
     async saveDataToServer(data, url=`api/save/`){
         const URL = url;
         const response = await fetch(URL, {
@@ -1142,7 +1149,13 @@ class Game {
         return response;
     }
 
-    async loadDataFromServer(data, url=`api/load/`){
+    /**
+     * Description
+     * @param {any} data
+     * @param {any} url=`api/load/`
+     * @returns {any}
+     */
+    async loadDataFromServer(url=`api/load/`, data={}){
         const URL = url;
         const response = await fetch(URL, {
             method: 'GET',
@@ -1318,6 +1331,15 @@ class Fullscreen{
 
 class Utils{
 
+    /**
+     * Static method that reads the contents of a URL and return any parameters included in the string. If no URl is provided to the 
+        input parameter *url*, the URL of the current window will be used. This can also be used to search for specific 
+        params by including them in the array *searchParams*.
+     *
+     * @param {Array[string]} searchParams=[]: An array of parameters to search for. Including this will return only the specified parameters.
+     * @param {string} url=window.location: The URL to use for the search. If one isn't provided, the current window URL is used.
+     * @returns {Object} A dict-object mapping URL-Param key to value
+     */
     static getUrlParams(searchParams=[], url=undefined){
         /*
             Search the URL for params
@@ -1339,12 +1361,26 @@ class Utils{
     }
 }
 
+/**
+ * The gridworld class offers a collection of utilities for creating a 2-dimensional grid that can be 
+ * populated by images, shapes, text, or any other Psychex object. It contains methods for accessing individual 
+ * cells by index or coords, and allows the experimenter to easily build in user-control by keyboard or mouse-click. 
+ * @returns {any}
+ */
 class GridWorld extends Primitive {
-    // Gridworld class
-    // Note, this class requires positionMode to be set in class params, not as a global param like primitives
-    // Click Listener: In a composite object, clicks are defined for the individual primitives.
-    // Thus, creating onClick() will still work, but the toggleClickable() method used is an overridden version that assigns
-    // all composite primitves as individual clickables using the composite onClick() method.
+    /**
+     * Constructor
+     * 
+     * @param {number} x: The x-coordinate of the anchor point, specified by the value of *align*
+     * @param {number} y: The y-coordinate of the anchor point, specified by the value of *align*
+     * @param {number} w: The width of the grid
+     * @param {number} h: The height of the grid
+     * @param {number} nRows: The number of rows in the grid as an integer
+     * @param {number} nCols: The number of columns of the grid as an integer
+     * @param {string} align="CORNER": Specifies where the anchor point of the grid is. If "CORNER", the *(x, y)* specified will be in the top-left corner of the grid. If "CENTER", the *(x, y)* will be the center. Default is "CORNER".
+     * @param {object} kwargs={}: A dict-object containing additional keyword args
+     * @returns {any}
+     */
     constructor(x, y, w, h, nRows, nCols, align="CORNER", kwargs={}){
         super(x, y, kwargs);
         this.initDims = createVector(w, h);
@@ -1364,26 +1400,53 @@ class GridWorld extends Primitive {
         this.drawOutline();
     }
 
+    /**
+     * Returns the width value originally supplied to the constructor.
+     * 
+     * @returns {number} Original width value
+     */
     getWidth(){
         return this.dims.x;
     }
 
+    /**
+     * Returns the height value originally supplied to the constructor.
+     * 
+     * @returns {number} Original height value
+     */
     getHeight(){
         return this.dims.y;
     }
 
+    /**
+     * Update the width of the grid. If called, must be followed by calling *drawOutline* to update.
+     * 
+     * @param {number} w: The new width of the grid
+     * @returns {any}
+     */
     setWidth(w){
         this.dims.x = w;
     }
 
+    /**
+     * Update the height of the grid. If called, must be followed by calling *drawOutline* to update.
+     * 
+     * @param {number} h: The new height of the grid
+     * @returns {any}
+     */
     setHeight(h){
         this.dims.y = h;
     }
 
+    /**
+     * Takes the provided x, y, w, h, nRows, nCols, and constructs a grid of pRectangle objects. Each of these objects is stored in 
+     * an array called ``cells``. Each *cell* is an object containing an index, *ix*, the coords *coords*, and a reference to the pRectangle object, *obj*. 
+     * The array can be indexed directly, or a reference directly to the pRectangle can be obtained from *getCell*. 
+     * Each of these can be acted upon like normal pRectangles, and methods such as *update* or *onClick* can be applied.
+     * 
+     * @returns {this}
+     */
     drawOutline(){
-        // Draw the outline shape of the grid, considering the positionMode set
-        // The grid is not actually individual lines, but a series of pRectangle objects attached to each other
-        // This makes them individually clickable
         this.cells = [];
         const xOffset = this.dims.x/this.nCols;
         const yOffset = this.dims.y/this.nRows;
@@ -1400,7 +1463,6 @@ class GridWorld extends Primitive {
                     anchor = createVector(this.pos.x - (this.dims.x/2), this.pos.y - (this.dims.y/2));
                 }
                 
-                // newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {positionMode:"PIXELS", rectMode: "CORNER", ...this.kwargs});
                 newCell.obj = new pRectangle(anchor.x + (c_ix*xOffset), anchor.y + (r_ix*yOffset), xOffset, yOffset, {rectMode: "CORNER"});
                 // Copy the coords and ix to the object itself - allows for more options with filtering and helps with click listeners
                 newCell.obj.ix = newCell.ix;
@@ -1413,9 +1475,17 @@ class GridWorld extends Primitive {
     }
 
     setSchema(schema){
-        // TODO (but not rn): add an object that defines a play schema, overlaying images and click rules at certain indices/coords
+        // TODO [optional]: add an object that defines a play schema, overlaying images and click rules at certain indices/coords
     }
 
+    /**
+     * Returns a reference to a cell's pRectangle object. This object contains all normal pRectangle attributes, as well as copies of 
+     * the *ix* and *coords* gridworld properties. The cell can be referenced by either grid index (*ix*) (*0 -> (nRows*nCols - 1)*), or by 
+     * coords (*[0, 0] -> [nRows-1, nCols-1]*). Indexing **always** begins at 0.
+     * 
+     * @param {number/Array} id: A unique identifier for the cell, either the grid index, or grid coords. Indexing begins at 0.
+     * @returns {Object} Cell reference
+     */
     getCell(id){
         // Return a reference to a cell by a variable input that takes either ID (0 -> nRows*nCols-1) or coords ([0, 0] etc.)
         let ix;
@@ -1437,6 +1507,13 @@ class GridWorld extends Primitive {
         return cell;
     }
 
+    /**
+     * Update the aesthetic properties of a cell (eg. backgroundColor, borderWidth, etc.)
+     * 
+     * @param {number/Array} id: A unique identifier for the cell, either the grid index or grid coords. Indexing begins at 0.
+     * @param {any} props={}: A dict-object containing the usual allowed aesthetics properties for a *pRectangle*
+     * @returns {Object} Ref to the edited cell
+     */
     setCellProps(id, props={}){
         // Set the properties on a single cell
         // The input, id, can either be the index or coords, and the method will adapt
@@ -1446,11 +1523,22 @@ class GridWorld extends Primitive {
         return cell;
     }
 
+    /**
+     * Convert grid index to the equivalent coordinates using the values of *nRows* and *nCols* provided to the constructor.
+     * 
+     * @param {any} ix: A grid index (*0 -> (nRows*nCols -1)*) to be converted to coords.
+     * @returns {Array} The equivalent coordinates
+     */
     indexToCoords(ix){
-        // Convert index to grid coordinates
         return [(ix % this.nRows), Math.floor(ix/this.nRows)]
     }
 
+    /**
+     * Convert grid coordinates to the equivalent grid index using the values of *nRows* and *nCols* provoded to the constructor
+     * 
+     * @param {Array/p5.Vector} coords: An array of coordinates (*[0, 0] -> [nRows-1, nCols-1]*) to be converted to the equivalent index.
+     * @returns {number} The equivalent grid cell index
+     */
     coordsToIndex(coords){
         // Convert coords to grid index
         if (coords.isPInst){
@@ -1462,6 +1550,12 @@ class GridWorld extends Primitive {
         return ((coords[0])*this.nRows + coords[1]);
     }
 
+    /**
+     * NB: Not directly equivalent to calling ``toggleClickable()`` on a primitive - this runs ``toggleClickable()`` on every cell 
+     * in the grid iteratively, adding them all to *clickables*. Useful as a precursor for applying a single *onClick* to every cell.
+     * 
+     * @returns {any}
+     */
     toggleClickable(){
         // Extend parent class to make each composite item clickable
         this.cells.forEach(cell => {
@@ -1472,6 +1566,15 @@ class GridWorld extends Primitive {
         })
     }
 
+    /**
+     * Wrapper for attaching a click listener to a single cell by providing its grid index or grid coords.
+     * 
+     * Note: this method runs toggleClickable() automatically, so you don't need to run it beforehand! If you do, the two calls will cancel eachother out.
+     * 
+     * @param {Array/number} id: A unique identifier for the cell, either the grid index or grid coords.
+     * @param {function} callback: A callback that will run when the particular cell is clicked.
+     * @returns {Object} A reference to the clicked-on cell.
+     */
     onCellClick(id, callback){
         // Set a click listener for a specific cell by index or coords
         let cell = this.getCell(id);
@@ -1482,18 +1585,16 @@ class GridWorld extends Primitive {
         return cell;
     }
 
-    // -- Updated Overlays -- //
-
-    /*
-        Tests
-        - addOverlay
-        - update the overlay
-        - get a ref to the overlay
-        - clear all overlays
-        - clear the single overlay by name
-        - clear it by cell
-    */
-
+    /**
+     * There are 2 layers in the gridworld visuals: the base *pRectangle* layer, and the *overlay* layer. 
+     * Overlays are objects placed on top of the base grid, and are typically the stimuli presented to the participant. 
+     * These can be any kind of psychex object - or, a custom object created from scratch if you wish to create a new object using *p5.js* draw calls.
+     * 
+     * @param {string} name: A unique name for the overlay. This can be useful for referencing it later, for instance if using an image that represents a player token, and naming it "player".
+     * @param {Array/number} cellId: The id of the cell onto which the object is overlaid. Objects are placed within cells so that they're automatically aligned.
+     * @param {Object} overlayObj: A reference to the object being overlayed. This can be a pre-defined object, or a new object can be created in the function call. This would typically be another psychex object, such as *pImage* or *pCircle* for example.
+     * @returns {any}
+     */
     addOverlay(name, cellId, overlayObj){
         // Add an overlay to the overlay storage, accessible via this.overlays
         // this.overlays is an array of object mappings, with keys: name, pos, obj
@@ -1533,6 +1634,13 @@ class GridWorld extends Primitive {
         this.overlays.push(newOverlay);
     }
 
+    /**
+     * Update the aesthetics for the specified overlay. Similar to calling ``update`` on the object, but offers a wrapper that handles index/coords as input.
+     * 
+     * @param {Array/number/string} id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
+     * @param {Object} updateParams={}: A dict-object of aesthetics to apply to the overlay. Must map the typical values for that object type.
+     * @returns {Object} A reference to the edited overlay
+     */
     updateOverlay(id, updateParams={}){
         // get the specific overlay based on input id
         let overlay = this.getOverlay(id);
@@ -1614,8 +1722,13 @@ class GridWorld extends Primitive {
         
     }
 
+    /**
+     * Get a reference to a specific overlay from its id, either the name provided on instantiation, or the index/coords of the cell containing the overlay.
+     * 
+     * @param {|| array || number || string} id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
+     * @returns {Object} A reference to the edited overlay
+     */
     getOverlay(id){
-        // Get an overlay object from either name, index, or coords
         if (typeof(id) == "string"){
             // filter by name
             let overlay = this.overlays.filter(ov => (ov.name == id));
@@ -1638,11 +1751,20 @@ class GridWorld extends Primitive {
         }
     }
 
+    /**
+     * Remove all existing overlays from the grid, and delete all references to them.
+     * 
+     * @returns {any}
+     */
     clearAllOverlays(){
-        // Clear all overlays, resetting the grid
         this.overlays = [];
     }
 
+    /**
+     * Remove a single overlay, or all overlays from a single cell, depending on input provided.
+     * @param {Array/number/string} id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
+     * @returns {any}
+     */
     removeOverlay(id){
         // Remove overlays by cell index, coords, or name
         if (typeof(id) == "number"){
@@ -1656,6 +1778,17 @@ class GridWorld extends Primitive {
 
     // ---------------------- //
 
+    /**
+     * Handle user-interactions with the gridworld. Wraps functionality for player movement with keyboard arrow-keys, or with the 'w-a-s-d' keys. Also includes options for mouse-click
+        interactions. This method takes in 2 callbacks: the first may be applied *pre-movement*, such as for handling logic as to whether or not this movement is allowed (e.g. if building a maze,
+        there may be obstacles/wall boundaries to consider, etc.). The second is a *postMovement* callback, applied if and only if the *preMovementCallback* runs successfully and returns *true*.
+        This might handle logic for after the player has moved, or after any other user interaction. Both callbacks contain default empty functions, meaning if a pre-movement function isn't needed, 
+        the user may simply pass a single callback in which will be used upon specification.
+
+     * @param {string} mode: The interaction-mode to be applied. One of either "arrows" (for arrow-keys), "wasd" (for w-a-s-d keys), or "click" (for mouse-clicks.)
+     * @param {function} preMovementCallback: The first callback run on player interaction. Must return *true* for the second callback to proceed. Default ``() => {}``.
+     * @returns {any}
+     */
     handleMovement(mode, preMovementCallback = () => {}, postMovementCallback = () => {}){
         // Be either keyboard or click-controllable
         // Offer callbacks for what happens before movement, and what happens after movement
@@ -1682,9 +1815,21 @@ class GridWorld extends Primitive {
             keys.forEach(k => {psychex.keyPressEvents.register(k, callback)})
         } else if (mode == "click"){
             // define onclick rule and then run this.toggleClickable()
+            // NB: I haven't tested this yet
+            this.cells.forEach(cell => {
+                cell.obj.toggleClickable();
+                cell.obj.onClick = callback;
+            })
         }
     }
 
+    /**
+     * Utility for automatically checking gridworld outer boundaries when building a world that the player moves through. Contains key-mappings of the arrow and w-a-s-d keys
+        and returns a boolean for if the proposed movement is within or out of bounds.
+     * @param {Array} pos: The current position (eg. at time *t*), to be compared with the proposed new position, after movement (eg. at time *t+1*). Must be grid coords - indices can be converted using ``indexToCoords()``.
+     * @param {string} k: The key-code of the pressed key. Accepts "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "w", "a", "s", "d". Each of these is mapped to the vector-equivalent of the movement.
+     * @returns {Object} A dict containing 2 values: *allowed* a boolean for an allowed movement (true) or not, and *pos* the coordinates of the new position after the movement, regardless of it allowed or not.
+     */
     checkBounds(pos, k){
         // Utility function to check if a proposed movement would be within bounds
         let keyMapping = {
@@ -1706,10 +1851,18 @@ class GridWorld extends Primitive {
         };
     }
 
-    onClick(e){
-        e.update({backgroundColor: "pink"})
-    }
+    /**
+     * On-click callback for the grid as a whole. See *onCellClick* for individual cell click listeners.
+     * @param {Object} e: Clicked object reference
+     * @returns {any}
+     */
+    onClick(e){}
 
+    /**
+     * The draw call that renders all the *pRectangles* in the grid and all overlays.
+     * 
+     * @returns {any}
+     */
     draw(){
         // Draw each of the cells
         this.cells.forEach(cell => {

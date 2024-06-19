@@ -28,7 +28,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
     :param number nRows: The number of rows in the grid as an integer
     :param number nCols: The number of columns of the grid as an integer
     :param string align: Specifies where the anchor point of the grid is. If "CORNER", the *(x, y)* specified will be in the top-left corner of the grid. If "CENTER", the *(x, y)* will be the center. Default is "CORNER".
-    :param object kwargs={}: An dict-object containing additional keyword args
+    :param object kwargs={}: A dict-object containing additional keyword args
 
     .. py:method:: getWidth()
 
@@ -94,8 +94,10 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
     .. py:method:: coordsToIndex(coords)
 
+        Convert grid coordinates to the equivalent grid index using the values of *nRows* and *nCols* provoded to the constructor
+
         :param Array coords: An array of coordinates (*[0, 0] -> [nRows-1, nCols-1]*) to be converted to the equivalent index.
-        :return: The equivalent index
+        :return: The equivalent grid cell index
         :rtype: number
 
     .. py:method:: toggleClickable()
@@ -131,7 +133,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
         Update the aesthetics for the specified overlay. Similar to calling ``update`` on the object, but offers a wrapper that handles index/coords as input.
 
-        :param number/Array id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
+        :param number/Array/string id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
         :param Object updateParams: A dict-object of aesthetics to apply to the overlay. Must map the typical values for that object type.
         :return: A reference to the edited overlay
         :rtype: Object
@@ -140,7 +142,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
         Get a reference to a specific overlay from its id, either the name provided on instantiation, or the index/coords of the cell containing the overlay.
 
-        :param number/Array id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
+        :param number/Array/string id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
         :return: A reference to the edited overlay
         :rtype: Object
 
@@ -152,7 +154,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
         Remove a single overlay, or all overlays from a single cell, depending on input provided.
 
-        :param number/Array id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
+        :param number/Array/string id: A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.
 
     .. py:method:: handleMovement(mode, preMovementCallback = () => {}, postMovementCallback = () => {})
 
@@ -178,6 +180,6 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
     .. py:method:: draw()
         
-        The draw call that renders all the *pRectangles* in the grid, and all overlays.
+        The draw call that renders all the *pRectangles* in the grid and all overlays.
 
-
+    

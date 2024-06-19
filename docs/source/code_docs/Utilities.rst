@@ -105,3 +105,64 @@ The following is an example of how fullscreen mode can be fully implemented into
 
         // ... draw other content as normal ... //
     }
+
+Utilities
+---------
+
+.. py:class:: Utils()
+
+    A utilities class containing predominantly static methods for useful tasks and tools.
+
+    .. py:method:: getUrlParams(searchParams=[], url=undefined)
+
+        Static method that reads the contents of a URL and return any parameters included in the string. If no URl is provided to the 
+        input parameter *url*, the URL of the current window will be used. This can also be used to search for specific 
+        params by including them in the array *searchParams*.
+
+        :param Array[string] searchParams: *Optional* An array of parameters to search for. Including this will return only the specified parameters.
+        :param string url: *Optional* The URL to use for the search. If one isn't provided, the current window URL is used.
+        :return: A dict-object mapping URL-Param key to value
+        :rtype: Object
+
+Game Manager
+------------
+
+.. py:class:: Game()
+
+    Game-manager class. Contains a range of function used throughout the lifecycle of the game, including data and state management, 
+    saving and loading methods, and playerId management. 
+
+    .. py:method:: saveDataToServer(data, url='api/save/')
+
+        Asynchronous function that saves data to an *HTTP* server via *POST* and returns a Promise.
+
+        :param Object data: The data object to be saved to the server. This data will be prepared for sending within this function call using ``JSON.stringify``.
+        :param string url: The endpoint URL that the data will be saved to, such as the address on an external server.
+        :return: The promise of a response from the target endpoint.
+        :rtype: Promise
+
+        ::
+
+            // Example Usage //
+
+            let myGame = new Game();
+            let res = myGame.saveDataToServer({someData}: [1, 2, 3, 4, 5]}, "https://myAPIServer/api/save/")
+            // etc TODO finish
+
+    .. py:method:: loadDataFromServer(url='api/load/', data={},)
+
+        Asynchronous function that requests data from an *HTTP* server via *GET* and returns a Promise.
+
+        :param string url: The URL of the endpoint that the data's is being requested from.
+        :param Object data: Any body content to be included in the GET request to the server. For instance, playerID, levelID etc. Any data passed will have ``JSON.stringify`` applied before being sent.
+        :return: The promise of a response from the target endpoint.
+        :rtype: Promise
+
+        ::
+
+            // Example Usage //
+
+            let myGame = new Game();
+            let res = myGame.loadDataFromServer("https://myAPIServer/api/load/")
+            // etc TODO finish
+

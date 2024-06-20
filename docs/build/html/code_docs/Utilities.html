@@ -62,6 +62,21 @@
 <li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Utils.getUrlParams"><code class="docutils literal notranslate"><span class="pre">Utils.getUrlParams()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#game-manager">Game Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Game.saveDataToServer"><code class="docutils literal notranslate"><span class="pre">Game.saveDataToServer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Game.loadDataFromServer"><code class="docutils literal notranslate"><span class="pre">Game.loadDataFromServer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
@@ -216,6 +231,101 @@ function draw(){
 </pre></div>
 </div>
 </section>
+</section>
+<section id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Utils">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Utils</span></span><a class="headerlink" href="#Utils" title="Link to this definition"></a></dt>
+<dd><p>A utilities class containing predominantly static methods for useful tasks and tools.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Utils.getUrlParams">
+<span class="sig-name descname"><span class="pre">getUrlParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">searchParams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">undefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Utils.getUrlParams" title="Link to this definition"></a></dt>
+<dd><p>Static method that reads the contents of a URL and return any parameters included in the string. If no URl is provided to the
+input parameter <em>url</em>, the URL of the current window will be used. This can also be used to search for specific
+params by including them in the array <em>searchParams</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>searchParams</strong> (<em>Array</em><em>[</em><em>string</em><em>]</em>) – <em>Optional</em> An array of parameters to search for. Including this will return only the specified parameters.</p></li>
+<li><p><strong>url</strong> (<em>string</em>) – <em>Optional</em> The URL to use for the search. If one isn’t provided, the current window URL is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dict-object mapping URL-Param key to value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="game-manager">
+<h2>Game Manager<a class="headerlink" href="#game-manager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Game">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Game</span></span><a class="headerlink" href="#Game" title="Link to this definition"></a></dt>
+<dd><p>Game-manager class. Contains a range of function used throughout the lifecycle of the game, including data and state management,
+saving and loading methods, and playerId management.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.saveDataToServer">
+<span class="sig-name descname"><span class="pre">saveDataToServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/save/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToServer" title="Link to this definition"></a></dt>
+<dd><p>Asynchronous function that saves data to an <em>HTTP</em> server via <em>POST</em> and returns a Promise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – The data object to be saved to the server. This data will be prepared for sending within this function call using <code class="docutils literal notranslate"><span class="pre">JSON.stringify</span></code>.</p></li>
+<li><p><strong>url</strong> (<em>string</em>) – The endpoint URL that the data will be saved to, such as the address on an external server.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The promise of a response from the target endpoint.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Promise</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+
+<span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
+<span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">saveDataToServer</span><span class="p">({</span><span class="n">someData</span><span class="p">}:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]},</span> <span class="s2">&quot;https://myAPIServer/api/save/&quot;</span><span class="p">)</span>
+<span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.loadDataFromServer">
+<span class="sig-name descname"><span class="pre">loadDataFromServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/load/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadDataFromServer" title="Link to this definition"></a></dt>
+<dd><p>Asynchronous function that requests data from an <em>HTTP</em> server via <em>GET</em> and returns a Promise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>string</em>) – The URL of the endpoint that the data’s is being requested from.</p></li>
+<li><p><strong>data</strong> (<em>Object</em>) – Any body content to be included in the GET request to the server. For instance, playerID, levelID etc. Any data passed will have <code class="docutils literal notranslate"><span class="pre">JSON.stringify</span></code> applied before being sent.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The promise of a response from the target endpoint.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Promise</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+
+<span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
+<span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">loadDataFromServer</span><span class="p">(</span><span class="s2">&quot;https://myAPIServer/api/load/&quot;</span><span class="p">)</span>
+<span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

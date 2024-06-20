@@ -11,6 +11,7 @@ var isFullScreen = false;
 var begin;
 var blockLoop = false;
 var psychex = {};
+
 psychex.aesthetics = {
     show : () => {
         console.log(`Aesthetics are set for:`);
@@ -26,6 +27,8 @@ psychex.aesthetics = {
         strokeWeight: 0.5,
         fontFamily: "sans-serif",
         textAlign: "CENTER",
+        angleMode: "DEGREES",
+        positionMode: "PERCENTAGE",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pText")},
         show: () => {psychex.aesthetics._show("pText")},
     },
@@ -33,7 +36,8 @@ psychex.aesthetics = {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
-        rectMode: "CORNER",
+        rectMode: "CENTER",
+        positionMode: "PERCENTAGE",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pRectangle")},
         show: () => {psychex.aesthetics._show("pRectangle")},
     },
@@ -41,6 +45,8 @@ psychex.aesthetics = {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
+        angleMode: "DEGREES",
+        positionMode: "PERCENTAGE",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pCircle")},
         show: () => {psychex.aesthetics._show("pCircle")},
     },
@@ -48,11 +54,14 @@ psychex.aesthetics = {
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
+        positionMode: "PERCENTAGE",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pTriangle")},
         show: () => {psychex.aesthetics._show("pTriangle")},
     },
     pImage: {
         imageMode: "CENTER",
+        angleMode: "DEGREES",
+        positionMode: "PERCENTAGE",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pImage")},
         show: () => {psychex.aesthetics._show("pImage")},
     },
@@ -122,15 +131,14 @@ function pClickListener(e) {
                 }
             }
         } else if (obj.type == "pRectangle" || obj.type == "pButton") { 
-            
-            if (obj.constants.rectMode == "CENTER"){
+            if (obj.constants.rectMode == "CENTER" || obj.constants.rectMode == "center"){
                 // -- Rect / Center -- //
                 if (_.inRange(C.x, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
                     if (_.inRange(C.y, obj.pos.y-obj.dims.y/2, obj.pos.y+obj.dims.y/2)){
                         obj.onClick(obj);
                     }
                 }
-            } else if (obj.constants.rectMode == "CORNER") {
+            } else if (obj.constants.rectMode == "CORNER" || obj.constants.rectMode == "corner") {
                 // -- Rect / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
@@ -273,9 +281,9 @@ class Psychex{
     setImageMode(newImageMode){
         if (![CENTER, CORNER, CORNERS, "CENTER", "CORNER", "CORNERS"].includes(newImageMode)){throw new Error(`Image mode value: ${newImageMode} not recognised. Must be one of CENTER, CORNER, or CORNERS.`)};
         this.constants.imageMode = newImageMode;
-        if (this.constants.imageMode == CENTER || this.constants.imageMode == "CENTER"){imageMode(CENTER);}
-        else if (this.constants.imageMode == CORNER || this.constants.imageMode == "CORNER"){imageMode(CORNER)}
-        else if (this.constants.imageMode == CORNERS || this.constants.imageMode == "CORNERS"){imageMode(CORNERS)}
+        if (this.constants.imageMode == CENTER || this.constants.imageMode == "CENTER"){imageMode(CENTER); this.constants.imageMode = "CENTER";}
+        else if (this.constants.imageMode == CORNER || this.constants.imageMode == "CORNER"){imageMode(CORNER); this.constants.imageMode = "CORNER";}
+        else if (this.constants.imageMode == CORNERS || this.constants.imageMode == "CORNERS"){imageMode(CORNERS); this.constants.imageMode = "CORNERS";}
 
         if (this.constants.verbose) console.log("imageMode:", this.constants.imageMode)
     }
@@ -283,10 +291,10 @@ class Psychex{
     setRectMode(newRectMode){
         if (![CENTER, CORNER, CORNERS, RADIUS, "CENTER", "CORNER", "CORNERS", "RADIUS"].includes(newRectMode)){throw new Error(`Rect mode value: ${newRectMode} not recognised. Must be one of CENTER, CORNER, CORNERS, or RADIUS.`)};
         this.constants.rectMode = newRectMode;
-        if (this.constants.rectMode == CENTER || this.constants.rectMode == "CENTER"){rectMode(CENTER)}
-        else if (this.constants.rectMode == CORNER || this.constants.rectMode == "CORNER"){rectMode(CORNER)}
-        else if (this.constants.rectMode == CORNERS || this.constants.rectMode == "CORNERS"){rectMode(CORNERS)}
-        else if (this.constants.rectMode == RADIUS || this.constants.rectMode == "RADIUS"){rectMode(RADIUS)}
+        if (this.constants.rectMode == CENTER || this.constants.rectMode == "CENTER"){rectMode(CENTER); this.constants.rectMode = "CENTER";}
+        else if (this.constants.rectMode == CORNER || this.constants.rectMode == "CORNER"){rectMode(CORNER); this.constants.rectMode = "CORNER";}
+        else if (this.constants.rectMode == CORNERS || this.constants.rectMode == "CORNERS"){rectMode(CORNERS); this.constants.rectMode = "CORNERS";}
+        else if (this.constants.rectMode == RADIUS || this.constants.rectMode == "RADIUS"){rectMode(RADIUS); this.constants.rectMode = "RADIUS";}
 
         if (this.constants.verbose) console.log("rectMode:", this.constants.rectMode)
     }
@@ -572,9 +580,16 @@ class Primitive extends Psychex{
         })
         // And run each of the kwargs
         if (Object.keys(this.kwargs).length != 0){
-            this.kwargs.forEach(kwarg => {
-                this.applyKwargs(kwarg.type, kwarg.val)
-            })
+            try {
+                this.kwargs.forEach(kwarg => {
+                    this.applyKwargs(kwarg.type, kwarg.val)
+                })
+            } catch (error) {
+                console.log(this)
+                throw new Error(`Likely calling super.draw() unnecessarily - you can ignore this error, or remove the super.draw() call if not adding a custom primitive.`)
+            }
+
+            
         }
         
         // this._pos = this.pos;
@@ -847,18 +862,33 @@ class pImage extends Primitive{
     constructor(x, y, img, kwargs={}){
         super(x, y, kwargs);
         this.type="pImage";
+        // add default aesthetics to the pText object
+        this.defaultAesthetics = psychex.aesthetics.pImage;
+        this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
         this.img = img;
         this.width = this.img.width;
         this.height = this.img.height;
         this.scaleBy = 1;
-        this.dims = Primitive._convertCoordinates(createVector(this.img.width, this.img.height), "PIXELS");
+        this.scaleDimensions();
+        // this.dims = Primitive._convertCoordinates(createVector(this.img.width, this.img.height), "PIXELS");
         // compute and store the centre point for later use if needed
-        this.getCenter(); // Sets this.centerPoint
     }
 
     setScale(s){
         this.scaleBy = s;
+        this.scaleDimensions()
         return this;
+    }
+
+    scaleDimensions(){
+        // Keep a copy of the scaled image dimensions
+        // When we load an image in we get its raw width and height, however when we scale it, these values are scaled too, but not updated in the p5 image object
+        if (this.constants.positionMode == "PERCENTAGE"){
+            this.dims = Primitive.toPercentage(createVector(this.img.width*this.scaleBy, this.img.height*this.scaleBy));
+        } else if (this.constants.positionMode == "PIXELS"){
+            this.dims = createVector(this.img.width*this.scaleBy, this.img.height*this.scaleBy);
+        }
+        
     }
     
     onClick(){
@@ -872,7 +902,6 @@ class pImage extends Primitive{
                 this.img = arg;
             }
         })
-
     }
 
     static draw_(x, y, img, kwargs){
@@ -887,12 +916,10 @@ class pImage extends Primitive{
         pop();
     }
 
-    draw(update= {}) {
-        super.draw();
-        this.update(update)
-        // let pos = this.pos;
+    draw() {
+        let p = super.draw();
         push();
-        translate(this._pos.x, this._pos.y)
+        translate(p.x, p.y)
         scale(this.scaleBy);
         rotate(this.rotateBy);
         image(this.img, 0, 0)
@@ -903,9 +930,8 @@ class pImage extends Primitive{
 class pButton extends Primitive {
     // A button is a pRectangle object with the option to add text or an image to the centre and is automatically clickable
     constructor(x, y, w, h, kwargs={}){
-        super(x, y, {});
+        super(x, y);
         this.type = "pButton"
-        this.kwargs = kwargs;
         this.initDims = createVector(w, h);
         this.rect = new pRectangle(x, y, w, h, kwargs);
         this.dims = this.rect.dims;
@@ -918,10 +944,9 @@ class pButton extends Primitive {
 
     }
 
-    addText(text, kwargs={textAlign: "CENTER"}){
+    addText(text, kwargs={}){
         // Place at x, y with option to override
-        const myKwargs = {...kwargs};
-        this.text = new pText(text, this.pos.x, this.pos.y, kwargs);
+        this.text = new pText(text, this.pos.x, this.pos.y, {...kwargs});
         return this;
     } 
 

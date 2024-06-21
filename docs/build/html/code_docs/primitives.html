@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Primitives &mdash; Psychex 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Composite Classes" href="paradigms.html" />
+    <link rel="prev" title="Handling Static Content" href="../tutorial/loading_static_content.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Psychex
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/main_ideas.html">Key Concepts in Psychex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/loading_static_content.html">Handling Static Content</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Primitives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pText"><code class="docutils literal notranslate"><span class="pre">pText</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pText.draw"><code class="docutils literal notranslate"><span class="pre">pText.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pRectangle"><code class="docutils literal notranslate"><span class="pre">pRectangle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pRectangle.withImage"><code class="docutils literal notranslate"><span class="pre">pRectangle.withImage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pRectangle.draw"><code class="docutils literal notranslate"><span class="pre">pRectangle.draw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pRectangle.draw_"><code class="docutils literal notranslate"><span class="pre">pRectangle.draw_()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pCircle"><code class="docutils literal notranslate"><span class="pre">pCircle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pCircle.draw"><code class="docutils literal notranslate"><span class="pre">pCircle.draw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pCircle.draw_"><code class="docutils literal notranslate"><span class="pre">pCircle.draw_()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pTriangle"><code class="docutils literal notranslate"><span class="pre">pTriangle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pTriangle.draw"><code class="docutils literal notranslate"><span class="pre">pTriangle.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pImage"><code class="docutils literal notranslate"><span class="pre">pImage</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pImage.draw"><code class="docutils literal notranslate"><span class="pre">pImage.draw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pImage.draw_"><code class="docutils literal notranslate"><span class="pre">pImage.draw_()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pButton"><code class="docutils literal notranslate"><span class="pre">pButton</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pButton.addImage"><code class="docutils literal notranslate"><span class="pre">pButton.addImage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pButton.addText"><code class="docutils literal notranslate"><span class="pre">pButton.addText()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pButton.clickAnimation"><code class="docutils literal notranslate"><span class="pre">pButton.clickAnimation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pButton.draw"><code class="docutils literal notranslate"><span class="pre">pButton.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Countdown"><code class="docutils literal notranslate"><span class="pre">Countdown</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Countdown.setGraphic"><code class="docutils literal notranslate"><span class="pre">Countdown.setGraphic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Countdown.reset"><code class="docutils literal notranslate"><span class="pre">Countdown.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Countdown.onTimeUp"><code class="docutils literal notranslate"><span class="pre">Countdown.onTimeUp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Countdown.pause"><code class="docutils literal notranslate"><span class="pre">Countdown.pause()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#send_message"><code class="docutils literal notranslate"><span class="pre">send_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">Composite Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Psychex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Primitives</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/code_docs/primitives.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="primitives">
+<h1>Primitives<a class="headerlink" href="#primitives" title="Link to this heading"></a></h1>
+<p>Primitives are the building bones of more complex composite classes, and represent simple rendereable instances.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pText">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pText" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Instructions to render a string of text</p>
+<dl class="field-list simple">
+<dt class="field-odd">param string text<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String of text to be rendered.</p>
+</dd>
+<dt class="field-even">param number x<span class="colon">:</span></dt>
+<dd class="field-even"><p>The x-coordinates of the string using current <em>positionMode</em></p>
+</dd>
+<dt class="field-odd">param number y<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The y-coordinates of the string using current <em>positionMode</em></p>
+</dd>
+<dt class="field-even">param object kwargs={}<span class="colon">:</span></dt>
+<dd class="field-even"><p>An dict-object containing additional keyword args</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="pText.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pText.draw" title="Link to this definition"></a></dt>
+<dd><p>Render the text to the screen and create the underlying p5.js object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span> <span class="o">//</span> <span class="o">--</span> <span class="n">How</span> <span class="n">to</span> <span class="n">Use</span> <span class="o">--</span> <span class="o">//&gt;</span>
+
+<span class="n">let</span> <span class="n">helloWorld</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Hello World!&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">fontSize</span><span class="p">:</span><span class="mi">32</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">});</span>
+<span class="o">//</span> <span class="n">pText</span> <span class="n">can</span> <span class="n">also</span> <span class="n">handle</span> <span class="n">newlines</span><span class="p">,</span> <span class="n">by</span> <span class="n">adding</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="n">let</span> <span class="n">multiLineText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;In this experiment, participants </span><span class="se">\n</span><span class="s2">have 30 minutes to solve a complex</span><span class="se">\n</span><span class="s2">task.&quot;</span><span class="p">);</span>
+
+<span class="o">//</span> <span class="n">Run</span> <span class="n">the</span> <span class="n">draw</span> <span class="n">methods</span> <span class="n">within</span> <span class="n">draw</span><span class="p">():</span>
+<span class="n">draw</span><span class="p">(){</span>
+    <span class="o">//</span> <span class="o">--</span> <span class="o">...</span> <span class="o">--</span>
+    <span class="n">helloWorld</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="n">multiLineText</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="o">--</span> <span class="n">How</span> <span class="n">to</span> <span class="n">extend</span> <span class="o">--</span> <span class="o">//</span>
+
+<span class="k">class</span> <span class="nc">customText</span> <span class="n">extends</span> <span class="n">pText</span> <span class="p">{</span>
+    <span class="n">constructor</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{}){</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">);</span>
+        <span class="o">//</span> <span class="o">--</span> <span class="n">custom</span> <span class="n">content</span> <span class="o">--</span> <span class="o">//</span>
+    <span class="p">}</span>
+
+    <span class="n">draw</span><span class="p">(){</span>
+        <span class="nb">super</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">let</span> <span class="n">myCustomText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">customText</span><span class="p">(</span><span class="s2">&quot;some text&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+
+<span class="n">draw</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="o">--</span> <span class="o">...</span> <span class="o">--</span> <span class="o">//</span>
+    <span class="n">myCustomText</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pRectangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pRectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pRectangle" title="Link to this definition"></a></dt>
+<dd><p>Object that can draw a 4-sided shape to the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>w</strong> (<em>number</em>) – The width of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>h</strong> (<em>number</em>) – The height of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – An dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pRectangle.withImage">
+<span class="sig-name descname"><span class="pre">withImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pRectangle.withImage" title="Link to this definition"></a></dt>
+<dd><p>Creates a new pImage object under <cite>this.img</cite> and renders it to the center of the shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgObj</strong> (<em>object</em>) – An image loaded in using <cite>p5.loadImage()</cite></p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – An dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return undefined<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+<dt class="field-odd">Rtype undefined<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pRectangle.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pRectangle.draw" title="Link to this definition"></a></dt>
+<dd><p>Draw method that creates the underlying p5.rect</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pRectangle.draw_">
+<span class="sig-name descname"><span class="pre">draw_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pRectangle.draw_" title="Link to this definition"></a></dt>
+<dd><p>Static method that creates a rectangle object on the fly without instantiating an object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>w</strong> (<em>number</em>) – The width of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>h</strong> (<em>number</em>) – The height of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – A dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span> <span class="o">//</span> <span class="o">--</span> <span class="n">How</span> <span class="n">to</span> <span class="n">Use</span> <span class="o">--</span> <span class="o">//&gt;</span>
+
+<span class="o">&gt;</span> <span class="o">//</span> <span class="o">--</span> <span class="n">How</span> <span class="n">to</span> <span class="n">extend</span> <span class="o">--</span> <span class="o">//</span>
+
+<span class="k">class</span> <span class="nc">customRect</span> <span class="n">extends</span> <span class="n">pRectangle</span> <span class="p">{</span>
+    <span class="n">constructor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{}){</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">);</span>
+        <span class="o">//</span> <span class="o">--</span> <span class="n">custom</span> <span class="n">content</span> <span class="o">--</span> <span class="o">//</span>
+    <span class="p">}</span>
+
+    <span class="n">draw</span><span class="p">(){</span>
+        <span class="nb">super</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pCircle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pCircle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pCircle" title="Link to this definition"></a></dt>
+<dd><p>Object that draws a circle to the screen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>r</strong> (<em>number</em>) – The radius of the circle</p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – A dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pCircle.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pCircle.draw" title="Link to this definition"></a></dt>
+<dd><p>Creates the underlying p5.circle object and renders it</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pCircle.draw_">
+<span class="sig-name descname"><span class="pre">draw_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pCircle.draw_" title="Link to this definition"></a></dt>
+<dd><p>Static method that creates a circle object and renders it on the fly without instantiating an object</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span> <span class="o">//</span> <span class="o">--</span> <span class="n">How</span> <span class="n">to</span> <span class="n">Use</span> <span class="o">--</span> <span class="o">//&gt;</span>
+
+<span class="o">&gt;</span> <span class="o">//</span> <span class="o">--</span> <span class="n">How</span> <span class="n">to</span> <span class="n">extend</span> <span class="o">--</span> <span class="o">//</span>
+
+<span class="k">class</span> <span class="nc">customRect</span> <span class="n">extends</span> <span class="n">pRectangle</span> <span class="p">{</span>
+    <span class="n">constructor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{}){</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">);</span>
+        <span class="o">//</span> <span class="o">--</span> <span class="n">custom</span> <span class="n">content</span> <span class="o">--</span> <span class="o">//</span>
+    <span class="p">}</span>
+
+    <span class="n">draw</span><span class="p">(){</span>
+        <span class="nb">super</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="pTriangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pTriangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pTriangle" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>number</em>) – x-coordinate of the first point of the triangle</p></li>
+<li><p><strong>y1</strong> (<em>number</em>) – y-coordinate of the first point of the triangle</p></li>
+<li><p><strong>x2</strong> (<em>number</em>) – x-coordinate of the second point</p></li>
+<li><p><strong>y1</strong> – y-coordinate of the second point</p></li>
+<li><p><strong>x3</strong> (<em>number</em>) – x-coordinate of the third point</p></li>
+<li><p><strong>y3</strong> (<em>number</em>) – y-coordinate of the third point</p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – A dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pTriangle.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pTriangle.draw" title="Link to this definition"></a></dt>
+<dd><p>Draws a triangle to the screen using the coordinates provided to the class constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pImage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pImage" title="Link to this definition"></a></dt>
+<dd><p>Renders an image to the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinates of the shape using current <em>positionMode</em></p></li>
+<li><p><strong>img</strong> (<em>p5.Image</em>) – A p5.image object, loaded using <cite>loadImage()</cite>. See example below for usage.</p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – A dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pImage.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pImage.draw" title="Link to this definition"></a></dt>
+<dd><p>Draw the image</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pImage.draw_">
+<span class="sig-name descname"><span class="pre">draw_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pImage.draw_" title="Link to this definition"></a></dt>
+<dd><p>Draw the image but statically</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pButton" title="Link to this definition"></a></dt>
+<dd><p>A composite object that replicates a clickable button. Internally creates a rectangle object (<cite>this.rect</cite>) and either a text or image object rendered within the rectangle. See methods below for details. Note that <em>pButton</em> objects are clickable by default, and don’t need to have <cite>toggleClickable()</cite> run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinates of the button using current <em>positionMode</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinates of the button using current <em>positionMode</em></p></li>
+<li><p><strong>w</strong> (<em>number</em>) – The width of the button using current <em>positionMode</em></p></li>
+<li><p><strong>h</strong> (<em>number</em>) – The height of the button using current <em>positionMode</em></p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – An dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pButton.addImage">
+<span class="sig-name descname"><span class="pre">addImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pButton.addImage" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pButton.addText">
+<span class="sig-name descname"><span class="pre">addText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pButton.addText" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>string</em>) – Text to be added to the button</p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – An dict-object containing additional keyword args. Includes as default <cite>{textAlign: CENTER}.</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pButton.clickAnimation">
+<span class="sig-name descname"><span class="pre">clickAnimation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pButton.clickAnimation" title="Link to this definition"></a></dt>
+<dd><p>TODO</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pButton.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pButton.draw" title="Link to this definition"></a></dt>
+<dd><p>Render the button to the screen.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Countdown">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Countdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endtime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Countdown" title="Link to this definition"></a></dt>
+<dd><p>A countdown timer that allows a callback to be set for when time elapses, with the option to attach a countdown bar or circular timer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinates of the timer using current <em>positionMode</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinates of the timer using current <em>positionMode</em></p></li>
+<li><p><strong>endtime</strong> (<em>number</em>) – The number of seconds after which the timer elapses.</p></li>
+<li><p><strong>kwargs</strong> (<em>object</em>) – An dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Countdown.setGraphic">
+<span class="sig-name descname"><span class="pre">setGraphic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graphic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Countdown.setGraphic" title="Link to this definition"></a></dt>
+<dd><p>Sets the countdown graphic to either a circular arc that spans from 360deg to 0, or a progress bar. Also allows the user to extend and add their own graphic using p5.js.
+TODO: instructions on how to create custom graphic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graphic</strong> (<em>string</em>) – A string denoting the type of graphic to be added. Allows <cite>“arc”</cite> for arc, <cite>“bar”</cite> for progress bar, and <cite>“custom”</cite>, which creates an object called <cite>this.graphic</cite>, where the user can extend the draw method.</p></li>
+<li><p><strong>params</strong> (<em>object</em>) – Dict containing params for the graphic. Both arc and bar graphics require width (<cite>w</cite>) and height (<cite>h</cite>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Countdown.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Countdown.reset" title="Link to this definition"></a></dt>
+<dd><p>Reset the timer. Also used to start the timer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Countdown.onTimeUp">
+<span class="sig-name descname"><span class="pre">onTimeUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Countdown.onTimeUp" title="Link to this definition"></a></dt>
+<dd><p>Empty method that can be set to a callback for when the timer elapses. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">onTimeUp</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Time&#39;s up!&quot;</span><span class="p">)</span>
+    <span class="o">//</span> <span class="n">Reset</span> <span class="n">the</span> <span class="n">timer</span><span class="p">,</span> <span class="n">creating</span> <span class="n">a</span> <span class="n">loop</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Countdown.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Countdown.pause" title="Link to this definition"></a></dt>
+<dd><p>Pause the timer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="send_message">
+<span class="sig-name descname"><span class="pre">send_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_body</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">priority=1</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#send_message" title="Link to this definition"></a></dt>
+<dd><p>Send a message to a recipient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sender</strong> (<em>str</em>) – The person sending the message</p></li>
+<li><p><strong>recipient</strong> (<em>str</em>) – The recipient of the message</p></li>
+<li><p><strong>message_body</strong> (<em>str</em>) – The body of the message</p></li>
+<li><p><strong>priority</strong> (<em>integer</em><em> or </em><em>None</em>) – The priority of the message, can be a number 1-5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the message id</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – if the message_body exceeds 160 characters</p></li>
+<li><p><strong>TypeError</strong> – if the message_body is not a basestring</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorial/loading_static_content.html" class="btn btn-neutral float-left" title="Handling Static Content" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="paradigms.html" class="btn btn-neutral float-right" title="Composite Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grogan, A..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

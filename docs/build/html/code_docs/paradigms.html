@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Composite Classes &mdash; Psychex 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Meta-Classes, Utilities, and Support Classes" href="Utilities.html" />
+    <link rel="prev" title="Primitives" href="primitives.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Psychex
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/main_ideas.html">Key Concepts in Psychex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/loading_static_content.html">Handling Static Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primitives.html">Primitives</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Composite Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gridworld">Gridworld</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Gridworld"><code class="docutils literal notranslate"><span class="pre">Gridworld</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.getWidth"><code class="docutils literal notranslate"><span class="pre">Gridworld.getWidth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.getHeight"><code class="docutils literal notranslate"><span class="pre">Gridworld.getHeight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.setWidth"><code class="docutils literal notranslate"><span class="pre">Gridworld.setWidth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.setHeight"><code class="docutils literal notranslate"><span class="pre">Gridworld.setHeight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.drawOutline"><code class="docutils literal notranslate"><span class="pre">Gridworld.drawOutline()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.getCell"><code class="docutils literal notranslate"><span class="pre">Gridworld.getCell()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.setCellProps"><code class="docutils literal notranslate"><span class="pre">Gridworld.setCellProps()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.indexToCoords"><code class="docutils literal notranslate"><span class="pre">Gridworld.indexToCoords()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.coordsToIndex"><code class="docutils literal notranslate"><span class="pre">Gridworld.coordsToIndex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.toggleClickable"><code class="docutils literal notranslate"><span class="pre">Gridworld.toggleClickable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.onCellClick"><code class="docutils literal notranslate"><span class="pre">Gridworld.onCellClick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.addOverlay"><code class="docutils literal notranslate"><span class="pre">Gridworld.addOverlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.updateOverlay"><code class="docutils literal notranslate"><span class="pre">Gridworld.updateOverlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.getOverlay"><code class="docutils literal notranslate"><span class="pre">Gridworld.getOverlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.clearAllOverlays"><code class="docutils literal notranslate"><span class="pre">Gridworld.clearAllOverlays()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.removeOverlay"><code class="docutils literal notranslate"><span class="pre">Gridworld.removeOverlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.handleMovement"><code class="docutils literal notranslate"><span class="pre">Gridworld.handleMovement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.checkBounds"><code class="docutils literal notranslate"><span class="pre">Gridworld.checkBounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Gridworld.draw"><code class="docutils literal notranslate"><span class="pre">Gridworld.draw()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Psychex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Composite Classes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/code_docs/paradigms.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="composite-classes">
+<h1>Composite Classes<a class="headerlink" href="#composite-classes" title="Link to this heading"></a></h1>
+<p>Composite classes are ways of wrapping common, useful tools into a single package.
+They typically handle 2 jobs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Logic</em>: Such as handling random number generation, packaging data, defining user interactions</p></li>
+<li><p><em>Graphics</em>: Creating visuals by combining primitives into one complete <em>draw</em> call.</p></li>
+</ul>
+</div></blockquote>
+<p>Composites are designed to be extended by the user, so that they can customise exactly what they need
+without having to start from scratch.</p>
+<section id="gridworld">
+<h2>Gridworld<a class="headerlink" href="#gridworld" title="Link to this heading"></a></h2>
+<p>The gridworld class offers a collection of utilities for creating a 2-dimensional grid that can be
+populated by images, shapes, text, or any other Psychex object. It contains methods for accessing individual
+cells by index or coords, and allows the experimenter to easily build in user-control by keyboard or mouse-click.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Gridworld">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Gridworld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nRows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nCols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CORNER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld" title="Link to this definition"></a></dt>
+<dd><p>Gridworld class that defines a 2-D matrix of pRectangle objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>number</em>) – The x-coordinate of the anchor point, specified by the value of <em>align</em></p></li>
+<li><p><strong>y</strong> (<em>number</em>) – The y-coordinate of the anchor point, specified by the value of <em>align</em></p></li>
+<li><p><strong>w</strong> (<em>number</em>) – The width of the grid</p></li>
+<li><p><strong>h</strong> (<em>number</em>) – The height of the grid</p></li>
+<li><p><strong>nRows</strong> (<em>number</em>) – The number of rows in the grid as an integer</p></li>
+<li><p><strong>nCols</strong> (<em>number</em>) – The number of columns of the grid as an integer</p></li>
+<li><p><strong>align</strong> (<em>string</em>) – Specifies where the anchor point of the grid is. If “CORNER”, the <em>(x, y)</em> specified will be in the top-left corner of the grid. If “CENTER”, the <em>(x, y)</em> will be the center. Default is “CORNER”.</p></li>
+<li><p><strong>kwargs={}</strong> (<em>object</em>) – A dict-object containing additional keyword args</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.getWidth">
+<span class="sig-name descname"><span class="pre">getWidth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getWidth" title="Link to this definition"></a></dt>
+<dd><p>Returns the width value originally supplied to the constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>width</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.getHeight">
+<span class="sig-name descname"><span class="pre">getHeight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getHeight" title="Link to this definition"></a></dt>
+<dd><p>Returns the height value originally supplied to the constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>height</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.setWidth">
+<span class="sig-name descname"><span class="pre">setWidth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setWidth" title="Link to this definition"></a></dt>
+<dd><p>Update the width of the grid. If called, must be followed by calling <em>drawOutline</em> to update.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>w</strong> (<em>number</em>) – The new width of the grid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.setHeight">
+<span class="sig-name descname"><span class="pre">setHeight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setHeight" title="Link to this definition"></a></dt>
+<dd><p>Update the height of the grid. If called, must be followed by calling <em>drawOutline</em> to update.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>h</strong> (<em>number</em>) – The new height of the grid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.drawOutline">
+<span class="sig-name descname"><span class="pre">drawOutline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.drawOutline" title="Link to this definition"></a></dt>
+<dd><p>Takes the provided x, y, w, h, nRows, nCols, and constructs a grid of pRectangle objects. Each of these objects is stored in
+an array called <code class="docutils literal notranslate"><span class="pre">cells</span></code>. Each <em>cell</em> is an object containing an index, <em>ix</em>, the coords <em>coords</em>, and a reference to the pRectangle object, <em>obj</em>.
+The array can be indexed directly, or a reference directly to the pRectangle can be obtained from <em>getCell</em>.
+Each of these can be acted upon like normal pRectangles, and methods such as <em>update</em> or <em>onClick</em> can be applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.getCell">
+<span class="sig-name descname"><span class="pre">getCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getCell" title="Link to this definition"></a></dt>
+<dd><p>Returns a reference to a cell’s pRectangle object. This object contains all normal pRectangle attributes, as well as copies of
+the <em>ix</em> and <em>coords</em> gridworld properties. The cell can be referenced by either grid index (<em>ix</em>) (<em>0 -&gt; (nRows*nCols - 1)</em>), or by
+coords (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>). Indexing <strong>always</strong> begins at 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>number/Array</em>) – A unique identifier for the cell, either the grid index, or grid coords. Indexing begins at 0.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>cell reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.setCellProps">
+<span class="sig-name descname"><span class="pre">setCellProps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">props</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setCellProps" title="Link to this definition"></a></dt>
+<dd><p>Update the aesthetic properties of a cell (eg. backgroundColor, borderWidth, etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>number/Array</em>) – A unique identifier for the cell, either the grid index or grid coords. Indexing begins at 0.</p></li>
+<li><p><strong>props</strong> – A dict-object containing the usual allowed aesthetics properties for a <em>pRectangle</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A ref to the edited cell</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.indexToCoords">
+<span class="sig-name descname"><span class="pre">indexToCoords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.indexToCoords" title="Link to this definition"></a></dt>
+<dd><p>Convert grid index to the equivalent coordinates using the values of <em>nRows</em> and <em>nCols</em> provided to the constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ix</strong> (<em>number</em>) – A grid index (<em>0 -&gt; (nRows*nCols -1)</em>) to be converted to coords.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The equivalent coords</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.coordsToIndex">
+<span class="sig-name descname"><span class="pre">coordsToIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.coordsToIndex" title="Link to this definition"></a></dt>
+<dd><p>Convert grid coordinates to the equivalent grid index using the values of <em>nRows</em> and <em>nCols</em> provoded to the constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>coords</strong> (<em>Array</em>) – An array of coordinates (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>) to be converted to the equivalent index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The equivalent grid cell index</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.toggleClickable">
+<span class="sig-name descname"><span class="pre">toggleClickable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.toggleClickable" title="Link to this definition"></a></dt>
+<dd><p><strong>NB:</strong> Not directly equivalent to calling <code class="docutils literal notranslate"><span class="pre">toggleClickable()</span></code> on a primitive - this runs <code class="docutils literal notranslate"><span class="pre">toggleClickable()</span></code> on every cell
+in the grid iteratively, adding them all to <em>clickables</em>. Useful as a precursor for applying a single <em>onClick</em> to every cell.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.onCellClick">
+<span class="sig-name descname"><span class="pre">onCellClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.onCellClick" title="Link to this definition"></a></dt>
+<dd><p>Wrapper for attaching a click listener to a single cell by providing its grid index or grid coords.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method runs <code class="docutils literal notranslate"><span class="pre">toggleClickable</span></code> automatically, so you don’t need to run it beforehand! If you do, the two calls will cancel
+eachother out.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>number/Array</em>) – A unique identifier for the cell, either the grid index or grid coords.</p></li>
+<li><p><strong>callback</strong> (<em>function</em>) – A callback that will run when the particular cell is clicked.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the clicked-on cell.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.addOverlay">
+<span class="sig-name descname"><span class="pre">addOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cellId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlayObj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.addOverlay" title="Link to this definition"></a></dt>
+<dd><p>There are 2 layers in the gridworld visuals: the base <em>pRectangle</em> layer, and the <em>overlay</em> layer. Overlays are objects placed on top of
+the base grid, and are typically the stimuli presented to the participant. These can be any kind of psychex object - or, a custom object
+created from scratch if you wish to create a new object using <em>p5.js</em> draw calls.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>string</em>) – A unique name for the overlay. This can be useful for referencing it later, for instance if using an image that represents a player token, and naming it “player”.</p></li>
+<li><p><strong>cellId</strong> (<em>number/Array</em>) – The id of the cell onto which the object is overlaid. Objects are placed within cells so that they’re automatically aligned.</p></li>
+<li><p><strong>overlayObj</strong> (<em>object</em>) – A reference to the object being overlayed. This can be a pre-defined object, or a new object can be created in the function call. This would typically be another psychex object, such as <em>pImage</em> or <em>pCircle</em> for example.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.updateOverlay">
+<span class="sig-name descname"><span class="pre">updateOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateParams</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.updateOverlay" title="Link to this definition"></a></dt>
+<dd><p>Update the aesthetics for the specified overlay. Similar to calling <code class="docutils literal notranslate"><span class="pre">update</span></code> on the object, but offers a wrapper that handles index/coords as input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>number/Array/string</em>) – A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.</p></li>
+<li><p><strong>updateParams</strong> (<em>Object</em>) – A dict-object of aesthetics to apply to the overlay. Must map the typical values for that object type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the edited overlay</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.getOverlay">
+<span class="sig-name descname"><span class="pre">getOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getOverlay" title="Link to this definition"></a></dt>
+<dd><p>Get a reference to a specific overlay from its id, either the name provided on instantiation, or the index/coords of the cell containing the overlay.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>number/Array/string</em>) – A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the edited overlay</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.clearAllOverlays">
+<span class="sig-name descname"><span class="pre">clearAllOverlays</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.clearAllOverlays" title="Link to this definition"></a></dt>
+<dd><p>Remove all existing overlays from the grid, and delete all references to them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.removeOverlay">
+<span class="sig-name descname"><span class="pre">removeOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.removeOverlay" title="Link to this definition"></a></dt>
+<dd><p>Remove a single overlay, or all overlays from a single cell, depending on input provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>number/Array/string</em>) – A unique identifier for the overlay, either the name provided on instantiation, or grid index or grid coords of the cell containing the overlay.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.handleMovement">
+<span class="sig-name descname"><span class="pre">handleMovement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preMovementCallback</span> <span class="pre">=</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postMovementCallback</span> <span class="pre">=</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.handleMovement" title="Link to this definition"></a></dt>
+<dd><p>Handle user-interactions with the gridworld. Wraps functionality for player movement with keyboard arrow-keys, or with the ‘w-a-s-d’ keys. Also includes options for mouse-click
+interactions. This method takes in 2 callbacks: the first may be applied <em>pre-movement</em>, such as for handling logic as to whether or not this movement is allowed (e.g. if building a maze,
+there may be obstacles/wall boundaries to consider, etc.). The second is a <em>postMovement</em> callback, applied if and only if the <em>preMovementCallback</em> runs successfully and returns <em>true</em>.
+This might handle logic for after the player has moved, or after any other user interaction. Both callbacks contain default empty functions, meaning if a pre-movement function isn’t needed,
+the user may simply pass a single callback in which will be used upon specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<em>string</em>) – The interaction-mode to be applied. One of either “arrows” (for arrow-keys), “wasd” (for w-a-s-d keys), or “click” (for mouse-clicks.)</p></li>
+<li><p><strong>preMovementCallback</strong> (<em>function</em>) – The first callback run on player interaction. Must return <em>true</em> for the second callback to proceed. Default <code class="docutils literal notranslate"><span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></code>.</p></li>
+<li><p><strong>postMovementCallback</strong> (<em>function</em>) – The second callback run after successful calling of the first. Default <code class="docutils literal notranslate"><span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.checkBounds">
+<span class="sig-name descname"><span class="pre">checkBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.checkBounds" title="Link to this definition"></a></dt>
+<dd><p>Utility for automatically checking gridworld outer boundaries when building a world that the player moves through. Contains key-mappings of the arrow and w-a-s-d keys
+and returns a boolean for if the proposed movement is within or out of bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> (<em>Array</em>) – The current position (eg. at time <em>t</em>), to be compared with the proposed new position, after movement (eg. at time <em>t+1</em>). Must be grid coords - indices can be converted using <code class="docutils literal notranslate"><span class="pre">indexToCoords()</span></code>.</p></li>
+<li><p><strong>k</strong> (<em>string</em>) – The key-code of the pressed key. Accepts “ArrowLeft”, “ArrowRight”, “ArrowUp”, “ArrowDown”, “w”, “a”, “s”, “d”. Each of these is mapped to the vector-equivalent of the movement.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dict containing 2 values: <em>allowed</em> a boolean for an allowed movement (true) or not, and <em>pos</em> the coordinates of the new position after the movement, regardless of it allowed or not.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gridworld.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.draw" title="Link to this definition"></a></dt>
+<dd><p>The draw call that renders all the <em>pRectangles</em> in the grid and all overlays.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="primitives.html" class="btn btn-neutral float-left" title="Primitives" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Utilities.html" class="btn btn-neutral float-right" title="Meta-Classes, Utilities, and Support Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grogan, A..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

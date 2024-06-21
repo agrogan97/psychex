@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Styles and Aesthetics &mdash; Psychex 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Handling User Interactions" href="interactions.html" />
+    <link rel="prev" title="Meta-Classes, Utilities, and Support Classes" href="../code_docs/Utilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Psychex
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main_ideas.html">Key Concepts in Psychex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_static_content.html">Handling Static Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/primitives.html">Primitives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/paradigms.html">Composite Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Styles and Aesthetics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setting-default-styles">Setting Default Styles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#psychex.aesthetics.pText.edit"><code class="docutils literal notranslate"><span class="pre">psychex.aesthetics.pText.edit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#manually-overriding-and-setting-specific-styles">Manually Overriding and Setting Specific Styles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dynamic-styling">Dynamic Styling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#change-on-click">Change On-Click</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#traffic-lights">Traffic Lights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#colour-changing-timer">Colour-Changing Timer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#table-of-settings">Table of Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Psychex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Styles and Aesthetics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/aesthetics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="styles-and-aesthetics">
+<h1>Styles and Aesthetics<a class="headerlink" href="#styles-and-aesthetics" title="Link to this heading"></a></h1>
+<p>Psychex handles object styling through its <em>aesthetics</em> system. This essentially takes care of how everything looks, from font colour, font size,
+shape fill colour, rectangle border thickness, etc.</p>
+<p>This page shows how to do the following:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Set default style properties on primitives</p></li>
+<li><p>Set style on individual elements</p></li>
+<li><p>Set styles interactively, such as at certain times, or through user interaction.</p></li>
+</ol>
+</div></blockquote>
+<p>To make best use of this guide, download the skeleton template, launch an local browser instance, and open a web console.</p>
+<section id="setting-default-styles">
+<h2>Setting Default Styles<a class="headerlink" href="#setting-default-styles" title="Link to this heading"></a></h2>
+<p>All primitives, such as pText, pRectangle, pCircle, etc., have default aesthetics. These are contained within the global variable <cite>psychex.aesthetics</cite>.
+Within this, there contains objects for each of the primitives. You can get details on this by opening a console, and running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Similarly, to get details about the default settings on a specific primitive, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">pText</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Where <cite>pText</cite> can be replaced with any other primitive.</p>
+<p>The properties listed are the default settings for that primitive type. These properties are set for all primitives of that type, unless manually specified.
+We’ll cover manual settings in the next section.</p>
+<p>To edit the default properties, you can use the <cite>edit()</cite> function in each <cite>psychex.aesthetics</cite> object. Eg:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="psychex.aesthetics.pText.edit">
+<span class="sig-prename descclassname"><span class="pre">psychex.aesthetics.pText.</span></span><span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psychex.aesthetics.pText.edit" title="Link to this definition"></a></dt>
+<dd><p>Update the default settings for the chosen (in this case pText) primitive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>aes</strong> (<em>object</em>) – A dict mapping property to the new default value. The named properties in this parameter must match the values in the object. You can view these parameters by running psychex.aesthetics.pText.show()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Here’s an example of how to set the global defaults for a pText object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+
+    <span class="o">//</span> <span class="o">...</span> <span class="n">preamble</span> <span class="o">..</span> <span class="o">//</span>
+
+    <span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">pText</span><span class="o">.</span><span class="n">edit</span><span class="p">({</span><span class="n">fontColor</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">textSize</span><span class="p">:</span> <span class="mi">32</span><span class="p">});</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">myText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Welcome to Psychex&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">myText</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you update the default aesthetics, only the elements defined <strong>after</strong> the update will have the new settings applied.
+If you wish to apply custom defaults to all elements, do this before defining any elements in <cite>setup()</cite>. To apply one set of defaults to a handful
+of elements, and different default settings to other elements, define the first group, then edit the settings, then define the next group. For instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">..</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">..</span> <span class="o">//</span>
+<span class="n">content</span><span class="o">.</span><span class="n">text1a</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Block 1&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+<span class="n">content</span><span class="o">.</span><span class="n">text1b</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Defaults 1&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">35</span><span class="p">);</span>
+
+<span class="o">//</span> <span class="n">Define</span> <span class="n">new</span> <span class="n">defaults</span> <span class="o">//</span>
+<span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">pText</span><span class="o">.</span><span class="n">edit</span><span class="p">({</span><span class="n">fontColor</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">textSize</span><span class="p">:</span> <span class="mi">34</span><span class="p">});</span>
+
+<span class="o">//</span> <span class="n">Text</span> <span class="k">with</span> <span class="n">new</span> <span class="n">defaults</span> <span class="o">//</span>
+<span class="n">content</span><span class="o">.</span><span class="n">text2a</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Now they&#39;re...&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+<span class="n">content</span><span class="o">.</span><span class="n">text2b</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Big and blue&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">55</span><span class="p">);</span>
+
+<span class="o">//</span> <span class="o">...</span> <span class="ow">and</span> <span class="n">draw</span> <span class="k">as</span> <span class="n">normal</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="manually-overriding-and-setting-specific-styles">
+<h2>Manually Overriding and Setting Specific Styles<a class="headerlink" href="#manually-overriding-and-setting-specific-styles" title="Link to this heading"></a></h2>
+<p>It’s likely you’ll want individual elements to be styled in specific ways. Each Psychex primitive can be styled through its <cite>kwargs</cite> parameter.
+For more details on this, check the <a class="reference internal" href="../code_docs/primitives.html"><span class="doc">Primitives</span></a> docs.</p>
+<p><cite>kwargs</cite> is an optional parameter included at the end of every Psychex class, that allows you to override settings.</p>
+<p>To update the aesthetics for an element, add the styles to <cite>kwargs</cite>, for instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">fontColor</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+<span class="n">content</span><span class="o">.</span><span class="n">moreText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;I &lt;3 Psychex&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="p">{</span><span class="n">fontSize</span><span class="p">:</span> <span class="mi">48</span><span class="p">});</span>
+<span class="n">content</span><span class="o">.</span><span class="n">myRect</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">borderWidth</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">backgroundColor</span><span class="p">:</span> <span class="s1">&#39;yellow&#39;</span><span class="p">});</span>
+</pre></div>
+</div>
+<p>Applying aesthetics in this way will <strong>override</strong> the specified properties, but <strong>keep</strong> any defaults not specified.</p>
+</section>
+<section id="dynamic-styling">
+<h2>Dynamic Styling<a class="headerlink" href="#dynamic-styling" title="Link to this heading"></a></h2>
+<p>Perhaps you want to update styles in a dynamic way, such as on user-click. No problem!</p>
+<p>Each <cite>primitive</cite> object has an <cite>update()</cite> method that allows you to update kwargs and aesthetics at any time. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Imagine</span> <span class="n">a</span> <span class="n">rectangle</span> <span class="n">shape</span> <span class="n">that</span><span class="s1">&#39;s initialised with a red background</span>
+<span class="n">content</span><span class="o">.</span><span class="n">someRect</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">});</span>
+
+<span class="o">//</span> <span class="n">This</span> <span class="n">can</span> <span class="n">be</span> <span class="n">updated</span> <span class="n">by</span> <span class="n">calling</span> <span class="n">its</span> <span class="n">update</span> <span class="n">method</span><span class="p">:</span>
+
+<span class="n">content</span><span class="o">.</span><span class="n">someRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">});</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Calling <cite>update()</cite> and passing in parameters will update only the specified parameters, while keeping all others at their default value.</p>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p>Let’s consider a couple of examples where we might want to apply styling dynamically or from an interaction.</p>
+<section id="change-on-click">
+<h3>Change On-Click<a class="headerlink" href="#change-on-click" title="Link to this heading"></a></h3>
+<p>Imagine you want the colour of a rectangle to change when it’s clicked by a user. This might be used to give the player feedback on an interaction, for example.
+Firstly, we’ll create a rectangle object inside setup:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+    <span class="o">//</span> <span class="o">...</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">pRectangle</span> <span class="n">inside</span> <span class="n">content</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
+
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+
+    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The rectangle is initially rendered with a green background, and a green border.</p>
+<p>Let’s now make the shape clickable, and edit its <cite>onClick()</cite> property. For a deeper dive into user interactions,
+check out the tutorial on <a class="reference internal" href="interactions.html"><span class="doc">Handling User Interactions</span></a>. Let’s register the shape as a clickable object, and edit <cite>onClick</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">previous</span> <span class="n">setup</span> <span class="n">code</span> <span class="o">...</span> <span class="o">//</span>
+
+<span class="o">//</span> <span class="n">tell</span> <span class="n">Psychex</span> <span class="n">to</span> <span class="n">listen</span> <span class="k">for</span> <span class="n">clicks</span> <span class="n">on</span> <span class="n">this</span> <span class="nb">object</span>
+<span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">toggleClickable</span><span class="p">();</span>
+<span class="o">//</span> <span class="n">Define</span> <span class="n">the</span> <span class="n">function</span> <span class="n">to</span> <span class="n">be</span> <span class="n">run</span> <span class="n">when</span> <span class="n">the</span> <span class="nb">object</span> <span class="ow">is</span> <span class="n">clicked</span>
+<span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Simple as that! Now, when the user clicks the rectangle, it’s background and border colour will turn yellow.</p>
+<p>We can set this to automatically change back after some time by adding a timeout within the same function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">});</span>
+    <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">Change</span> <span class="n">colour</span> <span class="n">back</span> <span class="n">to</span> <span class="n">green</span> <span class="n">after</span> <span class="mi">1</span> <span class="n">second</span> <span class="p">(</span><span class="mi">1000</span> <span class="n">milliseconds</span><span class="p">)</span>
+        <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="traffic-lights">
+<h3>Traffic Lights<a class="headerlink" href="#traffic-lights" title="Link to this heading"></a></h3>
+<p>Let’s use the same logic to create traffic lights that change colour based on a user-click.
+For this, we want 3 lights (green, amber, and red), that go from red -&gt; red + amber -&gt; green, and then from green -&gt;
+green + amber -&gt; red.</p>
+<p>Let’s start by defining all our shapes in <cite>setup</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+    <span class="o">//</span> <span class="o">...</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+
+    <span class="o">//</span> <span class="n">Define</span> <span class="mi">3</span> <span class="n">lights</span><span class="p">,</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">button</span> <span class="n">to</span> <span class="n">request</span> <span class="n">a</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">lights</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">redLight</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">});</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">});</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">crossing</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pButton</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">})</span>
+        <span class="o">.</span><span class="n">addText</span><span class="p">(</span><span class="s2">&quot;Go&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">24</span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">draw</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">draw</span> <span class="n">the</span> <span class="n">lights</span> <span class="ow">and</span> <span class="n">button</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">redLight</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">crossing</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that, for the crossing button, we’ve used a <cite>pButton</cite> object. These are clickable by default, so we don’t need to run <cite>toggleClickable()</cite>,
+but we do need to specify what will happen <cite>onClick</cite>. Buttons can also contain either <cite>pText</cite> or <cite>pImage</cite> objects. Here, we’re adding some text
+through the <cite>addText</cite> method.</p>
+<p>Let’s go through and add all the rules for changing lights into <cite>onClick</cite>, under our previous definitions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">previous</span> <span class="n">setup</span><span class="p">()</span> <span class="n">code</span> <span class="o">//</span>
+
+<span class="n">content</span><span class="o">.</span><span class="n">crossing</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Set</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span> <span class="n">to</span> <span class="n">come</span> <span class="n">on</span> <span class="n">after</span> <span class="mi">1</span> <span class="n">second</span>
+    <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">});</span>
+        <span class="o">//</span> <span class="n">turn</span> <span class="n">on</span> <span class="n">the</span> <span class="n">gren</span> <span class="n">light</span> <span class="n">after</span> <span class="n">another</span> <span class="n">second</span>
+        <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
+            <span class="o">//</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
+            <span class="o">//</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">red</span> <span class="n">light</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">redLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
+
+            <span class="o">//</span> <span class="n">Reset</span> <span class="nb">all</span>
+            <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="o">//</span> <span class="n">Turn</span> <span class="n">on</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span><span class="p">,</span> <span class="ow">and</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">green</span> <span class="n">light</span>
+                <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">});</span>
+                <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
+                <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="o">//</span> <span class="n">turn</span> <span class="n">on</span> <span class="n">the</span> <span class="n">red</span> <span class="n">light</span><span class="p">,</span> <span class="ow">and</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span>
+                    <span class="n">content</span><span class="o">.</span><span class="n">redLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">});</span>
+                    <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
+                <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+            <span class="p">},</span> <span class="mi">3000</span><span class="p">)</span>
+        <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That’s it! We’re using several nested setTimeouts() to schedule events, but this is just one way of doing it.
+This could also be simplified by predefining the colour changes, such as by defining:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">lightChanges</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">green</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">on</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">},</span>
+        <span class="n">off</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
+    <span class="p">},</span>
+    <span class="n">amber</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">on</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">},</span>
+        <span class="n">off</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
+    <span class="p">},</span>
+    <span class="n">red</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">on</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">},</span>
+        <span class="n">off</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="ow">and</span> <span class="n">making</span> <span class="n">the</span> <span class="n">logic</span> <span class="n">slightly</span> <span class="n">easier</span> <span class="n">to</span> <span class="n">read</span><span class="p">:</span>
+
+<span class="n">content</span><span class="o">.</span><span class="n">crossing</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lightChanges</span><span class="o">.</span><span class="n">amber</span><span class="o">.</span><span class="n">on</span><span class="p">)</span>
+        <span class="o">//</span> <span class="n">etc</span><span class="o">.</span> <span class="o">//</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="colour-changing-timer">
+<h3>Colour-Changing Timer<a class="headerlink" href="#colour-changing-timer" title="Link to this heading"></a></h3>
+<p>Finally, this example shows how we can update the styling on a composite item - i.e. a class that contains primitives.
+For this, we’ll use the Countdown class. Let’s start by initialising a countdown timer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+    <span class="o">//</span> <span class="o">...</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">countdown</span> <span class="nb">object</span> <span class="k">with</span> <span class="n">a</span> <span class="mi">5</span><span class="o">-</span><span class="n">second</span> <span class="n">timer</span>
+    <span class="n">content</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Countdown</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+
+    <span class="n">content</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Currently, this has no graphics object (eg. a progress bar etc.) attached to it. The class provides 2 built-in objects: an arc, and a progress bar.
+Let’s attach an arc graphic to the underlying countdown logic.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+
+<span class="o">//</span> <span class="n">previous</span> <span class="n">code</span> <span class="o">//</span>
+<span class="n">content</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Countdown</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="o">//</span> <span class="n">add</span> <span class="n">an</span> <span class="n">arc</span> <span class="n">graphic</span> <span class="k">with</span> <span class="n">a</span> <span class="n">width</span> <span class="n">of</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">height</span> <span class="n">of</span> <span class="mi">10</span>
+<span class="n">content</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">setGraphic</span><span class="p">(</span><span class="s2">&quot;arc&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">w</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="mi">10</span><span class="p">});</span>
+</pre></div>
+</div>
+<p>This shape starts with the same default graphics as <em>pCircle</em>. Similarly, the <em>progressBar</em> graphic uses the <em>pRectangle</em> defaults.</p>
+<p>Let’s change the timer so that, when it elapses, the background colour changes randomly. Under the last code we wrote, add the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// ... previous code ... //
+
+// write a callback - i.e. a function that calls when the timer elapses
+// NB: onTimeUp is a class-specific name - so this method name must be used!
+content.timer.onTimeUp = () =&gt; {
+    // randomly sample from a list of colours
+    content.timer.graphic.update({backgroundColor: _.sample([&quot;green&quot;, &quot;yellow&quot;, &quot;pink&quot;, &quot;blue&quot;])});
+    // Reset the timer once it elapses
+    content.timer.reset();
+}
+
+// And reset it at the start, so it begins once the page loads
+content.timer.reset();
+</pre></div>
+</div>
+<p>The key point here is that we call the update on <em>content.timer.graphic</em>, <strong>not</strong> <em>content.timer</em> - the countdown object is just a container for code
+and logic, the <em>graphics</em> object contains the primitive that is drawn to the screen!</p>
+</section>
+</section>
+<section id="table-of-settings">
+<h2>Table of Settings<a class="headerlink" href="#table-of-settings" title="Link to this heading"></a></h2>
+<p>The following describes all styles that can be applied, their keywords, and defaults:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">pText</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key/s</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>textColor</p></td>
+<td><p>The text colour, similar to <em>color</em> in CSS.</p></td>
+<td><p><em>black</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>textSize</p></td>
+<td><p>Size of the font in pixels</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>textStyle</p></td>
+<td><p>The style of font used. One of <em>NORMAL</em>, <em>ITALICS</em>, <em>BOLD</em>, or <em>BOLDITALIC</em></p></td>
+<td><p><em>NORMAL</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>strokeWeight</p></td>
+<td><p>The thickness of the draw stroke, i.e. line thickness</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>fontFamily</p></td>
+<td><p>The font type to use: eg. “Times New Roman”, “Calibri”, “Aptos” - or one loaded by <em>loadFont</em></p></td>
+<td><p><em>sans-serif</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>lineSpacing</p></td>
+<td><p>The additional spacing in pixels between lines arranged vertically</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Geometries: pRectangle, pCircle, pTriangle</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key/s</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>backgroundColor</p></td>
+<td><p>The colour of the area within the shape</p></td>
+<td><p><em>white</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>borderColor</p></td>
+<td><p>The colour of the border wrapping the shape</p></td>
+<td><p><em>black</em></p></td>
+</tr>
+<tr class="row-even"><td><p>borderWidth</p></td>
+<td><p>The width or thickness of the shape outline in pixels</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../code_docs/Utilities.html" class="btn btn-neutral float-left" title="Meta-Classes, Utilities, and Support Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interactions.html" class="btn btn-neutral float-right" title="Handling User Interactions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grogan, A..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

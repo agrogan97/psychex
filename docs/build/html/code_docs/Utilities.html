@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meta-Classes, Utilities, and Support Classes &mdash; Psychex 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Styles and Aesthetics" href="../tutorial/aesthetics.html" />
+    <link rel="prev" title="Composite Classes" href="paradigms.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Psychex
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/main_ideas.html">Key Concepts in Psychex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/loading_static_content.html">Handling Static Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primitives.html">Primitives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">Composite Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Meta-Classes, Utilities, and Support Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fullscreen-mode">Fullscreen Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Fullscreen"><code class="docutils literal notranslate"><span class="pre">Fullscreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.beforeFullscreen"><code class="docutils literal notranslate"><span class="pre">Fullscreen.beforeFullscreen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.onFullscreenExit"><code class="docutils literal notranslate"><span class="pre">Fullscreen.onFullscreenExit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.detect"><code class="docutils literal notranslate"><span class="pre">Fullscreen.detect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fullscreen.draw"><code class="docutils literal notranslate"><span class="pre">Fullscreen.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Utils.getUrlParams"><code class="docutils literal notranslate"><span class="pre">Utils.getUrlParams()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#game-manager">Game Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Game.saveDataToServer"><code class="docutils literal notranslate"><span class="pre">Game.saveDataToServer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Game.loadDataFromServer"><code class="docutils literal notranslate"><span class="pre">Game.loadDataFromServer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Psychex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Meta-Classes, Utilities, and Support Classes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/code_docs/Utilities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="meta-classes-utilities-and-support-classes">
+<h1>Meta-Classes, Utilities, and Support Classes<a class="headerlink" href="#meta-classes-utilities-and-support-classes" title="Link to this heading"></a></h1>
+<p>Things like Game, Utils, any comms with server stuff</p>
+<section id="fullscreen-mode">
+<h2>Fullscreen Mode<a class="headerlink" href="#fullscreen-mode" title="Link to this heading"></a></h2>
+<p>In many games, you may wish to enforce that the user is in fullscreen mode to minimise the chance of cheating or distractions.</p>
+<p>Psychex offers a class that supports this and offers some helpful functionality.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Fullscreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fullscreen</span></span><a class="headerlink" href="#Fullscreen" title="Link to this definition"></a></dt>
+<dd><p>A wrapper providing various methods used to handle fullscreen behaviour.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.beforeFullscreen">
+<span class="sig-name descname"><span class="pre">beforeFullscreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.beforeFullscreen" title="Link to this definition"></a></dt>
+<dd><p>In order to turn the window into fullscreen mode, the user must agree by interacting (such as via a click).
+This method sets up the functionality to listen for a user click and launch fullscreen mode. It also takes
+a callback from the user to run additional functionality - such as instructions to render some text explaining
+that the user needs to click.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Render</span> <span class="n">some</span> <span class="n">text</span> <span class="n">explaining</span> <span class="n">that</span> <span class="n">the</span> <span class="n">user</span> <span class="n">can</span> <span class="n">click</span> <span class="n">to</span> <span class="n">launch</span> <span class="n">fullscreen</span>
+<span class="n">var</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Fullscreen</span><span class="p">();</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">beforeFullscreen</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">This</span> <span class="n">uses</span> <span class="n">the</span> <span class="n">pText</span> <span class="n">static</span> <span class="n">method</span><span class="p">,</span> <span class="n">so</span> <span class="n">no</span> <span class="n">need</span> <span class="n">to</span> <span class="n">instantiate</span> <span class="n">the</span> <span class="n">text</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">advance</span>
+    <span class="n">pText</span><span class="o">.</span><span class="n">draw_</span><span class="p">(</span><span class="s2">&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">42</span><span class="p">});</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>callback</strong> (<em>function</em>) – A user-defined callback that will be run before the player clicks to launch fullscreen. Will run every draw loop until fullscreen is launched. Default returns an empty function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.onFullscreenExit">
+<span class="sig-name descname"><span class="pre">onFullscreenExit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.onFullscreenExit" title="Link to this definition"></a></dt>
+<dd><p>Method that is run once every draw loop when the user exits fullscreen mode. This method is <strong>empty</strong> and can be overwritten by the user. May be used to redirect to a new window, call a save method, etc.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Using</span> <span class="n">a</span> <span class="n">previously</span> <span class="n">defined</span> <span class="n">fullscreen</span> <span class="n">instance</span> <span class="n">called</span> <span class="n">fs</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">onFullscreenExit</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">pText</span><span class="o">.</span><span class="n">draw_</span><span class="p">(</span><span class="s2">&quot;Fullscreen exit detected.&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">34</span><span class="p">})</span>
+    <span class="o">//</span> <span class="ow">or</span> <span class="n">perhaps</span> <span class="n">some</span> <span class="n">code</span> <span class="n">to</span> <span class="n">redirect</span> <span class="n">the</span> <span class="n">user</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.detect" title="Link to this definition"></a></dt>
+<dd><p>Logic that handles continuos fullscreen method detection. Once <cite>beforeFullscreen()</cite> detects fullscreen-launch, this method is run continuously until fullscreen mode is no longer detected. Updates the class attribute <cite>isFullScreen</cite>.
+Once isFullScreen = false, the class <cite>draw</cite> method is replaced with <cite>onFullscreenExit()</cite>, which may be defined by the user.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fullscreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.draw" title="Link to this definition"></a></dt>
+<dd><p>A wrapper that runs one of 3 other methods: <cite>beforeFullscreen</cite> (before the user clicks to launch fullscreen), <cite>detect</cite> (loop that checks if the user is in fullscreen), and <cite>onFullscreenExit</cite> (that loops when fullscreen is exited).
+This method is called in the global <cite>draw</cite> loop, just like any other renderable. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+
+    <span class="n">fullscreenMode</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">other</span> <span class="n">drawables</span> <span class="o">...</span>
+    <span class="o">//</span> <span class="n">eg</span><span class="o">.</span> <span class="n">text</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="o">//</span> <span class="n">eg</span><span class="o">.</span> <span class="n">rect</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="o">//</span> <span class="o">...</span> <span class="n">etc</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>The following is an example of how fullscreen mode can be fully implemented into a game. The flow here needs to work as follows:</dt><dd><ol class="arabic simple">
+<li><p>Tell the user they need to click to enter fullscreen mode, and wait for the click.</p></li>
+<li><p>Launch fullscreen.</p></li>
+<li><p>Render the game content as normal, and listen for if the player leaves fullscreen.</p></li>
+<li><p>Tell the user the game has detected they’ve left fullscreen.</p></li>
+</ol>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// NB: `fullscreen` is protected by p5, and can&#39;t be used as a variable name
+var fs = new Fullscreen()
+
+function setup(){
+    // ... Setup preamble ... //
+    // ... some game objects etc. ///
+    // ... //
+
+    // NB: that beforeFullscreen takes a callback, so it can handle other background logic
+    fs.beforeFullscreen(() =&gt; {
+        pText.draw_(&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;, 50, 50, {textSize: 42});
+        return true;
+    })
+
+    // declare func to run when the user leaves fullscreeen
+    fs.onFullscreenExit = () =&gt; {
+        pText.draw_(&quot;Fullscreen exit detected.&quot;, 50, 50, {textSize: 34})
+        return true;
+    }
+
+}
+
+function draw(){
+    clear();
+
+    // We return true from our pre- and post- fullscreen methods, so we can use that to block any other renders
+    // While in fullscreen, draw just returns undefined
+
+    let block = fs.draw();
+    if (a) {return}
+
+    // ... draw other content as normal ... //
+}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Utils">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Utils</span></span><a class="headerlink" href="#Utils" title="Link to this definition"></a></dt>
+<dd><p>A utilities class containing predominantly static methods for useful tasks and tools.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Utils.getUrlParams">
+<span class="sig-name descname"><span class="pre">getUrlParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">searchParams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">undefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Utils.getUrlParams" title="Link to this definition"></a></dt>
+<dd><p>Static method that reads the contents of a URL and return any parameters included in the string. If no URl is provided to the
+input parameter <em>url</em>, the URL of the current window will be used. This can also be used to search for specific
+params by including them in the array <em>searchParams</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>searchParams</strong> (<em>Array</em><em>[</em><em>string</em><em>]</em>) – <em>Optional</em> An array of parameters to search for. Including this will return only the specified parameters.</p></li>
+<li><p><strong>url</strong> (<em>string</em>) – <em>Optional</em> The URL to use for the search. If one isn’t provided, the current window URL is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dict-object mapping URL-Param key to value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="game-manager">
+<h2>Game Manager<a class="headerlink" href="#game-manager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Game">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Game</span></span><a class="headerlink" href="#Game" title="Link to this definition"></a></dt>
+<dd><p>Game-manager class. Contains a range of function used throughout the lifecycle of the game, including data and state management,
+saving and loading methods, and playerId management.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.saveDataToServer">
+<span class="sig-name descname"><span class="pre">saveDataToServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/save/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToServer" title="Link to this definition"></a></dt>
+<dd><p>Asynchronous function that saves data to an <em>HTTP</em> server via <em>POST</em> and returns a Promise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – The data object to be saved to the server. This data will be prepared for sending within this function call using <code class="docutils literal notranslate"><span class="pre">JSON.stringify</span></code>.</p></li>
+<li><p><strong>url</strong> (<em>string</em>) – The endpoint URL that the data will be saved to, such as the address on an external server.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The promise of a response from the target endpoint.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Promise</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+
+<span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
+<span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">saveDataToServer</span><span class="p">({</span><span class="n">someData</span><span class="p">}:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]},</span> <span class="s2">&quot;https://myAPIServer/api/save/&quot;</span><span class="p">)</span>
+<span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.loadDataFromServer">
+<span class="sig-name descname"><span class="pre">loadDataFromServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/load/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadDataFromServer" title="Link to this definition"></a></dt>
+<dd><p>Asynchronous function that requests data from an <em>HTTP</em> server via <em>GET</em> and returns a Promise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>string</em>) – The URL of the endpoint that the data’s is being requested from.</p></li>
+<li><p><strong>data</strong> (<em>Object</em>) – Any body content to be included in the GET request to the server. For instance, playerID, levelID etc. Any data passed will have <code class="docutils literal notranslate"><span class="pre">JSON.stringify</span></code> applied before being sent.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The promise of a response from the target endpoint.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Promise</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+
+<span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
+<span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">loadDataFromServer</span><span class="p">(</span><span class="s2">&quot;https://myAPIServer/api/load/&quot;</span><span class="p">)</span>
+<span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="paradigms.html" class="btn btn-neutral float-left" title="Composite Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial/aesthetics.html" class="btn btn-neutral float-right" title="Styles and Aesthetics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grogan, A..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

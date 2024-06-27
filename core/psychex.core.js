@@ -117,15 +117,15 @@ function pClickListener(e) {
         if (obj.type == "pImage"){
             if (obj.constants.imageMode == "CENTER") {
                 // -- Image / Center -- //
-                if (_.inRange(C.x, (obj.pos.x-obj.width/2), (obj.pos.x+obj.width/2))){
-                    if (_.inRange(C.y, (obj.pos.y-obj.height/2), (obj.pos.y+obj.height/2))){
+                if (_.inRange(C.x, (obj.pos.x-obj.dims.x/2), (obj.pos.x+obj.dims.x/2))){
+                    if (_.inRange(C.y, (obj.pos.y-obj.dims.y/2), (obj.pos.y+obj.dims.y/2))){
                         obj.onClick(obj);
                     }
                 }
             } else if (obj.constants.imageMode == "CORNER"){
                 // -- Image / Corner -- //
-                if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.width)){
-                    if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.height)){
+                if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
+                    if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
                         obj.onClick(obj);
                     }
                 }
@@ -601,7 +601,7 @@ class Primitive extends Psychex{
 class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         // -- Set default aesthetics -- //
-        super(x, y, {});
+        super(x, y, kwargs);
         this.type="pText";
         this.text = text.toString();
         this.scaleBy = 1;

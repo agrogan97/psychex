@@ -5,9 +5,8 @@ var params = {verbose: false, positionMode: "PERCENTAGE", textAlign: "CENTER", i
 var content = {};
 var myGame;
 
-function handleClick(e){
-    // -- p5.js click listener -- //
-    pClickListener(e)
+function handleClick(e){ 
+    pClickListener(e) 
 }
 
 function preload(){
@@ -19,8 +18,9 @@ function setup(){
     pixelDensity(1);
     frameRate(60)
     canvas.parent("gameCanvas")
+    document.addEventListener("click", (e) => {handleClick(e)});
     myGame = new Game();
-    content.myText = new pText("Psychex", 50, 50, {fontSize: 32});
+    content.myText = new pText("Psychex", 50, 50, {textSize: 32});
 }
 
 function draw(){

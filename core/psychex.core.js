@@ -29,6 +29,7 @@ psychex.aesthetics = {
         textAlign: "CENTER",
         angleMode: "DEGREES",
         positionMode: "PERCENTAGE",
+        stroke: "black",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pText")},
         show: () => {psychex.aesthetics._show("pText")},
     },
@@ -38,6 +39,8 @@ psychex.aesthetics = {
         borderWidth: 2,
         rectMode: "CENTER",
         positionMode: "PERCENTAGE",
+        stroke: "black",
+        strokeWeight: 1,
         edit : (aes) => {psychex.aesthetics._edit(aes, "pRectangle")},
         show: () => {psychex.aesthetics._show("pRectangle")},
     },
@@ -47,6 +50,8 @@ psychex.aesthetics = {
         borderWidth: 2,
         angleMode: "DEGREES",
         positionMode: "PERCENTAGE",
+        stroke: "black",
+        strokeWeight: 1,
         edit : (aes) => {psychex.aesthetics._edit(aes, "pCircle")},
         show: () => {psychex.aesthetics._show("pCircle")},
     },
@@ -55,6 +60,8 @@ psychex.aesthetics = {
         borderColor: 'black',
         borderWidth: 2,
         positionMode: "PERCENTAGE",
+        stroke: "black",
+        strokeWeight: 1,
         edit : (aes) => {psychex.aesthetics._edit(aes, "pTriangle")},
         show: () => {psychex.aesthetics._show("pTriangle")},
     },
@@ -62,8 +69,16 @@ psychex.aesthetics = {
         imageMode: "CENTER",
         angleMode: "DEGREES",
         positionMode: "PERCENTAGE",
+        stroke: "black",
+        tint: [255, 255],
         edit : (aes) => {psychex.aesthetics._edit(aes, "pImage")},
         show: () => {psychex.aesthetics._show("pImage")},
+    },
+    pLine: {
+        positionMode: "PERCENTAGE",
+        stroke: "black",
+        strokeWeight: 1,
+
     },
     _edit : (aes, obj) => {
         if (typeof(aes) != "object"){throw new Error(`To edit the global psychex.aesthetics, enter an object mapping property to value, e.g.: {backgroundColor: 'blue'}`)}
@@ -411,7 +426,13 @@ class Primitive extends Psychex{
             borderColor: (c) => {stroke(c)},
             color: (c) => {stroke(c); fill(c)},
             borderWidth: (c) => {strokeWeight(c)},
-            scale : (c) => {scale(c)}
+            scale : (c) => {scale(c)},
+
+            // image
+            tint: (c) => {tint(c)},
+
+            // Lines and geometry
+            stroke: (c) => {stroke(c)},
         }
 
         // _kwargs contains both aesthetics and kwargs
@@ -598,6 +619,14 @@ class Primitive extends Psychex{
     }
 }
 
+/**
+ * Psychex text class.
+ * @param {String} text Text string to be rendered. Accepts newlines if passed in by "\n".
+ * @param {number} x Horizontal coordinate of text, using anchor point based on *positionMode*
+ * @param {number} y Vertical coordinate of text, using anchor point based on *positionMode*
+ * @param {Object} kwargs={} dict of optional aesthetics and kwargs
+ * @returns {Object} pText object
+ */
 class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         // -- Set default aesthetics -- //
@@ -725,8 +754,16 @@ class pText extends Primitive {
     }
 }
 
+/**
+ * Psychex rectangle class.
+ * @param {number} x: Horizontal position of anchor point
+ * @param {number} y: Vertical position of anchor point
+ * @param {number} w: Width of the rectangle
+ * @param {number} h: Height of the rectangle
+ * @param {any} kwargs={}: Additional positional and aesthetic arguments
+ * @returns {Object} pRectangle
+ */
 class pRectangle extends Primitive{
-    // TODO: Option to leave y=undefined (or y="auto") which autocalculates and makes it a square rather than make the user do the maths
     constructor(x, y, w, h, kwargs={}){
         super(x, y, kwargs);
         this.type="pRectangle";
@@ -736,6 +773,12 @@ class pRectangle extends Primitive{
         this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
+    /**
+     * Add an image to the rectangle, using a shared anchor point
+     * @param {Object} imgObj: An image object loaded using `loadImage()`
+     * @param {Object} kwargs: Additional kwargs and aesthetic parameters to pass to the image
+     * @returns {undefined}
+     */
     withImage(imgObj, kwargs){
         // Overlay an image on the rectangle - common in gridworlds, etc.
         // TODO add with image option too
@@ -755,6 +798,9 @@ class pRectangle extends Primitive{
         pop();
     }
 
+    /**
+     * Overwritable method that's called when a click event on this primitive is triggered
+     */
     onClick(){}
 
     draw(){
@@ -768,6 +814,41 @@ class pRectangle extends Primitive{
     }
 }
 
+/**
+ * Psychex line class. Draws a linear line connecting the points specified by the params.
+ * @param {number} x1: x-coordinate of line start
+ * @param {number} y1: y-coordinate of line start
+ * @param {number} x2: x-coordinate of line end
+ * @param {number} y2: y-coordinate of line end
+ * @param {Object} kwargs={}: additional positional and aesthetic arguments
+ * @returns {Object} pLine
+ */
+class pLine extends Primitive {
+    constructor(x1, y1, x2, y2, kwargs={}){
+        super(x1, y1, kwargs);
+        this.endPos = createVector(x2, y2);
+        this.type = "pLine";
+        this._handleKwargs({...psychex.aesthetics.pLine, ...this.kwargs});
+    }
+
+    draw(){
+        let p = super.draw();
+        let p2 = Primitive.toPixels(this.endPos);
+        push();
+        translate(0, 0);
+        line(p.x, p.y, p2.x, p2.y);
+        pop();
+    }
+}
+
+/**
+ * Psychex circle class
+ * @param {number} x Horizontal coordinate of the centre of the circle 
+ * @param {number} y Vertical coordinate of the centre of the circle
+ * @param {number} r Radius of the circle. NB: is using positionMode="PERCENTAGE", this is scaled by the window width.
+ * @param {Object} kwargs={} Additional kwargs and aesthetic parameters
+ * @returns {pCircle}
+ */
 class pCircle extends Primitive{
     // pCircle % radius scaling is based on width
     constructor(x, y, r, kwargs={}){
@@ -855,6 +936,14 @@ class pTriangle extends Primitive{
     }
 }
 
+/**
+ * Psychex image class
+ * @param {number} x Horizontal coordinate of image, using anchor point based on *positionMode*
+ * @param {number} y Vertical coordinate of image, using anchor point based on *positionMode*
+ * @param {any} img p5 image object, loaded in using `loadImage()`
+ * @param {any} kwargs={} optional aesthetics and kwargs
+ * @returns {Object} pImage
+ */
 class pImage extends Primitive{
     /*
         Expects a p5 image object reference, from assets.imgs as input
@@ -927,12 +1016,22 @@ class pImage extends Primitive{
     }
 }
 
+/**
+ * Psychex button class that wraps a rect, makes it clickable by default, and allows you to add an overlayed primitive.
+ * @param {number} x: Horizontal coordinate of image, using anchor point based on *positionMode*
+ * @param {number} y: Vertical coordinate of image, using anchor point based on *positionMode*
+ * @param {number} w: Width of the button rect
+ * @param {number} h: height of the button rect
+ * @param {Object} kwargs={} optional aesthetics and kwargs
+ * @returns {Object} pButton
+ */
 class pButton extends Primitive {
     // A button is a pRectangle object with the option to add text or an image to the centre and is automatically clickable
     constructor(x, y, w, h, kwargs={}){
         super(x, y);
         this.type = "pButton"
         this.initDims = createVector(w, h);
+        console.log(kwargs)
         this.rect = new pRectangle(x, y, w, h, kwargs);
         this.dims = this.rect.dims;
         this.text = undefined;
@@ -1175,10 +1274,10 @@ class Game {
     }
 
     /**
-     * Description
-     * @param {any} data
-     * @param {any} url=`api/load/`
-     * @returns {any}
+     * Asynchronous function that loads data from a *HTTP* server via a *GET* and returns the data within a Promise
+     * @param {any} url=`api/load/` The HTTP endpoint that serves the data
+     * @param {any} data: Additional parameters to pass to the endpoint
+     * @returns {Promise}
      */
     async loadDataFromServer(url=`api/load/`, data={}){
         const URL = url;
@@ -1192,15 +1291,110 @@ class Game {
         })
     }
 
+    /**
+     * Store data to the participant's browser using the `localStorage` API
+     * @param {any} data Data to be saved to the browser
+     * @param {string} key="data" identification key that can be used to retrieve the data. Must be unique. Data can be retrieved with the Psychex method `Game.loadFromLocalStorage`.
+     * @returns {undefined}
+     */
     saveToLocalStorage(data, key="data"){
         // Save data to the player's browser
         let ID = key;
         localStorage.setItem(ID, data);
     }
 
+    /**
+     * Load previously stored data from the participant's browser using the `localStorage` API
+     * @param {any} key="data" The unique identification key for the stored data
+     * @returns {any} The previously stored data
+     */
     loadFromLocalStorage(key="data"){
         let ID = key;
-        localStorage.getItem(ID);
+        try {
+            return localStorage.getItem(ID);    
+        } catch (error) {
+            throw new Error(`Could not find any cached data with the key ${key}`);
+        }
+    }
+
+    /**
+     * Wraps the JATOS storage methods, allowing you to save data asynchronously by either appending it to a file, or overwriting.
+     * Ref: https://www.jatos.org/jatos.js-Reference.html#result-data-and-result-uploaddownload-files
+     * 
+     * @param {any} data The data to be saved
+     * @param {boolean} overwrite=false whether or not to overwrite existing stored data or append it to new data. Default appends to existing data.
+     * @returns {Promise}
+     */
+    saveDataToJatos(data, overwrite=false){
+        try {
+            let isLoaded = (jatos != undefined);
+        } catch (error) {
+            throw new Error(`Attempting to use JATOS functions but no JATOS lib file found. Make sure it's installed and imported into your index.html.`)
+        }
+        if (overwrite){
+            return jatos.submitResultData(data)
+        } else {
+            return jatos.appendResultData(data)
+        }
+    }
+
+    /**
+     * Static method that moves to the specified JATOS component. Wraps the JATOS methods `startComponent`, `startComponentByPos`, and `startNextComponent` automatically depending on whether a numerical input id, or an id string is provided.
+     * Optionally allows data to be saved on component change. Returns a Promise.
+     * Ref: https://www.jatos.org/jatos.js-Reference.html#functions-to-control-study-flow
+     * @param {any} id: The ID of the component, accepting either a string, number, or undefined. Using `undefined` will move to the next component.
+     * @param {any} save={}: Optional data to be saved on component change.
+     * @param {any} params={}: Optional data to be passed to the next component's URL and accessed there. If a string is passed, will be converted to an object as {params: params} and Stringified. If an Object is passed, will also be Stringified. To access data later, use `JSON.parse()`. on the param `message`.
+     * @returns {Promise}
+     */
+    static goToJatosComponent(id, save={}, params={}){
+        // Wrapper for the jatos.startComponent and jatos.startComponentByPos functions
+        try {
+            let isLoaded = (jatos != undefined);
+        } catch (error) {
+            throw new Error(`Attempting to use JATOS functions but no JATOS lib file found. Make sure it's installed and imported into your index.html.`)
+        }
+        // Depending on input type, find the relevant Jatos method to move to the next component
+        let callback = () => {};
+        if (id == undefined){
+            callback = jatos.startNextComponent;
+            if (_.isEmpty(save)){
+                if (_.isEmpty(params)){
+                    return callback();
+                } else {
+                    return callback({}, typeof(params) == "string" ? JSON.stringify({params : params}) : JSON.stringify(params));
+                }
+            } else {
+                if (_.isEmpty(params)){
+                    return callback(save);
+                } else {
+                    return callback(save, typeof(params) == "string" ? JSON.stringify({params : params}) : JSON.stringify(params));
+                }
+            }
+        } else if (typeof(id) == "number"){
+            callback = jatos.startComponentByPos;
+        } else {
+            callback = jatos.startComponent
+        }
+
+        // Run the appropriate callback with the right combination of inputs
+        if (_.isEmpty(save)){
+            // If no save data, check if passing params
+            if (_.isEmpty(params)){
+                return callback(id);
+            } else {
+                // If params are passed, check if a string and pass, else stringify it
+                // When this is recovered, if stringified will need to run JSON.parse later
+                return callback(id, {}, typeof(params) == "string" ? JSON.stringify({params : params}) : JSON.stringify(params));
+            }
+        } else {
+            // Save params passed
+            if (_.isEmpty(params)){
+                return callback(id, save)
+            } else {
+                return callback(id, save, typeof(params) == "string" ? JSON.stringify({params : params}) : JSON.stringify(params));
+            }
+        }
     }
 
     registerUUID(){
@@ -1208,7 +1402,7 @@ class Game {
             TODO
 
             Either read a UUID from the URL, or create one and register it in this.data
-            Alternatively create a this.metadata object that tracks user id, time loaded, etc.
+            Alternatively create a metadata object that tracks user id, time loaded, etc.
         */
 
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -1380,6 +1574,30 @@ class Utils{
             let vals = {}
             searchParams.forEach(p => {
                 vals[p] = urlObj.get(p);
+            })
+            return vals
+        }
+    }
+
+    /**
+     * Static method that can be used to read Jatos URL params. Jatos takes URL parameters initially appended to the experiment link and stores them as a variable called `jatos.urlQueryParams`. 
+     * It removes them from the browser-URL, but makes them accessible within each component through this object. This method is a wrapper for the Jatos method.
+     * @param {Array} searchParams=[] An array of parameters to search for. Including this will return only the specified parameters.
+     * @returns {Object} A dict-object mapping URL-Param key to value
+     */
+    static getJatosParams(searchParams=[]){
+        try {
+            let isLoaded = (jatos != undefined);
+        } catch (error) {
+            throw new Error(`Attempting to use JATOS functions but no JATOS lib file found. Make sure it's installed and imported into your index.html.`)
+        }
+        let urlObj = jatos.urlQueryParameters
+        if (searchParams.length == 0){
+            return urlObj;
+        } else {
+            let vals = {}
+            searchParams.forEach(p => {
+                vals[p] = urlObj[p];
             })
             return vals
         }

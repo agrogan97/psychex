@@ -166,3 +166,57 @@ Game Manager
             let res = myGame.loadDataFromServer("https://myAPIServer/api/load/")
             // etc TODO finish
 
+    .. py:method:: savetoLocalStorage(data, key="data")
+
+        Store data to the participant's browser using the `localStorage` API
+
+        :param any data: Data to be saved to the browser
+        :param string key: identification key that can be used to retrieve the data. Must be unique. Data can be retrieved with the Psychex method `Game.loadFromLocalStorage`.
+        :return: undefined
+
+    .. py:method:: loadFromLocalStorage(key="data")
+
+        Load previously stored data from the participant's browser using the `localStorage` API
+
+        :param string key: The unique identification key for the stored data
+        :return: The previousy stored data
+        :rtype: any
+
+    .. py:method:: saveDataToJatos(data, overwrite=false)
+
+        Wraps the JATOS storage methods, allowing you to save data asynchronously by either appending it to a file, or overwriting.
+        Ref: https://www.jatos.org/jatos.js-Reference.html#result-data-and-result-uploaddownload-files
+
+        :param any data: The data to be saved. NB: This data will be stringified using `JSON.stringify()` before being saved.
+        :param boolean overwrite: Whether to overwrite existing data (if true). Default=false appends to previously stored data (including an empty object if no data previously saved).
+        :return: A promise that accepts a callback for success or failure options
+        :rtype: Promise
+
+    .. py:method:: goToJatosComponent(id, save={}, params={})
+
+        Static method that moves to the specified JATOS component. Wraps the JATOS methods `startComponent`, `startComponentByPos`, and `startNextComponent` automatically depending on whether a numerical input id, or an id string is provided.
+        Additionally, you can pass in *params* that will be accessible in the URL params of the next component. These params are also stored as a *message* in the Jatos backend.
+        Optionally allows data to be saved on component change. Returns a Promise.
+        Ref: https://www.jatos.org/jatos.js-Reference.html#functions-to-control-study-flow
+
+        :param any id: The ID of the component, accepting either a string, number, or undefined. Using `undefined` will move to the next component.
+        :param any save: Optional data to be saved on component change.
+        :param any params: Optional data to be passed to the next component's URL and accessed there. If a string is passed, will be converted to an object as {params: params} and Stringified. If an Object is passed, will also be Stringified. To access data later, use `JSON.parse()`. on the param `message`.
+
+        ::
+
+            // Example Usage //
+
+            // > To move to the next component without saving or passing parameters (a message)
+            Game.goToJatosComponent();
+
+            // > To move to a specific component using the numeric ID, while also saving, but not passing a message
+            let someComponentId = 5; // get from Jatos backend interface
+            Game.goToJatosComponent(someComponentId, {myData: [1, 2, 3, 4]});
+
+            // > To move to the next component while not saving data, but passing parameters
+            // Note that here, we must pass in an empty object in lieu of the save inputs - since JS doesn't use keyword args!
+            Game.goToJatosComponent(undefined, {}, {playerId: 6});
+            
+
+

@@ -73,6 +73,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Game.saveDataToServer"><code class="docutils literal notranslate"><span class="pre">Game.saveDataToServer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Game.loadDataFromServer"><code class="docutils literal notranslate"><span class="pre">Game.loadDataFromServer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Game.savetoLocalStorage"><code class="docutils literal notranslate"><span class="pre">Game.savetoLocalStorage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Game.loadFromLocalStorage"><code class="docutils literal notranslate"><span class="pre">Game.loadFromLocalStorage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Game.saveDataToJatos"><code class="docutils literal notranslate"><span class="pre">Game.saveDataToJatos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Game.goToJatosComponent"><code class="docutils literal notranslate"><span class="pre">Game.goToJatosComponent()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -320,6 +324,93 @@ saving and loading methods, and playerId management.</p>
 <span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
 <span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">loadDataFromServer</span><span class="p">(</span><span class="s2">&quot;https://myAPIServer/api/load/&quot;</span><span class="p">)</span>
 <span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.savetoLocalStorage">
+<span class="sig-name descname"><span class="pre">savetoLocalStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.savetoLocalStorage" title="Link to this definition"></a></dt>
+<dd><p>Store data to the participant’s browser using the <cite>localStorage</cite> API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>any</em>) – Data to be saved to the browser</p></li>
+<li><p><strong>key</strong> (<em>string</em>) – identification key that can be used to retrieve the data. Must be unique. Data can be retrieved with the Psychex method <cite>Game.loadFromLocalStorage</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>undefined</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.loadFromLocalStorage">
+<span class="sig-name descname"><span class="pre">loadFromLocalStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadFromLocalStorage" title="Link to this definition"></a></dt>
+<dd><p>Load previously stored data from the participant’s browser using the <cite>localStorage</cite> API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>string</em>) – The unique identification key for the stored data</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The previousy stored data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.saveDataToJatos">
+<span class="sig-name descname"><span class="pre">saveDataToJatos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToJatos" title="Link to this definition"></a></dt>
+<dd><p>Wraps the JATOS storage methods, allowing you to save data asynchronously by either appending it to a file, or overwriting.
+Ref: <a class="reference external" href="https://www.jatos.org/jatos.js-Reference.html#result-data-and-result-uploaddownload-files">https://www.jatos.org/jatos.js-Reference.html#result-data-and-result-uploaddownload-files</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>any</em>) – The data to be saved. NB: This data will be stringified using <cite>JSON.stringify()</cite> before being saved.</p></li>
+<li><p><strong>overwrite</strong> (<em>boolean</em>) – Whether to overwrite existing data (if true). Default=false appends to previously stored data (including an empty object if no data previously saved).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A promise that accepts a callback for success or failure options</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Promise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Game.goToJatosComponent">
+<span class="sig-name descname"><span class="pre">goToJatosComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.goToJatosComponent" title="Link to this definition"></a></dt>
+<dd><p>Static method that moves to the specified JATOS component. Wraps the JATOS methods <cite>startComponent</cite>, <cite>startComponentByPos</cite>, and <cite>startNextComponent</cite> automatically depending on whether a numerical input id, or an id string is provided.
+Additionally, you can pass in <em>params</em> that will be accessible in the URL params of the next component. These params are also stored as a <em>message</em> in the Jatos backend.
+Optionally allows data to be saved on component change. Returns a Promise.
+Ref: <a class="reference external" href="https://www.jatos.org/jatos.js-Reference.html#functions-to-control-study-flow">https://www.jatos.org/jatos.js-Reference.html#functions-to-control-study-flow</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>any</em>) – The ID of the component, accepting either a string, number, or undefined. Using <cite>undefined</cite> will move to the next component.</p></li>
+<li><p><strong>save</strong> (<em>any</em>) – Optional data to be saved on component change.</p></li>
+<li><p><strong>params</strong> (<em>any</em>) – Optional data to be passed to the next component’s URL and accessed there. If a string is passed, will be converted to an object as {params: params} and Stringified. If an Object is passed, will also be Stringified. To access data later, use <cite>JSON.parse()</cite>. on the param <cite>message</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+
+<span class="o">//</span> <span class="o">&gt;</span> <span class="n">To</span> <span class="n">move</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">component</span> <span class="n">without</span> <span class="n">saving</span> <span class="ow">or</span> <span class="n">passing</span> <span class="n">parameters</span> <span class="p">(</span><span class="n">a</span> <span class="n">message</span><span class="p">)</span>
+<span class="n">Game</span><span class="o">.</span><span class="n">goToJatosComponent</span><span class="p">();</span>
+
+<span class="o">//</span> <span class="o">&gt;</span> <span class="n">To</span> <span class="n">move</span> <span class="n">to</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">component</span> <span class="n">using</span> <span class="n">the</span> <span class="n">numeric</span> <span class="n">ID</span><span class="p">,</span> <span class="k">while</span> <span class="n">also</span> <span class="n">saving</span><span class="p">,</span> <span class="n">but</span> <span class="ow">not</span> <span class="n">passing</span> <span class="n">a</span> <span class="n">message</span>
+<span class="n">let</span> <span class="n">someComponentId</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="o">//</span> <span class="n">get</span> <span class="kn">from</span> <span class="nn">Jatos</span> <span class="n">backend</span> <span class="n">interface</span>
+<span class="n">Game</span><span class="o">.</span><span class="n">goToJatosComponent</span><span class="p">(</span><span class="n">someComponentId</span><span class="p">,</span> <span class="p">{</span><span class="n">myData</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]});</span>
+
+<span class="o">//</span> <span class="o">&gt;</span> <span class="n">To</span> <span class="n">move</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">component</span> <span class="k">while</span> <span class="ow">not</span> <span class="n">saving</span> <span class="n">data</span><span class="p">,</span> <span class="n">but</span> <span class="n">passing</span> <span class="n">parameters</span>
+<span class="o">//</span> <span class="n">Note</span> <span class="n">that</span> <span class="n">here</span><span class="p">,</span> <span class="n">we</span> <span class="n">must</span> <span class="k">pass</span> <span class="ow">in</span> <span class="n">an</span> <span class="n">empty</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">lieu</span> <span class="n">of</span> <span class="n">the</span> <span class="n">save</span> <span class="n">inputs</span> <span class="o">-</span> <span class="n">since</span> <span class="n">JS</span> <span class="n">doesn</span><span class="s1">&#39;t use keyword args!</span>
+<span class="n">Game</span><span class="o">.</span><span class="n">goToJatosComponent</span><span class="p">(</span><span class="n">undefined</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="n">playerId</span><span class="p">:</span> <span class="mi">6</span><span class="p">});</span>
 </pre></div>
 </div>
 </dd></dl>

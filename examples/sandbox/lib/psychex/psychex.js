@@ -62,6 +62,7 @@ psychex.aesthetics = {
         imageMode: "CENTER",
         angleMode: "DEGREES",
         positionMode: "PERCENTAGE",
+        tint: [255, 255],
         edit : (aes) => {psychex.aesthetics._edit(aes, "pImage")},
         show: () => {psychex.aesthetics._show("pImage")},
     },
@@ -411,7 +412,10 @@ class Primitive extends Psychex{
             borderColor: (c) => {stroke(c)},
             color: (c) => {stroke(c); fill(c)},
             borderWidth: (c) => {strokeWeight(c)},
-            scale : (c) => {scale(c)}
+            scale : (c) => {scale(c)},
+
+            // image
+            tint: (c) => {tint(c)},
         }
 
         // _kwargs contains both aesthetics and kwargs
@@ -598,6 +602,14 @@ class Primitive extends Psychex{
     }
 }
 
+/**
+ * Psychex text class
+ * @param {String} text Text string to be rendered. Accepts newlines if passed in by "\n".
+ * @param {number} x Horizontal coordinate of text, using anchor point based on *positionMode*
+ * @param {number} y Vertical coordinate of text, using anchor point based on *positionMode*
+ * @param {Object} kwargs={} dict of optional aesthetics and kwargs
+ * @returns {Object} pText object
+ */
 class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         // -- Set default aesthetics -- //
@@ -855,6 +867,14 @@ class pTriangle extends Primitive{
     }
 }
 
+/**
+ * Psychex image class
+ * @param {number} x Horizontal coordinate of image, using anchor point based on *positionMode*
+ * @param {number} y Vertical coordinate of image, using anchor point based on *positionMode*
+ * @param {any} img p5 image object, loaded in using `loadImage()`
+ * @param {any} kwargs={} optional aesthetics and kwargs
+ * @returns {Object} pImage
+ */
 class pImage extends Primitive{
     /*
         Expects a p5 image object reference, from assets.imgs as input
@@ -927,12 +947,22 @@ class pImage extends Primitive{
     }
 }
 
+/**
+ * Psychex button class that wraps a rect, makes it clickable by default, and allows you to add an overlayed primitive.
+ * @param {number} x: Horizontal coordinate of image, using anchor point based on *positionMode*
+ * @param {number} y: Vertical coordinate of image, using anchor point based on *positionMode*
+ * @param {number} w: Width of the button rect
+ * @param {number} h: height of the button rect
+ * @param {Object} kwargs={} optional aesthetics and kwargs
+ * @returns {Object} pButton
+ */
 class pButton extends Primitive {
     // A button is a pRectangle object with the option to add text or an image to the centre and is automatically clickable
     constructor(x, y, w, h, kwargs={}){
         super(x, y);
         this.type = "pButton"
         this.initDims = createVector(w, h);
+        console.log(kwargs)
         this.rect = new pRectangle(x, y, w, h, kwargs);
         this.dims = this.rect.dims;
         this.text = undefined;

@@ -777,12 +777,6 @@ class pRectangle extends Primitive{
         this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
     }
 
-    /**
-     * Add an image to the rectangle, using a shared anchor point
-     * @param {Object} imgObj: An image object loaded using `loadImage()`
-     * @param {Object} kwargs: Additional kwargs and aesthetic parameters to pass to the image
-     * @returns {undefined}
-     */
     withImage(imgObj, kwargs){
         // Overlay an image on the rectangle - common in gridworlds, etc.
         // TODO add with image option too
@@ -802,9 +796,6 @@ class pRectangle extends Primitive{
         pop();
     }
 
-    /**
-     * Overwritable method that's called when a click event on this primitive is triggered
-     */
     onClick(){}
 
     draw(){
@@ -845,14 +836,6 @@ class pLine extends Primitive {
     }
 }
 
-/**
- * Psychex circle class
- * @param {number} x Horizontal coordinate of the centre of the circle 
- * @param {number} y Vertical coordinate of the centre of the circle
- * @param {number} r Radius of the circle. NB: is using positionMode="PERCENTAGE", this is scaled by the window width.
- * @param {Object} kwargs={} Additional kwargs and aesthetic parameters
- * @returns {pCircle}
- */
 class pCircle extends Primitive{
     // pCircle % radius scaling is based on width
     constructor(x, y, r, kwargs={}){
@@ -1311,11 +1294,7 @@ class Game {
      */
     loadFromLocalStorage(key="data"){
         let ID = key;
-        try {
-            return localStorage.getItem(ID);    
-        } catch (error) {
-            throw new Error(`Could not find any cached data with the key ${key}`);
-        }
+        return localStorage.getItem(ID);
     }
 
     /**

@@ -101,7 +101,7 @@ The following is an example of how fullscreen mode can be fully implemented into
         // While in fullscreen, draw just returns undefined
 
         let block = fs.draw();
-        if (a) {return}
+        if (block) {return}
 
         // ... draw other content as normal ... //
     }

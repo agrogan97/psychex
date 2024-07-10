@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tutorial: Ho, M. et al. (2022) &mdash; Psychex 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=2709fde1"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -95,14 +96,14 @@
            <div itemprop="articleBody">
              
   <section id="tutorial-ho-m-et-al-2022">
-<h1>Tutorial: Ho, M. <em>et al.</em> (2022)<a class="headerlink" href="#tutorial-ho-m-et-al-2022" title="Link to this heading"></a></h1>
+<h1>Tutorial: Ho, M. <em>et al.</em> (2022)<a class="headerlink" href="#tutorial-ho-m-et-al-2022" title="Permalink to this heading"></a></h1>
 <p>This example recreates Ho &amp; colleagues’ experiment from their 2022 Nature paper titled <em>People construct simplified mental representations to plan</em>.</p>
 <p>In this work, they use an experimental paradigm where participants see a gridworld populated by obstacles,
 a start point, and an end point. The participant is tasked with navigating to the end point while avoiding the obstacles.
 Initially, all obstacles are visible during navigation (this is changed in later experiments).
 Finally, they are queried about their awareness of a particular obstacle during the trial.</p>
 <section id="setting-up">
-<h2>Setting Up<a class="headerlink" href="#setting-up" title="Link to this heading"></a></h2>
+<h2>Setting Up<a class="headerlink" href="#setting-up" title="Permalink to this heading"></a></h2>
 <p>We’ll start by copying the skeleton folder from <em>examples</em>. This contains all the dependencies and boilerplate code we need to get started.
 Next, we can open a terminal, navigate to the root directory, and deploy a server to serve static files. For example, using Python:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span>
@@ -111,7 +112,7 @@ Next, we can open a terminal, navigate to the root directory, and deploy a serve
 <p>If we open a browser at <code class="docutils literal notranslate"><span class="pre">127.0.0.1:8000</span></code>, we’ll see the Psychex welcome text.</p>
 </section>
 <section id="building-a-gridworld">
-<h2>Building a Gridworld<a class="headerlink" href="#building-a-gridworld" title="Link to this heading"></a></h2>
+<h2>Building a Gridworld<a class="headerlink" href="#building-a-gridworld" title="Permalink to this heading"></a></h2>
 <p>From the skeleton, we’ve already got out preload, setup, and draw functions. Let’s delete the Psychex welcome text, so <em>setup</em> looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
     <span class="n">var</span> <span class="n">canvas</span> <span class="o">=</span> <span class="n">createCanvas</span><span class="p">(</span><span class="n">windowWidth</span><span class="p">,</span> <span class="n">windowHeight</span><span class="p">);</span>
@@ -125,7 +126,7 @@ Next, we can open a terminal, navigate to the root directory, and deploy a serve
 <p>Psychex has a gridworld class that provides helpful functionality and will handle a chunk of the heavy lifting.
 You can look behind the scenes in more detail from the docs (TODO ref docs).</p>
 <section id="gridworld-background">
-<h3>Gridworld Background<a class="headerlink" href="#gridworld-background" title="Link to this heading"></a></h3>
+<h3>Gridworld Background<a class="headerlink" href="#gridworld-background" title="Permalink to this heading"></a></h3>
 <p>Before we fully dive into the tutorial, let’s explore a couple of the features of the gridworld class. If you’re already familiar with it, you may
 wish to skip this part. We can instantiate a gridworld in the following way:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">myGrid</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GridWorld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">nRows</span><span class="p">,</span> <span class="n">nCols</span><span class="p">,</span> <span class="n">align</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">);</span>
@@ -163,7 +164,7 @@ This makes a single cell clickable, and accepts a callback to run <cite>onClick<
 </section>
 </section>
 <section id="extending-the-gridworld-class">
-<h2>Extending the Gridworld Class<a class="headerlink" href="#extending-the-gridworld-class" title="Link to this heading"></a></h2>
+<h2>Extending the Gridworld Class<a class="headerlink" href="#extending-the-gridworld-class" title="Permalink to this heading"></a></h2>
 <p>We’ll begin by creating a new class that extends the Psychex Gridworld class. In this experiment, we want a few components of the grid to
 remain the same between trials, and others to vary, so by having a custom wrapper this will be much easier.</p>
 <p>Start by defining the class. You can either do this inside <cite>main.js</cite>, or in a new file. If you do it in a new file, don’t forget to import it
@@ -308,7 +309,7 @@ text, where you might want to fine-tune alignment. This also accepts negative of
 </div>
 </section>
 <section id="movement-control-and-key-press-events">
-<h2>Movement Control and Key-Press Events<a class="headerlink" href="#movement-control-and-key-press-events" title="Link to this heading"></a></h2>
+<h2>Movement Control and Key-Press Events<a class="headerlink" href="#movement-control-and-key-press-events" title="Permalink to this heading"></a></h2>
 <p><em>Make it mooooove</em></p>
 <p>Now we’ll go over how to attach events to key-presses, so the player can move the token. Psychex allows you to attach callbacks to any key-press. The
 browser will then listen for key-presses and run the appropriate function. The <em>Gridworld</em> class provides an additional wrapper for this, called <em>handleMovement</em>.</p>
@@ -421,7 +422,7 @@ each cell instead of setting the cell props - but changing colour works just fin
 </div>
 </section>
 <section id="adding-more-complex-overlays">
-<h2>Adding More Complex Overlays<a class="headerlink" href="#adding-more-complex-overlays" title="Link to this heading"></a></h2>
+<h2>Adding More Complex Overlays<a class="headerlink" href="#adding-more-complex-overlays" title="Permalink to this heading"></a></h2>
 <p>Secondly, we’ll add a countdown timer overlay on the endpoint cell. Inside the constructor, define a timer object and overlay it onto the end position.
 Again, we want this to be called before <em>initialiseRound</em> or <em>movementControl</em>, so we have a reference to it within those methods:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Add</span> <span class="n">timer</span>
@@ -622,7 +623,7 @@ the <em>generateRounds</em> function:</p>
 <p>Psychex supports all of these options, and offers the extensibility to create alternatives.</p>
 </section>
 <section id="overriding-the-parent-draw-method">
-<h2>Overriding the Parent Draw Method<a class="headerlink" href="#overriding-the-parent-draw-method" title="Link to this heading"></a></h2>
+<h2>Overriding the Parent Draw Method<a class="headerlink" href="#overriding-the-parent-draw-method" title="Permalink to this heading"></a></h2>
 <p>Finally, let’s enhance the user experience by adding some feedback text throughout the round. Inside the constructor, define an empty string:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">this</span><span class="o">.</span><span class="n">displayText</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
 </pre></div>

@@ -1,6 +1,9 @@
 // Check prerequisites
-if (_ == undefined){throw new Error("Psychex requires lodash to be loaded.")}
-if (p5 == undefined){throw new Error("Psychex requires p5.js to be loaded.")}
+// if (_ == undefined){throw new Error("Psychex requires lodash to be loaded.")}
+// if (p5 == undefined){throw new Error("Psychex requires p5.js to be loaded.")}
+
+import _ from 'lodash';
+import * as p5 from 'p5';
 
 // -- REQUIRED PARAMS -- DO NOT EDIT --
 p5.disableFriendlyErrors = true;
@@ -10,7 +13,7 @@ var roundData;
 var isFullScreen = false;
 var begin;
 var blockLoop = false;
-var psychex = {};
+export var psychex = {};
 
 psychex.aesthetics = {
     show : () => {
@@ -627,7 +630,7 @@ class Primitive extends Psychex{
  * @param {Object} kwargs={} dict of optional aesthetics and kwargs
  * @returns {Object} pText object
  */
-class pText extends Primitive {
+export class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         // -- Set default aesthetics -- //
         super(x, y, kwargs);

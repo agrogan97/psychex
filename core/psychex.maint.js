@@ -12,6 +12,7 @@ var isFullScreen = false;
 var begin;
 var blockLoop = false;
 var psychex = {};
+var _keysPressed = [];
 
 psychex.aesthetics = {
     show : () => {
@@ -119,7 +120,20 @@ psychex.keyPressEvents = {
     clear: () => {psychex.keyPressEvents.events = []},
 }
 
-// TODO: Currently we need to manually attach a click event listener to the window - this should be done automatically by Psychex surely?
+psychex.keyHoldEvents = {
+    events: [],
+    register: (k, callback) => {
+        // Check if an event is written to this key already
+        let existingEvents = psychex.keyHoldEvents.events.filter(i => (i.k == k));
+        if (existingEvents.length == 0){
+            // Write new event
+            psychex.keyHoldEvents.events.push({k: k, callback: callback});
+        } else {
+            existingEvents[0].callback = callback;
+        }
+    },
+    clear: () => {psychex.keyHoldEvents.events = []},
+}
 
 function pEventListener(e, event) {
     if (clickables.length == 0 && draggables.length == 0){return}
@@ -229,15 +243,25 @@ function pEventListener(e, event) {
     })
 }
 
-function pKeyboardInput(){
-    // Add rules for a keyboard input
-}
-
 function keyPressed(e){
     // p5.js keyPressed function
     // Iterate over contents of psychex.keyPressEvents and see if one matches the key pressed
     // Run callback if registered
     psychex.keyPressEvents.events.filter(i => (i.k == key)).forEach(i => {i.callback(e)});
+}
+
+/**
+ * The onHold processor runs keypress callbacks in line with the framerate of the draw loop. 
+ * To use, it must be included in the main draw function, eg.: `onHold()`
+ * This is intended for controlling movement, as it's highly sensitive and not suitable for typing for instance.
+ */
+function onHold(){
+    // Note that currently pressing key B while A is held stops A from continuing to run, even if A remains pressed after B is lifted
+    Object.keys(psychex.keyHoldEvents.events).forEach(i => {
+        if (keyIsDown(keyCode)){
+            psychex.keyHoldEvents.events.filter(i => (i.k == key)).forEach(i => {i.callback()});
+        }
+    })
 }
 
 class Psychex{
@@ -574,6 +598,16 @@ class Primitive extends Psychex{
         }  
     }
 
+    /**
+     * Move the primitive by a vector amount, v
+     * @param {Object} v Object with keys x and y, or a p5 object created with `createVector`
+     * @returns {any}
+     */
+    moveBy(v){
+        this.pos.x += v.x;
+        this.pos.y += v.y;
+    }
+
     update(update={}){
         /*
             This is literally just a wrapper around updateAesthetics() to make calling it shorter and more logical for the developer
@@ -655,11 +689,8 @@ class Primitive extends Psychex{
             } catch (error) {
                 console.log(this)
                 throw new Error(`Likely calling super.draw() unnecessarily - you can ignore this error, or remove the super.draw() call if not adding a custom primitive.`)
-            }
-
-            
+            }            
         }
-        
         // this._pos = this.pos;
         this.convertCoordinates();
         return this._pos;
@@ -2194,11 +2225,299 @@ class GridWorld extends Primitive {
     }
 }
 
+class pTimeline {
+    // A class that allows you to define a timeline schema of when things are shown in a reliable way
+    // Possibly pieced together with some kind of blocking?
+    constructor(){
+        
+    }
+}
+
+class pDOM extends Primitive {
+    constructor(x=0, y=0, id=undefined){
+        super(x, y, {})
+        this.x = x;
+        this.y = y;
+        // Wrap p5.js DOM tools in a handy way for getting inputs from the player
+        this.elements = {};
+        // Store references to any child psychex objects
+        this.children = {};
+    }
+
+    /**
+     * Sets the HTML id property of the element. This allows it to be accessed via `document.getElementById(id)` as you would with
+     * any ordinary DOM element.
+     * @param {any} id
+     * @returns {Object} this
+     */
+    setId(id){
+        this.el.id(id.toString());
+        return this;
+    }
+
+    /**
+     * Set the text value of the element. This directly edits the `innerHTML` property of the HTML element.
+     * This accepts HTML as an input. For instance, passing `Some <b>bold<\b> text in would render 'bold' in bold.
+     * @param {String} t New innerHTML of the element.
+     * @param {Boolean} append If true, append this to the existing innerHTML. If false, overwrite. Default = false.
+     * @returns {Object} this
+     */
+    setText(t, append=false){
+        this.el.html(t, append)
+        return this;
+    }
+
+    /**
+     * Return the innerHTML of the element as a string
+     * @returns {String} The innerHTML content of the element, including HTML tags.
+     */
+    getText(){
+        return this.el.html()
+    }
+
+    /**
+     * Center the element within its div. If it has no parent div, it will be placed centrally on the page.
+     * Note that updating the innerHTML won't recenter the element, this must be manually called afterwards.
+     * @returns {Object} this
+     */
+    center(){
+        this.el.center();
+        return this;
+    }
+
+    /**
+     * Make this element the child of the input parent. 
+     * This is performed at 2 levels: the DOM level, where the child element is set as the child of the parent element,
+     * and at a Psychex level, where references to each Psychex object are stored as `parent` and `child` respectively.
+     * Once an element is made into a child, it's position becomes relative to the parent.
+     * @param {Object} parentObj The Psychex parent object that this object will be appended to. NB: this is not the DOM element, but the Psychex object.
+     */
+    appendTo(parentObj, reposition=false){
+        // Make this element a child of the named parent element
+        parentObj.el.child(this.el);
+        // Set a reference to the parent psychex object
+        this.parent = parentObj;
+        // Set a reference to this psychex object within the parent object
+        // parentObj.children.push(this);
+        parentObj.children[this.id] = this;
+        // If reposition is true, update the position relative to the new parent object
+        if (reposition){
+            // Get position of parent and add to this position
+            // This can be done purely by re-setting its position with the current coords, and it will be updated relative to parent
+            this.setPosition(this.pos.x, this.pos.y)
+        }
+    }
+
+    /**
+     * Set the width and height of the element.
+     * Passing in a single value will edit just the width, and height is adjusted automatically to maintain the w/h ratio.
+     * Passing in integers for both width and height will manually set both values.
+     * Either value can be replaced with `AUTO`, a constant that keeps ratio the same.
+     * 
+     * e.g: ::
+     * 
+     *     setSize(50, AUTO) // Sets width to 50 while autoing height
+     *     setSize(100, 100) // Sets width to 100 and height to 100
+     * @param {any} width Width value or AUTO
+     * @param {any} height Height value or AUTO
+     * @returns {Object} this
+     */
+    setSize(width, height){
+        let dims = Primitive._convertCoordinates(createVector(width, height));
+        // Accepts the keyword AUTO, which uses the CSS 'auto' to keep scale the same
+        // Passing in AUTO to either width or height will auto-compute it based on the other value
+        this.el.size(width == AUTO ? AUTO : dims.x, height == AUTO ? AUTO : height);
+        return this;
+    }
+
+    getSize(){
+        return this.el.size();
+    }
+
+    setPosition(x, y){
+        // Get pixel values from input
+        let pos = Primitive._convertCoordinates(createVector(x, y));
+        // Save copy of pos to Psychex obj
+        this.pos = createVector(x, y);
+        // Update HTML position
+        this.el.position(pos.x, pos.y)
+        return this;
+    }
+
+    toggleDraggable(){
+        this.el.draggable();
+    }
+}
+
+class Div extends pDOM {
+    constructor(x, y, id){
+        super(x, y, id);
+        this.type = "Div";
+        this.draw();
+    }
+
+    addContent(t){
+        this.el.value(t)
+    }
+
+    draw(){
+        let p = super.draw();
+        console.log(p.x, p.y)
+        this.el = createDiv();
+        this.el.position(p.x, p.y);
+    }
+}
+
+class p extends pDOM {
+    constructor(x, y, value, id){
+        super(x, y, {});
+        this.value = value;
+        this.id = id;
+        this.type = "p";
+        this.pixWidth = 6*this.value.length;
+        this.draw();
+        this.el.size(this.pixWidth, AUTO);
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createP(this.value);
+        this.el.position(p.x, p.y);
+    }
+}
+
+class Input extends pDOM {
+    constructor(x, y, value, id){
+        super(x, y, {});
+        this.value = value;
+        this.id = id;
+        this.type = "input"
+        this.draw();
+    }
+
+    /**
+     * Return the value of the text within the input box
+     * @returns {String} The content as a string
+     */
+    getValue(){
+        return this.el.value() 
+    }
+
+    /**
+     * Provide a callback that runs when data is input to this element
+     * @param {function} callback A callback to be run on each input - i.e. each time a key is typed while the box is active.
+     * @returns {Object} this
+     */
+    onInput(callback){
+        if (callback == undefined){
+            console.log("No callback set for button click.")
+        } else {
+            this.el.input(callback);
+        }
+        
+        return this
+    }
+
+    /**
+     * Add placeholder text to the input box
+     * @param {String} t placeholder text 
+     * @returns {Object} this
+     */
+    setPlaceHolder(t){
+        this.el.elt.placeholder = t;
+        return this;
+    }
+
+    clear(){
+        this.el.value("");
+        return this;
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createInput(this.value);
+        this.el.position(p.x, p.y);
+    }
+}
+
+class Button extends pDOM{
+    constructor(x, y, value, id){
+        super(x, y, {})
+        this.value = value;
+        this.id = id;
+        this.type = "button";
+        // this.onClick = () => {console.log("No click fn assigned")};
+        this.draw();
+        this.el.mousePressed(this.onClick);
+    }
+
+    /**
+     * Pass a callback to be called when the button is clicked.
+     * Note that unlike Psychex canvas objects, this accepts a callback as the parameter, rather than being the callback itself.
+     * This is because we need to call the additional `mousePressed` method to update the callback in the DOM.
+     * @param {function} callback Callback to be called when the button is pressed.
+     */
+    onClick(callback){
+        this.el.mousePressed(callback)
+    }
+
+    draw() {
+        let p = super.draw();
+        this.el = createButton(this.value);
+        this.el.position(p.x, p.y);
+    }
+}
+
+class Form extends pDOM{
+    constructor(x, y, id){
+        super(x, y, `${id}_div`)
+        this.fields = {};
+        this.contentDiv = new Div(this.pos.x, this.pos.y);
+        this.submitBtn = new Button(0, 0, "Submit", `${id}_submitBtn`);
+        this.submitBtn.appendTo(this.contentDiv, true);
+        this.fieldSpacing = 7.5
+    }
+
+    addField(id, fieldType, label, placeholder=""){
+        if (!["text"].includes(fieldType)){throw new Error(`Did not recognise field type ${fieldType}. Must be one of: 'text'`)};
+        // Create a new div for this field and append to the parent div
+        let newDiv = new Div(0, this.fieldSpacing*(Object.keys(this.fields).length));
+        newDiv.appendTo(this.contentDiv)
+        // Create a new label and input based on type
+        let newLabel = new p(0, -2, label, `${id}_label`);
+        newLabel.appendTo(newDiv);
+        let newInput;
+        if (fieldType == "text"){
+            newInput = new Input(7.5, 0, "", `${id}_input`);
+            newInput.appendTo(newDiv);
+            newInput.setPlaceHolder(placeholder)
+        }
+        
+        this.fields[id] = newDiv;
+
+        // If a new field is added, reposition the submit button dynamically
+        this.submitBtn.setPosition(0, this.fieldSpacing*(Object.keys(this.fields).length));
+
+        return this;
+    }
+
+    removeField(){
+
+    }
+}
+
+
+
+
+
+
+
+
+
 /*
 Classes to add:
-    - Slideshow
-    - Stages (integrated within game class now) 
-    - UI/HUD
+    - Timeline class
+    - Questionnaire class using the p5 DOM attributes
 
 Extra thoughts:
     - Better to build with npm and then use webpack - since it depends on lodash and p5.js

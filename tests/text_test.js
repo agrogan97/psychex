@@ -50,7 +50,6 @@ function setup(){
             }, 1500)
         })
     })
-    psychex.keyPressEvents.register()
 
     content.switchingText = new pText('Watch me switch (click on me to stop)', 50, 70, {textSize: 28}).toggleClickable();
     let colours = ['red', 'black', 'green', 'orange', 'pink', 'blue', 'yellow', 'cyan', 'magenta'];
@@ -69,6 +68,8 @@ function windowResized() {
 
 function draw(){
     clear();
+
+    onHold();
 
     content.headingText.draw();
     pText.draw_("Start typing to render temporary text on the screen", 50, 30);

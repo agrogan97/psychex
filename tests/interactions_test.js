@@ -71,6 +71,25 @@ function setup(){
     content.dragCircle.onDrag = (e) => {
         e.pos = Primitive.toPercentage(createVector(mouseX, mouseY));
     }
+
+    content.controlCircle = new pCircle(20, 60, 5, {backgroundColor: 'orange'});
+    psychex.keyHoldEvents.register('ArrowLeft', () => {
+        content.controlCircle.moveBy(createVector(-1*5/60, 0))
+    })
+    psychex.keyHoldEvents.register('ArrowRight', () => {
+        content.controlCircle.moveBy(createVector(1*5/60, 0))
+    })
+    psychex.keyHoldEvents.register('ArrowUp', () => {
+        content.controlCircle.moveBy(createVector(0, -5*1/60))
+    })
+    psychex.keyHoldEvents.register('ArrowDown', () => {
+        content.controlCircle.moveBy(createVector(0, 5*1/60))
+    })
+
+    psychex.keyPressEvents.register('ArrowLeft', () => {
+        console.log("Left")
+    })
+
 }
 
 function windowResized() {
@@ -79,6 +98,8 @@ function windowResized() {
 
 function draw(){
     clear();
+
+    onHold();
 
     content.rectA.draw();
     content.circA.draw();
@@ -89,6 +110,7 @@ function draw(){
     content.imgLabel.draw();
 
     content.dragCircle.draw();
+    content.controlCircle.draw();
 
     content.instructions.draw();
 }

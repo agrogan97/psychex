@@ -232,7 +232,7 @@ When building a game like this where a player moves through a maze, you may want
     #. *before movement* - to implement rules about where they can move, i.e. not into walls or obstacles
     #. *after movement* - to apply logic after a move, such as updating position, changing an aesthetic, etc.
 
-The *handleMovement* method allows you to pass in each of these, which it'll wrap into a single callback. The first will run, and if it returns *true*, 
+The gridworld *handleMovement* method allows you to pass in each of these, which it'll wrap into a single callback. The first will run, and if it returns *true*, 
 it will trigger the second. You can also define a control *mode*, and specify whether the player should use arrow keys, the *w-a-s-d* keys, or just operate 
 through mouse clicks.
 

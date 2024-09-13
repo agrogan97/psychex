@@ -75,7 +75,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
         :return: cell reference
         :rtype: Object
     
-    .. py:method:: setCellProps(id, props)
+    .. py:method:: updateCell(id, props)
 
         Update the aesthetic properties of a cell (eg. backgroundColor, borderWidth, etc.)
 

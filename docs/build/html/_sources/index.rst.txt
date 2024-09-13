@@ -6,7 +6,7 @@
 Psychex
 =======
 
-Psychex is a psychology and cognitive science library for building online experiments using JavaScript.
+Psychex is a psychology and cognitive science library in JavaScript for building online experiments using JavaScript.
 It was built by A. Grogan in the Department of Experimental Psychology at the University of Oxford.
 
 The main goal of Psychex is to make it easy to build gameified experiments.

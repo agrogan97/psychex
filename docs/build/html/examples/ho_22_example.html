@@ -320,7 +320,7 @@ browser will then listen for key-presses and run the appropriate function. The <
 <li><p><em>after movement</em> - to apply logic after a move, such as updating position, changing an aesthetic, etc.</p></li>
 </ol>
 </div></blockquote>
-<p>The <em>handleMovement</em> method allows you to pass in each of these, which it’ll wrap into a single callback. The first will run, and if it returns <em>true</em>,
+<p>The gridworld <em>handleMovement</em> method allows you to pass in each of these, which it’ll wrap into a single callback. The first will run, and if it returns <em>true</em>,
 it will trigger the second. You can also define a control <em>mode</em>, and specify whether the player should use arrow keys, the <em>w-a-s-d</em> keys, or just operate
 through mouse clicks.</p>
 <p>Of course, if you don’t want to use this, you can just write your own using the ordinary key-press register (see user interactions docs).</p>

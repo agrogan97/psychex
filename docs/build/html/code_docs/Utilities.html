@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meta-Classes, Utilities, and Support Classes &mdash; Psychex 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Styles and Aesthetics" href="../tutorial/aesthetics.html" />
+    <link rel="next" title="Document Object Model (DOM)" href="dom.html" />
     <link rel="prev" title="Composite Classes" href="paradigms.html" /> 
 </head>
 
@@ -84,6 +83,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dom.html">Document Object Model (DOM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
@@ -117,19 +117,19 @@
            <div itemprop="articleBody">
              
   <section id="meta-classes-utilities-and-support-classes">
-<h1>Meta-Classes, Utilities, and Support Classes<a class="headerlink" href="#meta-classes-utilities-and-support-classes" title="Permalink to this heading"></a></h1>
+<h1>Meta-Classes, Utilities, and Support Classes<a class="headerlink" href="#meta-classes-utilities-and-support-classes" title="Link to this heading"></a></h1>
 <p>Things like Game, Utils, any comms with server stuff</p>
 <section id="fullscreen-mode">
-<h2>Fullscreen Mode<a class="headerlink" href="#fullscreen-mode" title="Permalink to this heading"></a></h2>
+<h2>Fullscreen Mode<a class="headerlink" href="#fullscreen-mode" title="Link to this heading"></a></h2>
 <p>In many games, you may wish to enforce that the user is in fullscreen mode to minimise the chance of cheating or distractions.</p>
 <p>Psychex offers a class that supports this and offers some helpful functionality.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Fullscreen">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fullscreen</span></span><a class="headerlink" href="#Fullscreen" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fullscreen</span></span><a class="headerlink" href="#Fullscreen" title="Link to this definition"></a></dt>
 <dd><p>A wrapper providing various methods used to handle fullscreen behaviour.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Fullscreen.beforeFullscreen">
-<span class="sig-name descname"><span class="pre">beforeFullscreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.beforeFullscreen" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">beforeFullscreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.beforeFullscreen" title="Link to this definition"></a></dt>
 <dd><p>In order to turn the window into fullscreen mode, the user must agree by interacting (such as via a click).
 This method sets up the functionality to listen for a user click and launch fullscreen mode. It also takes
 a callback from the user to run additional functionality - such as instructions to render some text explaining
@@ -151,7 +151,7 @@ that the user needs to click.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Fullscreen.onFullscreenExit">
-<span class="sig-name descname"><span class="pre">onFullscreenExit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.onFullscreenExit" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">onFullscreenExit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.onFullscreenExit" title="Link to this definition"></a></dt>
 <dd><p>Method that is run once every draw loop when the user exits fullscreen mode. This method is <strong>empty</strong> and can be overwritten by the user. May be used to redirect to a new window, call a save method, etc.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Using</span> <span class="n">a</span> <span class="n">previously</span> <span class="n">defined</span> <span class="n">fullscreen</span> <span class="n">instance</span> <span class="n">called</span> <span class="n">fs</span>
 <span class="n">fs</span><span class="o">.</span><span class="n">onFullscreenExit</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -164,14 +164,14 @@ that the user needs to click.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Fullscreen.detect">
-<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.detect" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.detect" title="Link to this definition"></a></dt>
 <dd><p>Logic that handles continuos fullscreen method detection. Once <cite>beforeFullscreen()</cite> detects fullscreen-launch, this method is run continuously until fullscreen mode is no longer detected. Updates the class attribute <cite>isFullScreen</cite>.
 Once isFullScreen = false, the class <cite>draw</cite> method is replaced with <cite>onFullscreenExit()</cite>, which may be defined by the user.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Fullscreen.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.draw" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.draw" title="Link to this definition"></a></dt>
 <dd><p>A wrapper that runs one of 3 other methods: <cite>beforeFullscreen</cite> (before the user clicks to launch fullscreen), <cite>detect</cite> (loop that checks if the user is in fullscreen), and <cite>onFullscreenExit</cite> (that loops when fullscreen is exited).
 This method is called in the global <cite>draw</cite> loop, just like any other renderable. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
@@ -190,7 +190,7 @@ This method is called in the global <cite>draw</cite> loop, just like any other 
 </dd></dl>
 
 <section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>The following is an example of how fullscreen mode can be fully implemented into a game. The flow here needs to work as follows:</dt><dd><ol class="arabic simple">
 <li><p>Tell the user they need to click to enter fullscreen mode, and wait for the click.</p></li>
@@ -238,14 +238,14 @@ function draw(){
 </section>
 </section>
 <section id="utilities">
-<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this heading"></a></h2>
+<h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="Utils">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Utils</span></span><a class="headerlink" href="#Utils" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Utils</span></span><a class="headerlink" href="#Utils" title="Link to this definition"></a></dt>
 <dd><p>A utilities class containing predominantly static methods for useful tasks and tools.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Utils.getUrlParams">
-<span class="sig-name descname"><span class="pre">getUrlParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">searchParams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">undefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Utils.getUrlParams" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">getUrlParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">searchParams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">undefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Utils.getUrlParams" title="Link to this definition"></a></dt>
 <dd><p>Static method that reads the contents of a URL and return any parameters included in the string. If no URl is provided to the
 input parameter <em>url</em>, the URL of the current window will be used. This can also be used to search for specific
 params by including them in the array <em>searchParams</em>.</p>
@@ -269,15 +269,15 @@ params by including them in the array <em>searchParams</em>.</p>
 
 </section>
 <section id="game-manager">
-<h2>Game Manager<a class="headerlink" href="#game-manager" title="Permalink to this heading"></a></h2>
+<h2>Game Manager<a class="headerlink" href="#game-manager" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="Game">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Game</span></span><a class="headerlink" href="#Game" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Game</span></span><a class="headerlink" href="#Game" title="Link to this definition"></a></dt>
 <dd><p>Game-manager class. Contains a range of function used throughout the lifecycle of the game, including data and state management,
 saving and loading methods, and playerId management.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Game.saveDataToServer">
-<span class="sig-name descname"><span class="pre">saveDataToServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/save/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToServer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">saveDataToServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/save/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToServer" title="Link to this definition"></a></dt>
 <dd><p>Asynchronous function that saves data to an <em>HTTP</em> server via <em>POST</em> and returns a Promise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -304,7 +304,7 @@ saving and loading methods, and playerId management.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Game.loadDataFromServer">
-<span class="sig-name descname"><span class="pre">loadDataFromServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/load/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadDataFromServer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">loadDataFromServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api/load/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadDataFromServer" title="Link to this definition"></a></dt>
 <dd><p>Asynchronous function that requests data from an <em>HTTP</em> server via <em>GET</em> and returns a Promise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -331,7 +331,7 @@ saving and loading methods, and playerId management.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Game.savetoLocalStorage">
-<span class="sig-name descname"><span class="pre">savetoLocalStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.savetoLocalStorage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">savetoLocalStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.savetoLocalStorage" title="Link to this definition"></a></dt>
 <dd><p>Store data to the participant’s browser using the <cite>localStorage</cite> API</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -348,7 +348,7 @@ saving and loading methods, and playerId management.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Game.loadFromLocalStorage">
-<span class="sig-name descname"><span class="pre">loadFromLocalStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadFromLocalStorage" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">loadFromLocalStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.loadFromLocalStorage" title="Link to this definition"></a></dt>
 <dd><p>Load previously stored data from the participant’s browser using the <cite>localStorage</cite> API</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -365,7 +365,7 @@ saving and loading methods, and playerId management.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Game.saveDataToJatos">
-<span class="sig-name descname"><span class="pre">saveDataToJatos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToJatos" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">saveDataToJatos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.saveDataToJatos" title="Link to this definition"></a></dt>
 <dd><p>Wraps the JATOS storage methods, allowing you to save data asynchronously by either appending it to a file, or overwriting.
 Ref: <a class="reference external" href="https://www.jatos.org/jatos.js-Reference.html#result-data-and-result-uploaddownload-files">https://www.jatos.org/jatos.js-Reference.html#result-data-and-result-uploaddownload-files</a></p>
 <dl class="field-list simple">
@@ -386,7 +386,7 @@ Ref: <a class="reference external" href="https://www.jatos.org/jatos.js-Referenc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Game.goToJatosComponent">
-<span class="sig-name descname"><span class="pre">goToJatosComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.goToJatosComponent" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">goToJatosComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Game.goToJatosComponent" title="Link to this definition"></a></dt>
 <dd><p>Static method that moves to the specified JATOS component. Wraps the JATOS methods <cite>startComponent</cite>, <cite>startComponentByPos</cite>, and <cite>startNextComponent</cite> automatically depending on whether a numerical input id, or an id string is provided.
 Additionally, you can pass in <em>params</em> that will be accessible in the URL params of the next component. These params are also stored as a <em>message</em> in the Jatos backend.
 Optionally allows data to be saved on component change. Returns a Promise.
@@ -426,7 +426,7 @@ Ref: <a class="reference external" href="https://www.jatos.org/jatos.js-Referenc
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="paradigms.html" class="btn btn-neutral float-left" title="Composite Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../tutorial/aesthetics.html" class="btn btn-neutral float-right" title="Styles and Aesthetics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dom.html" class="btn btn-neutral float-right" title="Document Object Model (DOM)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

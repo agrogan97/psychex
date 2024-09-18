@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document Object Model (DOM) &mdash; Psychex 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Styles and Aesthetics" href="../tutorial/aesthetics.html" />
+    <link rel="prev" title="Meta-Classes, Utilities, and Support Classes" href="Utilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Psychex
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/main_ideas.html">Key Concepts in Psychex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/loading_static_content.html">Handling Static Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primitives.html">Primitives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">Composite Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Document Object Model (DOM)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#DOM"><code class="docutils literal notranslate"><span class="pre">DOM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.setId"><code class="docutils literal notranslate"><span class="pre">DOM.setId()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.getId"><code class="docutils literal notranslate"><span class="pre">DOM.getId()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.setText"><code class="docutils literal notranslate"><span class="pre">DOM.setText()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.getText"><code class="docutils literal notranslate"><span class="pre">DOM.getText()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.center"><code class="docutils literal notranslate"><span class="pre">DOM.center()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.appendTo"><code class="docutils literal notranslate"><span class="pre">DOM.appendTo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.setSize"><code class="docutils literal notranslate"><span class="pre">DOM.setSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.getSize"><code class="docutils literal notranslate"><span class="pre">DOM.getSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.setValue"><code class="docutils literal notranslate"><span class="pre">DOM.setValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.getValue"><code class="docutils literal notranslate"><span class="pre">DOM.getValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.setPosition"><code class="docutils literal notranslate"><span class="pre">DOM.setPosition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.getPosition"><code class="docutils literal notranslate"><span class="pre">DOM.getPosition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.update"><code class="docutils literal notranslate"><span class="pre">DOM.update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseOver"><code class="docutils literal notranslate"><span class="pre">DOM.mouseOver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseOut"><code class="docutils literal notranslate"><span class="pre">DOM.mouseOut()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseMoved"><code class="docutils literal notranslate"><span class="pre">DOM.mouseMoved()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseReleased"><code class="docutils literal notranslate"><span class="pre">DOM.mouseReleased()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseWheel"><code class="docutils literal notranslate"><span class="pre">DOM.mouseWheel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.show"><code class="docutils literal notranslate"><span class="pre">DOM.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DOM.hide"><code class="docutils literal notranslate"><span class="pre">DOM.hide()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Div"><code class="docutils literal notranslate"><span class="pre">Div</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#p"><code class="docutils literal notranslate"><span class="pre">p</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Input"><code class="docutils literal notranslate"><span class="pre">Input</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Input.onInput"><code class="docutils literal notranslate"><span class="pre">Input.onInput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Input.setPlaceholder"><code class="docutils literal notranslate"><span class="pre">Input.setPlaceholder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Input.getPlaceholder"><code class="docutils literal notranslate"><span class="pre">Input.getPlaceholder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Input.clear"><code class="docutils literal notranslate"><span class="pre">Input.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Button.onClick"><code class="docutils literal notranslate"><span class="pre">Button.onClick()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Slider"><code class="docutils literal notranslate"><span class="pre">Slider</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Slider.setRange"><code class="docutils literal notranslate"><span class="pre">Slider.setRange()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Slider.setDefault"><code class="docutils literal notranslate"><span class="pre">Slider.setDefault()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Slider.onChange"><code class="docutils literal notranslate"><span class="pre">Slider.onChange()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Slider.onChangeEnd"><code class="docutils literal notranslate"><span class="pre">Slider.onChangeEnd()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Psychex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Document Object Model (DOM)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/code_docs/dom.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="document-object-model-dom">
+<h1>Document Object Model (DOM)<a class="headerlink" href="#document-object-model-dom" title="Link to this heading"></a></h1>
+<dl class="js class">
+<dt class="sig sig-object js" id="DOM">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">DOM</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM" title="Link to this definition"></a></dt>
+<dd><p>Base class offering wrappers for interacting with the DOM. Specific element classes can inherit from this class and use methods such as <cite>setId</cite>, <cite>setText</cite>, <cite>center</cite>, <cite>setPosition</cite>, and more. See below for an exhaustive list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – unique identifier. If <em>undefined</em>, will be set to randomly generated string</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – styles and additional kwargs</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.setId">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setId</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.setId" title="Link to this definition"></a></dt>
+<dd><p>Sets the HTML id property of the element. This allows it to be accessed via <cite>document.getElementById(id)</cite> as you would with any ordinary DOM element.
+Can be read through the <cite>getId()</cite> method of this class. This is called automatically when an element is drawn, but can be used to update id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique id of the element or <em>undefined</em>. If <em>undefined</em>, will be assigned a random string of length 8.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.getId">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getId</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getId" title="Link to this definition"></a></dt>
+<dd><p>Read the id of the element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The element id</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.setText">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setText</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append=false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.setText" title="Link to this definition"></a></dt>
+<dd><p>Set the text value of the element. This directly edits the <cite>innerHTML</cite> property of the HTML element.
+This accepts HTML as an input. For instance, passing <cite>Some &lt;b&gt;bold&lt;b&gt; text</cite> in would render ‘bold’ in bold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – New innerHTML of the element. Accepts HTML or rich text.</p></li>
+<li><p><strong>append</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">boolean()</span></code></span>) – If true, append this to the existing innerHTML. If false, overwrite. Default = false.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.getText">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getText</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getText" title="Link to this definition"></a></dt>
+<dd><p>Return the innerHTML of the element as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The innerHTML content of the element, including HTML tags.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.center">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">center</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.center" title="Link to this definition"></a></dt>
+<dd><p>Center the element within its div. If it has no parent div, it will be placed centrally on the page.
+Note that updating the innerHTML won’t recenter the element, this must be manually called afterwards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this object reference</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.appendTo">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">appendTo</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parentObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reposition=false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.appendTo" title="Link to this definition"></a></dt>
+<dd><p>Make this element the child of the input parent.
+This is performed at 2 levels: the DOM level, where the child element is set as the child of the parent element, and at a Psychex level, where references to each Psychex object are stored as <cite>parent</cite> and added to the list of <cite>children</cite>, respectively.
+Once an element is made into a child, its position becomes relative to the parent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parentObj</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – The Psychex parent object that this object will be appended to. NB: this is not the DOM element, but the Psychex object.</p></li>
+<li><p><strong>reposition</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">boolean()</span></code></span>) – If true, automatically reposition the child to make its stored position relative to the parent. If false, do nothing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.setSize">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setSize</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.setSize" title="Link to this definition"></a></dt>
+<dd><p>Set the width and height of the element.
+Passing in a single value will edit just the width, and height is adjusted automatically to maintain the w/h ratio.
+Passing in integers for both width and height will manually set both values.
+Either value can be replaced with <cite>AUTO</cite>, a constant that keeps ratio the same.</p>
+<p>e.g:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setSize</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">AUTO</span><span class="p">)</span> <span class="o">//</span> <span class="n">Sets</span> <span class="n">width</span> <span class="n">to</span> <span class="mi">50</span> <span class="k">while</span> <span class="n">autoing</span> <span class="n">height</span>
+<span class="n">setSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">//</span> <span class="n">Sets</span> <span class="n">width</span> <span class="n">to</span> <span class="mi">100</span> <span class="ow">and</span> <span class="n">height</span> <span class="n">to</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Width value in pixels, or AUTO</p></li>
+<li><p><strong>height</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Height value in pixels, or AUTO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.getSize">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getSize" title="Link to this definition"></a></dt>
+<dd><p>Return the size of the element as object <cite>{width: w, height: h}</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Width and height of the element</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object with keys <cite>width</cite> and <cite>height</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.setValue">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setValue</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.setValue" title="Link to this definition"></a></dt>
+<dd><p>Set the contents of the element’s value parameter. Accepts HTML string as input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The new value string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.getValue">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getValue" title="Link to this definition"></a></dt>
+<dd><p>Return the element’s value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the element’s value</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.setPosition">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setPosition</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.setPosition" title="Link to this definition"></a></dt>
+<dd><p>Sets the current position of the element using the provided coordinates. Expects numerical <cite>%</cite> inputs.
+Unlike in the canvas objects, this will be anchored by the top-right-hand corner of the element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – The x-coordinate of the element in percentage</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – The y-coordinate of the element in percentage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.getPosition">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getPosition</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asPixels=false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getPosition" title="Link to this definition"></a></dt>
+<dd><p>Return the current position of the element, either as % or in pixels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>asPixels</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">boolean()</span></code></span>) – If true, return in pixels, if false return in terms of %</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The element coordinates with keys <cite>x</cite> and <cite>y</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.update">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.update" title="Link to this definition"></a></dt>
+<dd><p>Set element CSS styling by passing in a styling object. Also allows width and height to be set through kwargs.
+Calls the <cite>setId()</cite> method to update ID on instantiation. For example, to instantiate some text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">dom</span><span class="o">.</span><span class="n">styledText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">p</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;Some styled text&quot;</span><span class="p">,</span> <span class="s2">&quot;styledText&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">});</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – Object mapping CSS properties to their values. Takes in standard CSS names as keys (must be strings).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.mouseOver">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">mouseOver</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.mouseOver" title="Link to this definition"></a></dt>
+<dd><p>Set callback when mouse is over the element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – Callback to run</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.mouseOut">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">mouseOut</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.mouseOut" title="Link to this definition"></a></dt>
+<dd><p>Set callback when mouse leaves the element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – Callback to run</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.mouseMoved">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">mouseMoved</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.mouseMoved" title="Link to this definition"></a></dt>
+<dd><p>Set callback when mouse move is detected within the bounds of the element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – Callback to run</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.mouseReleased">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">mouseReleased</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.mouseReleased" title="Link to this definition"></a></dt>
+<dd><p>Set callback when the mouse click is released on the element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – Callback to run</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.mouseWheel">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">mouseWheel</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.mouseWheel" title="Link to this definition"></a></dt>
+<dd><p>Set callback when the mouse wheel is used on the element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – Callback to run</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.show">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">show</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.show" title="Link to this definition"></a></dt>
+<dd><p>Show the current element. If it is already showing, do nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this object reference</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="DOM.hide">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">hide</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.hide" title="Link to this definition"></a></dt>
+<dd><p>Hide the current element. If it is already hidden, do nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this object reference</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Div">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Div</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Div" title="Link to this definition"></a></dt>
+<dd><p>Create a new HTML &lt;div&gt; element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="p">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">p</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#p" title="Link to this definition"></a></dt>
+<dd><p>Create a new HTML &lt;p&gt; element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>value</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The text content of the string. Accepts html and rich text.</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Input">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Input</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Input" title="Link to this definition"></a></dt>
+<dd><p>Create a new HTML &lt;input&gt; element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>value</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The starting value of the input. Can be set to “” to have an empty value.</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="js method">
+<dt class="sig sig-object js" id="Input.onInput">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Input</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">onInput</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Input.onInput" title="Link to this definition"></a></dt>
+<dd><p>Provide a callback that runs when data is input to this element. This is reactive, and runs each time there is a change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – A callback to be run on each input - i.e. each time a key is typed while the box is active.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Input.setPlaceholder">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Input</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setPlaceholder</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Input.setPlaceholder" title="Link to this definition"></a></dt>
+<dd><p>Set the placeholder text for the input (if applicable). For instance, in a text input, this might be the text shown on instantation before the user starts typing, and disappears when the input is interacted with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The placeholder text</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Input.getPlaceholder">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Input</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getPlaceholder</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Input.getPlaceholder" title="Link to this definition"></a></dt>
+<dd><p>Return the current placeholder text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the placeholder text</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Input.clear">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Input</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Input.clear" title="Link to this definition"></a></dt>
+<dd><p>Clear the value of the current input. Useful for when building forms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this object reference</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Button">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Button</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Button" title="Link to this definition"></a></dt>
+<dd><p>Create a new HTML &lt;button&gt; element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>value</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The text content of the button</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="js method">
+<dt class="sig sig-object js" id="Button.onClick">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Button</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">onClick</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Button.onClick" title="Link to this definition"></a></dt>
+<dd><p>Pass a callback to be called when the button is clicked.
+Note that unlike Psychex canvas objects, this accepts a callback as the parameter, rather than being the callback itself.
+This is because we need to call the additional <cite>mousePressed</cite> method to update the callback in the DOM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – The callback to run when a click is detected on the element</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Slider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Slider</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Slider" title="Link to this definition"></a></dt>
+<dd><p>Create a new HTML &lt;slider&gt; element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="js method">
+<dt class="sig sig-object js" id="Slider.setRange">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Slider</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setRange</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Slider.setRange" title="Link to this definition"></a></dt>
+<dd><p>Set the minimum and maximum values stored for the slider. This doesn’t change the slider aesthetics, but will change the value returned when the slider is moved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – The lower-bound (LHS of the slider scale)</p></li>
+<li><p><strong>max</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – The upper-bound (RHS of the slider scale)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Slider.setDefault">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Slider</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setDefault</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Slider.setDefault" title="Link to this definition"></a></dt>
+<dd><p>Set default (starting) value for the slider notch. E.g. if the range is set to [0, 1], then the midpoint would be 0.5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – notch default value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Slider.onChange">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Slider</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">onChange</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Slider.onChange" title="Link to this definition"></a></dt>
+<dd><p>Register a callback that will fire continuously as the slider value is being changed. Useful if you need to make changes immediately responsive to input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – The callback to run as the slider is continuously changed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Slider.onChangeEnd">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Slider</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">onChangeEnd</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Slider.onChangeEnd" title="Link to this definition"></a></dt>
+<dd><p>Register a callback that fires at the end of each slider interaction, i.e. after the slider has been moved, and the mouseclick released.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">function()</span></code></span>) – Callback to run once the slider interaction is complete. Will run once.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callback return</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Utilities.html" class="btn btn-neutral float-left" title="Meta-Classes, Utilities, and Support Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial/aesthetics.html" class="btn btn-neutral float-right" title="Styles and Aesthetics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Grogan, A..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

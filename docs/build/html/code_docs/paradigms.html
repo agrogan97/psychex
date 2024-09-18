@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Composite Classes &mdash; Psychex 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -79,6 +78,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dom.html">Document Object Model (DOM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
@@ -112,7 +112,7 @@
            <div itemprop="articleBody">
              
   <section id="composite-classes">
-<h1>Composite Classes<a class="headerlink" href="#composite-classes" title="Permalink to this heading"></a></h1>
+<h1>Composite Classes<a class="headerlink" href="#composite-classes" title="Link to this heading"></a></h1>
 <p>Composite classes are ways of wrapping common, useful tools into a single package.
 They typically handle 2 jobs:</p>
 <blockquote>
@@ -124,13 +124,13 @@ They typically handle 2 jobs:</p>
 <p>Composites are designed to be extended by the user, so that they can customise exactly what they need
 without having to start from scratch.</p>
 <section id="gridworld">
-<h2>Gridworld<a class="headerlink" href="#gridworld" title="Permalink to this heading"></a></h2>
+<h2>Gridworld<a class="headerlink" href="#gridworld" title="Link to this heading"></a></h2>
 <p>The gridworld class offers a collection of utilities for creating a 2-dimensional grid that can be
 populated by images, shapes, text, or any other Psychex object. It contains methods for accessing individual
 cells by index or coords, and allows the experimenter to easily build in user-control by keyboard or mouse-click.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Gridworld">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Gridworld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nRows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nCols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CORNER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Gridworld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nRows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nCols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CORNER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld" title="Link to this definition"></a></dt>
 <dd><p>Gridworld class that defines a 2-D matrix of pRectangle objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -148,7 +148,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.getWidth">
-<span class="sig-name descname"><span class="pre">getWidth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getWidth" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">getWidth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getWidth" title="Link to this definition"></a></dt>
 <dd><p>Returns the width value originally supplied to the constructor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -162,7 +162,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.getHeight">
-<span class="sig-name descname"><span class="pre">getHeight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getHeight" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">getHeight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getHeight" title="Link to this definition"></a></dt>
 <dd><p>Returns the height value originally supplied to the constructor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -176,7 +176,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.setWidth">
-<span class="sig-name descname"><span class="pre">setWidth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setWidth" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">setWidth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setWidth" title="Link to this definition"></a></dt>
 <dd><p>Update the width of the grid. If called, must be followed by calling <em>drawOutline</em> to update.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -187,7 +187,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.setHeight">
-<span class="sig-name descname"><span class="pre">setHeight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setHeight" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">setHeight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.setHeight" title="Link to this definition"></a></dt>
 <dd><p>Update the height of the grid. If called, must be followed by calling <em>drawOutline</em> to update.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -198,7 +198,7 @@ cells by index or coords, and allows the experimenter to easily build in user-co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.drawOutline">
-<span class="sig-name descname"><span class="pre">drawOutline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.drawOutline" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">drawOutline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.drawOutline" title="Link to this definition"></a></dt>
 <dd><p>Takes the provided x, y, w, h, nRows, nCols, and constructs a grid of pRectangle objects. Each of these objects is stored in
 an array called <code class="docutils literal notranslate"><span class="pre">cells</span></code>. Each <em>cell</em> is an object containing an index, <em>ix</em>, the coords <em>coords</em>, and a reference to the pRectangle object, <em>obj</em>.
 The array can be indexed directly, or a reference directly to the pRectangle can be obtained from <em>getCell</em>.
@@ -212,7 +212,7 @@ Each of these can be acted upon like normal pRectangles, and methods such as <em
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.getCell">
-<span class="sig-name descname"><span class="pre">getCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getCell" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">getCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getCell" title="Link to this definition"></a></dt>
 <dd><p>Returns a reference to a cell’s pRectangle object. This object contains all normal pRectangle attributes, as well as copies of
 the <em>ix</em> and <em>coords</em> gridworld properties. The cell can be referenced by either grid index (<em>ix</em>) (<em>0 -&gt; (nRows*nCols - 1)</em>), or by
 coords (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>). Indexing <strong>always</strong> begins at 0.</p>
@@ -231,7 +231,7 @@ coords (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>). Indexing <strong>always</stro
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.updateCell">
-<span class="sig-name descname"><span class="pre">updateCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">props</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.updateCell" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">updateCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">props</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.updateCell" title="Link to this definition"></a></dt>
 <dd><p>Update the aesthetic properties of a cell (eg. backgroundColor, borderWidth, etc.)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -251,7 +251,7 @@ coords (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>). Indexing <strong>always</stro
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.indexToCoords">
-<span class="sig-name descname"><span class="pre">indexToCoords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.indexToCoords" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">indexToCoords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.indexToCoords" title="Link to this definition"></a></dt>
 <dd><p>Convert grid index to the equivalent coordinates using the values of <em>nRows</em> and <em>nCols</em> provided to the constructor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -268,7 +268,7 @@ coords (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>). Indexing <strong>always</stro
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.coordsToIndex">
-<span class="sig-name descname"><span class="pre">coordsToIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.coordsToIndex" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">coordsToIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.coordsToIndex" title="Link to this definition"></a></dt>
 <dd><p>Convert grid coordinates to the equivalent grid index using the values of <em>nRows</em> and <em>nCols</em> provoded to the constructor</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -285,14 +285,14 @@ coords (<em>[0, 0] -&gt; [nRows-1, nCols-1]</em>). Indexing <strong>always</stro
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.toggleClickable">
-<span class="sig-name descname"><span class="pre">toggleClickable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.toggleClickable" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">toggleClickable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.toggleClickable" title="Link to this definition"></a></dt>
 <dd><p><strong>NB:</strong> Not directly equivalent to calling <code class="docutils literal notranslate"><span class="pre">toggleClickable()</span></code> on a primitive - this runs <code class="docutils literal notranslate"><span class="pre">toggleClickable()</span></code> on every cell
 in the grid iteratively, adding them all to <em>clickables</em>. Useful as a precursor for applying a single <em>onClick</em> to every cell.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.onCellClick">
-<span class="sig-name descname"><span class="pre">onCellClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.onCellClick" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">onCellClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.onCellClick" title="Link to this definition"></a></dt>
 <dd><p>Wrapper for attaching a click listener to a single cell by providing its grid index or grid coords.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -317,7 +317,7 @@ eachother out.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.addOverlay">
-<span class="sig-name descname"><span class="pre">addOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cellId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlayObj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.addOverlay" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">addOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cellId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlayObj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.addOverlay" title="Link to this definition"></a></dt>
 <dd><p>There are 2 layers in the gridworld visuals: the base <em>pRectangle</em> layer, and the <em>overlay</em> layer. Overlays are objects placed on top of
 the base grid, and are typically the stimuli presented to the participant. These can be any kind of psychex object - or, a custom object
 created from scratch if you wish to create a new object using <em>p5.js</em> draw calls.</p>
@@ -334,7 +334,7 @@ created from scratch if you wish to create a new object using <em>p5.js</em> dra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.updateOverlay">
-<span class="sig-name descname"><span class="pre">updateOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateParams</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.updateOverlay" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">updateOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateParams</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.updateOverlay" title="Link to this definition"></a></dt>
 <dd><p>Update the aesthetics for the specified overlay. Similar to calling <code class="docutils literal notranslate"><span class="pre">update</span></code> on the object, but offers a wrapper that handles index/coords as input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -354,7 +354,7 @@ created from scratch if you wish to create a new object using <em>p5.js</em> dra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.getOverlay">
-<span class="sig-name descname"><span class="pre">getOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getOverlay" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">getOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.getOverlay" title="Link to this definition"></a></dt>
 <dd><p>Get a reference to a specific overlay from its id, either the name provided on instantiation, or the index/coords of the cell containing the overlay.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -371,13 +371,13 @@ created from scratch if you wish to create a new object using <em>p5.js</em> dra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.clearAllOverlays">
-<span class="sig-name descname"><span class="pre">clearAllOverlays</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.clearAllOverlays" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">clearAllOverlays</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.clearAllOverlays" title="Link to this definition"></a></dt>
 <dd><p>Remove all existing overlays from the grid, and delete all references to them.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.removeOverlay">
-<span class="sig-name descname"><span class="pre">removeOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.removeOverlay" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">removeOverlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.removeOverlay" title="Link to this definition"></a></dt>
 <dd><p>Remove a single overlay, or all overlays from a single cell, depending on input provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -388,7 +388,7 @@ created from scratch if you wish to create a new object using <em>p5.js</em> dra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.handleMovement">
-<span class="sig-name descname"><span class="pre">handleMovement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preMovementCallback</span> <span class="pre">=</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postMovementCallback</span> <span class="pre">=</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.handleMovement" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">handleMovement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preMovementCallback</span> <span class="pre">=</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postMovementCallback</span> <span class="pre">=</span> <span class="pre">()</span> <span class="pre">=&gt;</span> <span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.handleMovement" title="Link to this definition"></a></dt>
 <dd><p>Handle user-interactions with the gridworld. Wraps functionality for player movement with keyboard arrow-keys, or with the ‘w-a-s-d’ keys. Also includes options for mouse-click
 interactions. This method takes in 2 callbacks: the first may be applied <em>pre-movement</em>, such as for handling logic as to whether or not this movement is allowed (e.g. if building a maze,
 there may be obstacles/wall boundaries to consider, etc.). The second is a <em>postMovement</em> callback, applied if and only if the <em>preMovementCallback</em> runs successfully and returns <em>true</em>.
@@ -407,7 +407,7 @@ the user may simply pass a single callback in which will be used upon specificat
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.checkBounds">
-<span class="sig-name descname"><span class="pre">checkBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.checkBounds" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">checkBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.checkBounds" title="Link to this definition"></a></dt>
 <dd><p>Utility for automatically checking gridworld outer boundaries when building a world that the player moves through. Contains key-mappings of the arrow and w-a-s-d keys
 and returns a boolean for if the proposed movement is within or out of bounds.</p>
 <dl class="field-list simple">
@@ -428,7 +428,7 @@ and returns a boolean for if the proposed movement is within or out of bounds.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gridworld.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.draw" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gridworld.draw" title="Link to this definition"></a></dt>
 <dd><p>The draw call that renders all the <em>pRectangles</em> in the grid and all overlays.</p>
 </dd></dl>
 

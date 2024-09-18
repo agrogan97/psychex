@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tutorial: N-Arm Bandit Task &mdash; Psychex 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -52,6 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/primitives.html">Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/paradigms.html">Composite Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/dom.html">Document Object Model (DOM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aesthetics.html">Styles and Aesthetics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interactions.html">Handling User Interactions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial: N-Arm Bandit Task</a><ul>
@@ -97,7 +97,7 @@
            <div itemprop="articleBody">
              
   <section id="tutorial-n-arm-bandit-task">
-<h1>Tutorial: N-Arm Bandit Task<a class="headerlink" href="#tutorial-n-arm-bandit-task" title="Permalink to this heading"></a></h1>
+<h1>Tutorial: N-Arm Bandit Task<a class="headerlink" href="#tutorial-n-arm-bandit-task" title="Link to this heading"></a></h1>
 <p>This tutorial will show how you can build a variable N-arm bandit task from scratch using Psychex. In particular, we’ll demonstrate:</p>
 <ul class="simple">
 <li><p>How to setup Psychex</p></li>
@@ -108,7 +108,7 @@
 <li><p>How to store and store user data</p></li>
 </ul>
 <section id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
 <p>If you haven’t already, download Psychex from Github. We’ll set up a standard directory structure for a vanilla web-project,
 which will look like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Bandit_Tutorial_Project</span>
@@ -126,7 +126,7 @@ which will look like this:</p>
 </pre></div>
 </div>
 <section id="html-setup">
-<h3>HTML Setup<a class="headerlink" href="#html-setup" title="Permalink to this heading"></a></h3>
+<h3>HTML Setup<a class="headerlink" href="#html-setup" title="Link to this heading"></a></h3>
 <p>We can start by populating our HTML entrypoint, <cite>index.html</cite>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
@@ -188,7 +188,7 @@ but if you want scrollable content, then feel free to remove this. Yo can also a
 <p>Now we can set up our main Psychex file.</p>
 </section>
 <section id="js-setup">
-<h3>JS Setup<a class="headerlink" href="#js-setup" title="Permalink to this heading"></a></h3>
+<h3>JS Setup<a class="headerlink" href="#js-setup" title="Link to this heading"></a></h3>
 <p>Open <cite>js/main.js</cite> in your code editor of choice, and paste the following code in:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Global</span> <span class="n">settings</span>
 <span class="n">var</span> <span class="n">assets</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;imgs&quot;</span> <span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;fonts&quot;</span> <span class="p">:</span> <span class="p">{}};</span>
@@ -222,7 +222,7 @@ We’ll demonstrate how to use this shortly.</p>
 </section>
 </section>
 <section id="drawing-text">
-<h2>Drawing text<a class="headerlink" href="#drawing-text" title="Permalink to this heading"></a></h2>
+<h2>Drawing text<a class="headerlink" href="#drawing-text" title="Link to this heading"></a></h2>
 <p>Let’s start by displaying some header text. We’ll create a global variable that can hold our renderable objects:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">assets</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;imgs&quot;</span> <span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;fonts&quot;</span> <span class="p">:</span> <span class="p">{}};</span>
 <span class="o">//</span> <span class="o">--</span> <span class="n">Global</span> <span class="n">variables</span> <span class="o">--</span> <span class="o">//</span>
@@ -272,7 +272,7 @@ would attach CSS styles to an HTML object. To make our heading bigger and in bol
 <p>You can check what the style keywords are within the <a class="reference internal" href="aesthetics.html"><span class="doc">Styles and Aesthetics</span></a> section of the docs.</p>
 </section>
 <section id="the-narmbandit-class">
-<h2>The NArmBandit Class<a class="headerlink" href="#the-narmbandit-class" title="Permalink to this heading"></a></h2>
+<h2>The NArmBandit Class<a class="headerlink" href="#the-narmbandit-class" title="Link to this heading"></a></h2>
 <p>Psychex offers some base classes for building experiments. One of these is the <cite>NArmBandit</cite> class. Psychex classes are designed to be extended
 so that custom functionality can be built, while having commonly used base components avoid effort duplication.</p>
 <p>We’ll start by defining our own class, and extending the base class:</p>
@@ -348,7 +348,7 @@ Doing this ensures all your stimuli are loaded and ready before the participant 
 <p>Refresh the page, and behold your slot machines. Now, we want a player to be able to choose a slot machine to sample from. To do this, we’ll use a <em>click listener</em>.</p>
 </section>
 <section id="click-listeners">
-<h2>Click Listeners<a class="headerlink" href="#click-listeners" title="Permalink to this heading"></a></h2>
+<h2>Click Listeners<a class="headerlink" href="#click-listeners" title="Link to this heading"></a></h2>
 <p>All <em>Psychex</em> elements have click listeners attached to them by default, but they need to be turned on before they can be used.
 Let’s turn them on:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Define</span> <span class="n">an</span> <span class="n">array</span> <span class="n">to</span> <span class="n">store</span> <span class="n">slot</span> <span class="n">machine</span> <span class="n">referencesq</span>
@@ -486,7 +486,7 @@ period of time. Again, inside the new <cite>onClick</cite>:</p>
 <p>Finally, we can add in a couple of buttons to reset and end the experiment. To do this, we’ll use the <cite>pDOM</cite> framework.</p>
 </section>
 <section id="pdom">
-<h2>pDOM<a class="headerlink" href="#pdom" title="Permalink to this heading"></a></h2>
+<h2>pDOM<a class="headerlink" href="#pdom" title="Link to this heading"></a></h2>
 <p>The pDOM is exactly what it sounds like, a Psychex wrapper for (the p5.js wrapper for) the <cite>Document Object Model</cite>.
 This allows you to use Psychex to build ordinary HTML elements, like divs, paragraphs, and forms. We can position and style
 these objects in a very similar way to other Psychex objects. Unlike <cite>canvas-based</cite> Psychex classes, <cite>pDOM</cite> classes aren’t
@@ -533,7 +533,7 @@ gameContent.endGame.onClick(() =&gt; {
 <p>And there you have it! You now have a simple game where you can pull bandit arms and count your score.</p>
 </section>
 <section id="next-steps">
-<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this heading"></a></h2>
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
 <p>To practice using Psychex, why not try implementing some additional features:</p>
 <ul class="simple">
 <li><p>Add in more slot machines</p></li>

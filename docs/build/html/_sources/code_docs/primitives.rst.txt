@@ -1,7 +1,7 @@
 Primitives
 ==========
 
-Primitives are the building bones of more complex composite classes, and represent simple rendereable instances.
+Primitives are the building blocks of more complex composite classes, and represent simple rendereable instances.
 
 .. py:class:: pText(text, x, y, kwargs={})
     
@@ -31,7 +31,7 @@ Primitives are the building bones of more complex composite classes, and represe
         multiLineText.draw();
     }
 
-    // -- How to extend -- //
+    < // -- How to extend -- // >
 
     class customText extends pText {
         constructor(text, x, y, kwargs={}){
@@ -88,7 +88,7 @@ Primitives are the building bones of more complex composite classes, and represe
 
     < // -- How to Use -- //>
 
-    > // -- How to extend -- //
+    </ / -- How to extend -- //>
 
     class customRect extends pRectangle {
         constructor(x, y, w, h kwargs={}){
@@ -123,7 +123,7 @@ Primitives are the building bones of more complex composite classes, and represe
 
     < // -- How to Use -- //>
 
-    > // -- How to extend -- //
+    < // -- How to extend -- // >
 
     class customRect extends pRectangle {
         constructor(x, y, w, h kwargs={}){

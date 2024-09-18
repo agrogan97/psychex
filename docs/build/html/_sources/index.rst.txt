@@ -23,6 +23,7 @@ open-source contributions are entirely welcomed and appreciated.
    code_docs/primitives
    code_docs/paradigms
    code_docs/Utilities
+   code_docs/dom
    tutorial/aesthetics
    tutorial/interactions
    tutorial/n_arm_bandit

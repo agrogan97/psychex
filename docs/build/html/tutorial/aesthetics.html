@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Styles and Aesthetics &mdash; Psychex 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Handling User Interactions" href="interactions.html" />
-    <link rel="prev" title="Meta-Classes, Utilities, and Support Classes" href="../code_docs/Utilities.html" /> 
+    <link rel="prev" title="Document Object Model (DOM)" href="../code_docs/dom.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,6 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/primitives.html">Primitives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/paradigms.html">Composite Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_docs/dom.html">Document Object Model (DOM)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Styles and Aesthetics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setting-default-styles">Setting Default Styles</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#psychex.aesthetics.pText.edit"><code class="docutils literal notranslate"><span class="pre">psychex.aesthetics.pText.edit()</span></code></a></li>
@@ -100,7 +100,7 @@
            <div itemprop="articleBody">
              
   <section id="styles-and-aesthetics">
-<h1>Styles and Aesthetics<a class="headerlink" href="#styles-and-aesthetics" title="Permalink to this heading"></a></h1>
+<h1>Styles and Aesthetics<a class="headerlink" href="#styles-and-aesthetics" title="Link to this heading"></a></h1>
 <p>Psychex handles object styling through its <em>aesthetics</em> system. This essentially takes care of how everything looks, from font colour, font size,
 shape fill colour, rectangle border thickness, etc.</p>
 <p>This page shows how to do the following:</p>
@@ -113,7 +113,7 @@ shape fill colour, rectangle border thickness, etc.</p>
 </div></blockquote>
 <p>To make best use of this guide, download the skeleton template, launch an local browser instance, and open a web console.</p>
 <section id="setting-default-styles">
-<h2>Setting Default Styles<a class="headerlink" href="#setting-default-styles" title="Permalink to this heading"></a></h2>
+<h2>Setting Default Styles<a class="headerlink" href="#setting-default-styles" title="Link to this heading"></a></h2>
 <p>All primitives, such as pText, pRectangle, pCircle, etc., have default aesthetics. These are contained within the global variable <cite>psychex.aesthetics</cite>.
 Within this, there contains objects for each of the primitives. You can get details on this by opening a console, and running:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
@@ -129,7 +129,7 @@ We’ll cover manual settings in the next section.</p>
 <p>To edit the default properties, you can use the <cite>edit()</cite> function in each <cite>psychex.aesthetics</cite> object. Eg:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="psychex.aesthetics.pText.edit">
-<span class="sig-prename descclassname"><span class="pre">psychex.aesthetics.pText.</span></span><span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psychex.aesthetics.pText.edit" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">psychex.aesthetics.pText.</span></span><span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psychex.aesthetics.pText.edit" title="Link to this definition"></a></dt>
 <dd><p>Update the default settings for the chosen (in this case pText) primitive.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -176,7 +176,7 @@ of elements, and different default settings to other elements, define the first 
 </div>
 </section>
 <section id="manually-overriding-and-setting-specific-styles">
-<h2>Manually Overriding and Setting Specific Styles<a class="headerlink" href="#manually-overriding-and-setting-specific-styles" title="Permalink to this heading"></a></h2>
+<h2>Manually Overriding and Setting Specific Styles<a class="headerlink" href="#manually-overriding-and-setting-specific-styles" title="Link to this heading"></a></h2>
 <p>It’s likely you’ll want individual elements to be styled in specific ways. Each Psychex primitive can be styled through its <cite>kwargs</cite> parameter.
 For more details on this, check the <a class="reference internal" href="../code_docs/primitives.html"><span class="doc">Primitives</span></a> docs.</p>
 <p><cite>kwargs</cite> is an optional parameter included at the end of every Psychex class, that allows you to override settings.</p>
@@ -189,7 +189,7 @@ For more details on this, check the <a class="reference internal" href="../code_
 <p>Applying aesthetics in this way will <strong>override</strong> the specified properties, but <strong>keep</strong> any defaults not specified.</p>
 </section>
 <section id="dynamic-styling">
-<h2>Dynamic Styling<a class="headerlink" href="#dynamic-styling" title="Permalink to this heading"></a></h2>
+<h2>Dynamic Styling<a class="headerlink" href="#dynamic-styling" title="Link to this heading"></a></h2>
 <p>Perhaps you want to update styles in a dynamic way, such as on user-click. No problem!</p>
 <p>Each <cite>primitive</cite> object has an <cite>update()</cite> method that allows you to update kwargs and aesthetics at any time. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Imagine</span> <span class="n">a</span> <span class="n">rectangle</span> <span class="n">shape</span> <span class="n">that</span><span class="s1">&#39;s initialised with a red background</span>
@@ -206,10 +206,10 @@ For more details on this, check the <a class="reference internal" href="../code_
 </div>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
 <p>Let’s consider a couple of examples where we might want to apply styling dynamically or from an interaction.</p>
 <section id="change-on-click">
-<h3>Change On-Click<a class="headerlink" href="#change-on-click" title="Permalink to this heading"></a></h3>
+<h3>Change On-Click<a class="headerlink" href="#change-on-click" title="Link to this heading"></a></h3>
 <p>Imagine you want the colour of a rectangle to change when it’s clicked by a user. This might be used to give the player feedback on an interaction, for example.
 Firstly, we’ll create a rectangle object inside setup:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
@@ -255,7 +255,7 @@ check out the tutorial on <a class="reference internal" href="interactions.html"
 </div>
 </section>
 <section id="traffic-lights">
-<h3>Traffic Lights<a class="headerlink" href="#traffic-lights" title="Permalink to this heading"></a></h3>
+<h3>Traffic Lights<a class="headerlink" href="#traffic-lights" title="Link to this heading"></a></h3>
 <p>Let’s use the same logic to create traffic lights that change colour based on a user-click.
 For this, we want 3 lights (green, amber, and red), that go from red -&gt; red + amber -&gt; green, and then from green -&gt;
 green + amber -&gt; red.</p>
@@ -347,7 +347,7 @@ This could also be simplified by predefining the colour changes, such as by defi
 </div>
 </section>
 <section id="colour-changing-timer">
-<h3>Colour-Changing Timer<a class="headerlink" href="#colour-changing-timer" title="Permalink to this heading"></a></h3>
+<h3>Colour-Changing Timer<a class="headerlink" href="#colour-changing-timer" title="Link to this heading"></a></h3>
 <p>Finally, this example shows how we can update the styling on a composite item - i.e. a class that contains primitives.
 For this, we’ll use the Countdown class. Let’s start by initialising a countdown timer:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
@@ -396,10 +396,10 @@ and logic, the <em>graphics</em> object contains the primitive that is drawn to 
 </section>
 </section>
 <section id="table-of-settings">
-<h2>Table of Settings<a class="headerlink" href="#table-of-settings" title="Permalink to this heading"></a></h2>
+<h2>Table of Settings<a class="headerlink" href="#table-of-settings" title="Link to this heading"></a></h2>
 <p>The following describes all styles that can be applied, their keywords, and defaults:</p>
 <table class="docutils align-default" id="id1">
-<caption><span class="caption-text">pText</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">pText</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key/s</p></th>
 <th class="head"><p>Description</p></th>
@@ -434,7 +434,7 @@ and logic, the <em>graphics</em> object contains the primitive that is drawn to 
 </tbody>
 </table>
 <table class="docutils align-default" id="id2">
-<caption><span class="caption-text">Geometries: pRectangle, pCircle, pTriangle</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Geometries: pRectangle, pCircle, pTriangle</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Key/s</p></th>
 <th class="head"><p>Description</p></th>
@@ -463,7 +463,7 @@ and logic, the <em>graphics</em> object contains the primitive that is drawn to 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../code_docs/Utilities.html" class="btn btn-neutral float-left" title="Meta-Classes, Utilities, and Support Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../code_docs/dom.html" class="btn btn-neutral float-left" title="Document Object Model (DOM)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="interactions.html" class="btn btn-neutral float-right" title="Handling User Interactions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -13,6 +13,7 @@ var begin;
 var blockLoop = false;
 var psychex = {};
 var _keysPressed = [];
+var params = {positionMode : "PERCENTAGE"};
 
 psychex.aesthetics = {
     show : () => {
@@ -1862,9 +1863,10 @@ class GridWorld extends Primitive {
      * @param {any} props={}: A dict-object containing the usual allowed aesthetics properties for a *pRectangle*
      * @returns {Object} Ref to the edited cell
      */
-    setCellProps(id, props={}){
+    updateCell(id, props={}){
         // Set the properties on a single cell
         // The input, id, can either be the index or coords, and the method will adapt
+        if (id == undefined){throw new Error(`No id provided for gridworld cell. Pass an index of set of coords to edit cell properties.`)}
 
         let cell = this.getCell(id);
         cell.update(props);
@@ -2174,11 +2176,12 @@ class GridWorld extends Primitive {
     /**
      * Utility for automatically checking gridworld outer boundaries when building a world that the player moves through. Contains key-mappings of the arrow and w-a-s-d keys
         and returns a boolean for if the proposed movement is within or out of bounds.
-     * @param {Array} pos: The current position (eg. at time *t*), to be compared with the proposed new position, after movement (eg. at time *t+1*). Must be grid coords - indices can be converted using ``indexToCoords()``.
+     * @param {Array} pos: The current position (eg. at time *t*), to be compared with the proposed new position, after movement (eg. at time *t+1*).
      * @param {string} k: The key-code of the pressed key. Accepts "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "w", "a", "s", "d". Each of these is mapped to the vector-equivalent of the movement.
      * @returns {Object} A dict containing 2 values: *allowed* a boolean for an allowed movement (true) or not, and *pos* the coordinates of the new position after the movement, regardless of it allowed or not.
      */
     checkBounds(pos, k){
+        if (typeof(pos) == "number"){pos = this.indexToCoords(pos)}
         // Utility function to check if a proposed movement would be within bounds
         let keyMapping = {
             'ArrowLeft' : [0, -1],
@@ -2211,6 +2214,7 @@ class GridWorld extends Primitive {
      * 
      * @returns {any}
      */
+
     draw(){
         // Draw each of the cells
         this.cells.forEach(cell => {
@@ -2234,10 +2238,11 @@ class pTimeline {
 }
 
 class pDOM extends Primitive {
-    constructor(x=0, y=0, id=undefined){
+    constructor(x=0, y=0, id=undefined, kwargs={}){
         super(x, y, {})
         this.x = x;
         this.y = y;
+        this.id = id;
         // Wrap p5.js DOM tools in a handy way for getting inputs from the player
         this.elements = {};
         // Store references to any child psychex objects
@@ -2251,7 +2256,18 @@ class pDOM extends Primitive {
      * @returns {Object} this
      */
     setId(id){
-        this.el.id(id.toString());
+        if (id == undefined){
+            // Set to a random string
+            const opts = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            id = _.sampleSize(opts, 8);
+        }
+        try {
+            this.el.id(id.toString());    
+        } catch (error) {
+            console.log(`Warning: It's possible you're trying to access the underlying element (e.g. through update()) before initialising it. Remember to call draw() before changing element properties. This was detected through a ${this.type} element.`)
+        }
+        
+        this.id = id.toString();
         return this;
     }
 
@@ -2334,6 +2350,15 @@ class pDOM extends Primitive {
         return this.el.size();
     }
 
+    getValue(){
+        return this.el.value();
+    }
+
+    setValue(value){
+        this.el.value(value);
+        return this;
+    }
+
     setPosition(x, y){
         // Get pixel values from input
         let pos = Primitive._convertCoordinates(createVector(x, y));
@@ -2347,13 +2372,58 @@ class pDOM extends Primitive {
     toggleDraggable(){
         this.el.draggable();
     }
+
+    update(kwargs={}){
+        // Set styling for the element
+        console.log(kwargs)
+        Object.keys(kwargs).forEach(k => {
+            // Detect if the user has forgotten to include a unit, and attach pixels as default
+            if (k == "height" || k == "width"){
+                if (!kwargs[k].endsWith("px") && !kwargs[k].endsWith("%") && !kwargs[k].endsWith("em") && !kwargs[k].endsWith("rem")){
+                    console.log(`No unit provided for ${k} : assuming pixels.`)
+                    kwargs[k] += "px";
+                }
+            }
+            this.el.style(k, kwargs[k]);
+        })
+        this.height = this.el.height;
+        this.width = this.el.width;
+        this.setId(this.id)
+    }
+
+    mouseOver(callback){
+        this.el.mouseOver(callback);
+    }
+
+    mouseOut(callback){
+        this.el.mouseOut(callback);
+    }
+
+    mouseMoved(callback){
+        this.el.mouseMoved(callback);
+    }
+
+    mouseReleased(callback){
+        this.el.mouseReleased(callback);
+    }
+
+    mouseWheel(callback){
+        this.el.mouseWheel(callback);
+    }
+
+    show(){
+        this.el.show();
+    }
+
+
 }
 
 class Div extends pDOM {
-    constructor(x, y, id){
-        super(x, y, id);
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
         this.type = "Div";
         this.draw();
+        this.update(kwargs);
     }
 
     addContent(t){
@@ -2362,21 +2432,20 @@ class Div extends pDOM {
 
     draw(){
         let p = super.draw();
-        console.log(p.x, p.y)
         this.el = createDiv();
         this.el.position(p.x, p.y);
     }
 }
 
 class p extends pDOM {
-    constructor(x, y, value, id){
-        super(x, y, {});
+    constructor(x, y, value, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
         this.value = value;
-        this.id = id;
         this.type = "p";
         this.pixWidth = 6*this.value.length;
         this.draw();
         this.el.size(this.pixWidth, AUTO);
+        this.update(kwargs);
     }
 
     draw(){
@@ -2387,12 +2456,12 @@ class p extends pDOM {
 }
 
 class Input extends pDOM {
-    constructor(x, y, value, id){
-        super(x, y, {});
+    constructor(x, y, value, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
         this.value = value;
-        this.id = id;
         this.type = "input"
         this.draw();
+        this.update();
     }
 
     /**
@@ -2441,14 +2510,14 @@ class Input extends pDOM {
 }
 
 class Button extends pDOM{
-    constructor(x, y, value, id){
-        super(x, y, {})
+    constructor(x, y, value, id=undefined, kwargs={}){
+        super(x, y, id, kwargs)
+        console.log(kwargs)
         this.value = value;
-        this.id = id;
         this.type = "button";
-        // this.onClick = () => {console.log("No click fn assigned")};
         this.draw();
         this.el.mousePressed(this.onClick);
+        this.update(kwargs);
     }
 
     /**
@@ -2468,35 +2537,145 @@ class Button extends pDOM{
     }
 }
 
+class Slider extends pDOM {
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.default = 0.5;
+        this.step = 0;
+        this.type = "slider";
+        this.draw();
+        this.update(kwargs);
+    }
+
+    setRange(min, max){
+        content.dom.slider.el.elt.min = min;
+        content.dom.slider.el.elt.max = max;
+        return this;
+    }
+
+    setDefault(d){
+        this.default = d;
+        this.setValue(this.default)
+    }
+
+    onChangeEnd(callback){
+        this.el.changed(callback);
+    }
+
+    onChange(callback){
+        this.el.input(callback)
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createSlider(0, 1, this.default, this.step);
+        this.el.position(p.x, p.y)
+        // background(this.el.value())
+    }
+}
+
+class A extends pDOM {
+    constructor(x, y, url, text, id=undefined, kwargs={}){
+        super(x, y, id, kwargs)
+        this.url = url;
+        this.text = text;
+        if (this.text == undefined) {this.text = ""};
+        if (this.url == undefined) {this.url = "#"};
+        this.draw();
+        this.update(kwargs);
+    }
+
+    setOpenLocation(loc){
+
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createA(this.url, this.text);
+        this.el.position(p.x, p.y)
+    }
+}
+
+class Checkbox extends pDOM{
+    constructor(x, y, id=undefined, label="", kwargs={}){
+        super(x, y, id, kwargs);
+        this.label = label;
+        this.draw();
+        this.update(kwargs)
+    }
+
+    isChecked(){
+        return this.el.checked();
+    }
+
+    onChange(callback, onCheckOnly=false){
+        this.el.input(callback);
+    }
+
+    draw(){
+        let p = super.draw(); 
+        this.el = createCheckbox(this.label);
+        this.el.position(p.x, p.y);
+    }
+}
+
+class Select extends pDOM{
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+
+        this.update(kwargs);
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = //
+        this.el.position(p.x, p.y);
+    }
+}
+
+class Element extends pDOM{
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+
+        this.update(kwargs);
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createElement();
+        this.el.position(p.x, p.y);
+    }
+}
+
 class Form extends pDOM{
-    constructor(x, y, id){
-        super(x, y, `${id}_div`)
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, `${id}_div`, kwargs)
         this.fields = {};
         this.contentDiv = new Div(this.pos.x, this.pos.y);
         this.submitBtn = new Button(0, 0, "Submit", `${id}_submitBtn`);
         this.submitBtn.appendTo(this.contentDiv, true);
-        this.fieldSpacing = 7.5
+        this.fieldSpacing = createVector(7.5, 7.5)
     }
 
-    addField(id, fieldType, label, placeholder=""){
+    addField(id, fieldType, label, placeholder="", as="row", kwargs={}){
         if (!["text"].includes(fieldType)){throw new Error(`Did not recognise field type ${fieldType}. Must be one of: 'text'`)};
         // Create a new div for this field and append to the parent div
-        let newDiv = new Div(0, this.fieldSpacing*(Object.keys(this.fields).length));
+        let newDiv = new Div(0, this.fieldSpacing.y*(Object.keys(this.fields).length));
         newDiv.appendTo(this.contentDiv)
         // Create a new label and input based on type
-        let newLabel = new p(0, -2, label, `${id}_label`);
+        let newLabel = new p(0, -2, label, `${id}_label`, kwargs.label || {});
         newLabel.appendTo(newDiv);
         let newInput;
         if (fieldType == "text"){
-            newInput = new Input(7.5, 0, "", `${id}_input`);
+            newInput = new Input(this.fieldSpacing.x, 0, "", `${id}_input`, kwargs.input || {});
             newInput.appendTo(newDiv);
-            newInput.setPlaceHolder(placeholder)
+            newInput.setPlaceHolder(placeholder);
         }
         
         this.fields[id] = newDiv;
 
         // If a new field is added, reposition the submit button dynamically
-        this.submitBtn.setPosition(0, this.fieldSpacing*(Object.keys(this.fields).length));
+        this.submitBtn.setPosition(0, this.fieldSpacing.y*(Object.keys(this.fields).length));
 
         return this;
     }

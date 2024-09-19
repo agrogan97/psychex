@@ -2237,6 +2237,14 @@ class pTimeline {
     }
 }
 
+/**
+ * Base class offering wrappers for interacting with the DOM. Specific element classes can inherit from this class and
+ * use methods such as `setId`, `setText`, `center`, `setPosition`, and more. For an exhaustive list, see the main Psychex docs.
+ * @param {number} x=0 Horizontal position of the element
+ * @param {number} y=0 Vertical position of the element
+ * @param {string} id=undefined unique identifier
+ * @param {object} kwargs={} additional kwargs
+ */
 class pDOM extends Primitive {
     constructor(x=0, y=0, id=undefined, kwargs={}){
         super(x, y, {})
@@ -2272,8 +2280,16 @@ class pDOM extends Primitive {
     }
 
     /**
+     * Read the id of the element
+     * @returns {string} the element id
+     */
+    getId(){
+        return this.el.id;
+    }
+
+    /**
      * Set the text value of the element. This directly edits the `innerHTML` property of the HTML element.
-     * This accepts HTML as an input. For instance, passing `Some <b>bold<\b> text in would render 'bold' in bold.
+     * This accepts HTML as an input. For instance, passing `Some <b>bold<\b> text` in would render 'bold' in bold.
      * @param {String} t New innerHTML of the element.
      * @param {Boolean} append If true, append this to the existing innerHTML. If false, overwrite. Default = false.
      * @returns {Object} this
@@ -2304,9 +2320,10 @@ class pDOM extends Primitive {
     /**
      * Make this element the child of the input parent. 
      * This is performed at 2 levels: the DOM level, where the child element is set as the child of the parent element,
-     * and at a Psychex level, where references to each Psychex object are stored as `parent` and `child` respectively.
-     * Once an element is made into a child, it's position becomes relative to the parent.
+     * and at a Psychex level, where references to each Psychex object are stored as `parent` and added to the list of `children`, respectively.
+     * Once an element is made into a child, its position becomes relative to the parent.
      * @param {Object} parentObj The Psychex parent object that this object will be appended to. NB: this is not the DOM element, but the Psychex object.
+     * @param {boolean} reposition=false If true, automatically reposition the child to make its stored position relative to the parent. If false, do nothing.
      */
     appendTo(parentObj, reposition=false){
         // Make this element a child of the named parent element
@@ -2322,6 +2339,8 @@ class pDOM extends Primitive {
             // This can be done purely by re-setting its position with the current coords, and it will be updated relative to parent
             this.setPosition(this.pos.x, this.pos.y)
         }
+
+        return this;
     }
 
     /**
@@ -2346,19 +2365,39 @@ class pDOM extends Primitive {
         return this;
     }
 
+    /**
+     * Return the size of the element
+     * @returns {object} size as an object with keys `width` and `height`
+     */
     getSize(){
         return this.el.size();
     }
 
+    /**
+     * Return the element's value.
+     * @returns {string} the element's value
+     */
     getValue(){
         return this.el.value();
     }
 
+    /**
+     * Set the contents of the element's value parameter. Accepts HTML string as input.
+     * @param {string} value
+     * @returns {this}
+     */
     setValue(value){
         this.el.value(value);
         return this;
     }
 
+    /**
+     * Sets the current position of the element using the provided coordinates. Expects numerical `%` inputs.
+     * Unlike in the canvas objects, this will be anchored by the top-right-hand corner of the element.
+     * @param {number} x The x-coordinate of the element in percentage
+     * @param {number} y The y-coordinate of the element in percentage
+     * @returns {this}
+     */
     setPosition(x, y){
         // Get pixel values from input
         let pos = Primitive._convertCoordinates(createVector(x, y));
@@ -2369,13 +2408,32 @@ class pDOM extends Primitive {
         return this;
     }
 
-    toggleDraggable(){
-        this.el.draggable();
+    /**
+     * Return the current position of the element, either as % or in pixels
+     * @param {boolean} asPixels=false If true, return in pixels, if false return in terms of %
+     * @returns {object} The coordinates of the element
+     */
+    getPosition(asPixels=false){
+        return asPixels ?  this.el.position() : {x: this.pos.x, y: this.pos.y};
     }
 
+    // toggleDraggable(){
+    // NB: Commenting out as having issues with this
+    //     this.el.draggable();
+    // }
+
+    /**
+     * Set element CSS styling by passing in a styling object. Also allows width and height to be set through kwargs.
+     * Calls the `setId` method to update ID on instantiation. For example, to instantiate some text: ::
+     * 
+     *     content.dom.styledText = new p(50, 60, "Some styled text", "styledText", {'color': 'blue'});
+     * 
+     *  
+     * @param {object} kwargs={} Object mapping CSS properties to their values. Takes in standard CSS names as keys (must be strings).
+     * @returns {this}
+     */
     update(kwargs={}){
         // Set styling for the element
-        console.log(kwargs)
         Object.keys(kwargs).forEach(k => {
             // Detect if the user has forgotten to include a unit, and attach pixels as default
             if (k == "height" || k == "width"){
@@ -2389,35 +2447,89 @@ class pDOM extends Primitive {
         this.height = this.el.height;
         this.width = this.el.width;
         this.setId(this.id)
+
+        return this;
     }
 
+    /**
+     * Set callback when mouse is over the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
     mouseOver(callback){
-        this.el.mouseOver(callback);
+        return this.el.mouseOver(callback);
     }
 
+    /**
+     * Set callback when mouse leaves the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
     mouseOut(callback){
-        this.el.mouseOut(callback);
+        return this.el.mouseOut(callback);
     }
 
+    /**
+     * Set callback when mouse move is detected within the bounds of the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
     mouseMoved(callback){
-        this.el.mouseMoved(callback);
+        return this.el.mouseMoved(callback);
     }
 
+    /**
+     * Set callback when the mouse click is released on the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
     mouseReleased(callback){
-        this.el.mouseReleased(callback);
+        return this.el.mouseReleased(callback);
     }
 
+    /**
+     * Set callback when the mouse wheel is used on the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
     mouseWheel(callback){
-        this.el.mouseWheel(callback);
+        return this.el.mouseWheel(callback);
     }
 
+    /**
+     * Show the current element. If it is already showing, do nothing.
+     * @returns {this}
+     */
     show(){
         this.el.show();
+        return this;
     }
 
+    /**
+     * Hide the current element. If it is already hidden, do nothing.
+     * @returns {this}
+     */
+    hide(){
+        this.el.hide();
+        return this;
+    }
 
+    draw(){
+        if (this.el != undefined){
+            throw new Error(`DOM objects must not be called after their instantation (and after their first draw call).`)
+        }
+        return super.draw();
+    }
 }
 
+/**
+ * Create a new HTML `div` element.
+ * @param {any} x
+ * @param {any} y
+ * @param {any} id=undefined
+ * @param {any} kwargs={}
+ * @returns {any}
+ */
 class Div extends pDOM {
     constructor(x, y, id=undefined, kwargs={}){
         super(x, y, id, kwargs);
@@ -2426,10 +2538,11 @@ class Div extends pDOM {
         this.update(kwargs);
     }
 
-    addContent(t){
-        this.el.value(t)
-    }
-
+    /**
+     * Create the element and add it to the DOM. 
+     * NB: This is only called once when the object is instantiated! It must not be called multiple times.
+     * @returns {any}
+     */
     draw(){
         let p = super.draw();
         this.el = createDiv();
@@ -2437,6 +2550,14 @@ class Div extends pDOM {
     }
 }
 
+/**
+ * Create a new HTML `p` element.
+ * @param {any} x Horizontal position of the element
+ * @param {any} y Vertical position of the element
+ * @param {any} value The text content of the string. Accepts html and rich text.
+ * @param {any} id=undefined Unique identifier string for this element
+ * @param {any} kwargs={} CSS styles for this element
+ */
 class p extends pDOM {
     constructor(x, y, value, id=undefined, kwargs={}){
         super(x, y, id, kwargs);
@@ -2455,21 +2576,21 @@ class p extends pDOM {
     }
 }
 
+/**
+ * Create a new HTML `input` element.
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} value="" The starting value of the input. Can be set to "" to have an empty value.
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
 class Input extends pDOM {
-    constructor(x, y, value, id=undefined, kwargs={}){
+    constructor(x, y, value="", id=undefined, kwargs={}){
         super(x, y, id, kwargs);
         this.value = value;
         this.type = "input"
         this.draw();
         this.update();
-    }
-
-    /**
-     * Return the value of the text within the input box
-     * @returns {String} The content as a string
-     */
-    getValue(){
-        return this.el.value() 
     }
 
     /**
@@ -2481,10 +2602,8 @@ class Input extends pDOM {
         if (callback == undefined){
             console.log("No callback set for button click.")
         } else {
-            this.el.input(callback);
+            return this.el.input(callback);
         }
-        
-        return this
     }
 
     /**
@@ -2497,6 +2616,18 @@ class Input extends pDOM {
         return this;
     }
 
+    /**
+     * Return the current placeholder text
+     * @returns {string} the placeholder text
+     */
+    getPlaceholder(){
+        return this.el.elt.placeholder;
+    }
+
+    /**
+     * Clear the value of the current input. Useful for when building forms.
+     * @returns {this}
+     */
     clear(){
         this.el.value("");
         return this;
@@ -2509,10 +2640,17 @@ class Input extends pDOM {
     }
 }
 
+/**
+ * Create a new HTML `button` element.
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} value The text content of the button
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
 class Button extends pDOM{
     constructor(x, y, value, id=undefined, kwargs={}){
         super(x, y, id, kwargs)
-        console.log(kwargs)
         this.value = value;
         this.type = "button";
         this.draw();
@@ -2527,7 +2665,7 @@ class Button extends pDOM{
      * @param {function} callback Callback to be called when the button is pressed.
      */
     onClick(callback){
-        this.el.mousePressed(callback)
+        return this.el.mousePressed(callback)
     }
 
     draw() {
@@ -2537,6 +2675,13 @@ class Button extends pDOM{
     }
 }
 
+/**
+ * Create a new HTML `slider` element
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
 class Slider extends pDOM {
     constructor(x, y, id=undefined, kwargs={}){
         super(x, y, id, kwargs);
@@ -2547,33 +2692,63 @@ class Slider extends pDOM {
         this.update(kwargs);
     }
 
+    /**
+     * Set the minimum and maximum values stored for the slider. This doesn't change the slider aesthetics, but will change the value returned when the slider is moved.
+     * @param {number} min The lower-bound (LHS of the slider scale)
+     * @param {number} max The upper-bound (RHS of the slider scale)
+     * @returns {this}
+     */
     setRange(min, max){
         content.dom.slider.el.elt.min = min;
         content.dom.slider.el.elt.max = max;
         return this;
     }
 
+    /**
+     * Set default (starting) value for the slider notch. E.g. if the range is set to [0, 1], then the midpoint would be 0.5.
+     * @param {number} d notch default value
+     * @returns {this}
+     */
     setDefault(d){
         this.default = d;
         this.setValue(this.default)
+        return this;
     }
 
+    /**
+     * Register a callback that fires at the end of each slider interaction, i.e. after the slider has been moved, and the mouseclick released.
+     * @param {any} callback Callback to run once the slider interaction is complete. Will run once.
+     * @returns {any}
+     */
     onChangeEnd(callback){
         this.el.changed(callback);
     }
 
+    /**
+     * Register a callback that will fire continuously as the slider value is being changed. Useful if you need to make changes immediately responsive to input.
+     * @param {function} callback
+     * @returns {any} callback return
+     */
     onChange(callback){
-        this.el.input(callback)
+        return this.el.input(callback)
     }
 
     draw(){
         let p = super.draw();
         this.el = createSlider(0, 1, this.default, this.step);
         this.el.position(p.x, p.y)
-        // background(this.el.value())
     }
 }
 
+/**
+ * Create a new HTML anchor (`a`) element
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} url URL to redirect the window to
+ * @param {string} text Text value for the hyperlink
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
 class A extends pDOM {
     constructor(x, y, url, text, id=undefined, kwargs={}){
         super(x, y, id, kwargs)
@@ -2585,8 +2760,15 @@ class A extends pDOM {
         this.update(kwargs);
     }
 
-    setOpenLocation(loc){
-
+    /**
+     * Update the redirect URL for this anchor tag
+     * @param {any} url New URL for redirecting
+     * @returns {this}
+     */
+    setUrl(url){
+        this.url = url;
+        this.el.elt.href = url;
+        return this;
     }
 
     draw(){
@@ -2596,6 +2778,14 @@ class A extends pDOM {
     }
 }
 
+/**
+ * Create a new HTML checkbox element.
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {string} label="" Option to add a text label to the checkbox
+ * @param {object} kwargs={} CSS styles for this element
+ */
 class Checkbox extends pDOM{
     constructor(x, y, id=undefined, label="", kwargs={}){
         super(x, y, id, kwargs);
@@ -2604,12 +2794,21 @@ class Checkbox extends pDOM{
         this.update(kwargs)
     }
 
+    /**
+     * Return a boolean indicating if the chechbox is currently checked or not.
+     * @returns {boolean} true if checked, false if not
+     */
     isChecked(){
         return this.el.checked();
     }
 
-    onChange(callback, onCheckOnly=false){
-        this.el.input(callback);
+    /**
+     * Set a callback to run when a change (check or unchecked) is detected. Pair with the method `isChecked()` to run callback only when checked.
+     * @param {function} callback function to run when a change is detected
+     * @returns {any} callback return
+     */
+    onChange(callback){
+        return this.el.input(callback);
     }
 
     draw(){
@@ -2619,10 +2818,17 @@ class Checkbox extends pDOM{
     }
 }
 
+/**
+ * Create a new select-style HTML input element
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
 class Select extends pDOM{
     constructor(x, y, id=undefined, kwargs={}){
         super(x, y, id, kwargs);
-
+        this.draw();
         this.update(kwargs);
     }
 
@@ -2633,16 +2839,30 @@ class Select extends pDOM{
     }
 }
 
-class Element extends pDOM{
-    constructor(x, y, id=undefined, kwargs={}){
-        super(x, y, id, kwargs);
+/**
+ * Create a new specified HTML element of any type, by naming the input.
+ * For example, to create a new <h2> element:::
 
+        content.dom.newEl = new Element(50, 10, "h2", "My Custom Heading", "h2el", {})
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} el The HTML element type, such as h3, h2, span, etc. 
+ * @param {string} value="" The content of the HTML element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class Element extends pDOM{
+    constructor(x, y, el, value="", id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.elType = el;
+        this.value = value;
+        this.draw();
         this.update(kwargs);
     }
 
     draw(){
         let p = super.draw();
-        this.el = createElement();
+        this.el = createElement(this.elType, this.value);
         this.el.position(p.x, p.y);
     }
 }

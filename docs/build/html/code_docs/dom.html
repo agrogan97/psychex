@@ -95,6 +95,17 @@
 <li class="toctree-l3"><a class="reference internal" href="#Slider.onChangeEnd"><code class="docutils literal notranslate"><span class="pre">Slider.onChangeEnd()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#A"><code class="docutils literal notranslate"><span class="pre">A</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#A.setUrl"><code class="docutils literal notranslate"><span class="pre">A.setUrl()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Checkbox"><code class="docutils literal notranslate"><span class="pre">Checkbox</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Checkbox.isChecked"><code class="docutils literal notranslate"><span class="pre">Checkbox.isChecked()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Checkbox.onChange"><code class="docutils literal notranslate"><span class="pre">Checkbox.onChange()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Select"><code class="docutils literal notranslate"><span class="pre">Select</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Element"><code class="docutils literal notranslate"><span class="pre">Element</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
@@ -753,6 +764,126 @@ This is because we need to call the additional <cite>mousePressed</cite> method 
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="A">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">A</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#A" title="Link to this definition"></a></dt>
+<dd><p>Create a new anchor &lt;a&gt; element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>url</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – URL to redirect the window to</p></li>
+<li><p><strong>text</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Text value for the hyperlink</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="js method">
+<dt class="sig sig-object js" id="A.setUrl">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">setUrl</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#A.setUrl" title="Link to this definition"></a></dt>
+<dd><p>Update the redirect URL for this anchor tag</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – New URL for redirecting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this object reference</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Checkbox">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Checkbox</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Checkbox" title="Link to this definition"></a></dt>
+<dd><p>Create a new HTML checkbox element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>label</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Option to add a text label to the checkbox</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="js method">
+<dt class="sig sig-object js" id="Checkbox.isChecked">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Checkbox</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">isChecked</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Checkbox.isChecked" title="Link to this definition"></a></dt>
+<dd><p>Return a boolean indicating if the chechbox is currently checked or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if checked, false if not</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js method">
+<dt class="sig sig-object js" id="Checkbox.onChange">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">Checkbox</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">onChange</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Checkbox.onChange" title="Link to this definition"></a></dt>
+<dd><p>Set a callback to run when a change (check or unchecked) is detected. Pair with the method <cite>isChecked()</cite> to run callback only when checked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Callback return</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Select">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Select</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Select" title="Link to this definition"></a></dt>
+<dd><p>Create a new select-style HTML input element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js class">
+<dt class="sig sig-object js" id="Element">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">Element</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value=&quot;&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Element" title="Link to this definition"></a></dt>
+<dd><p>Create a new specified HTML element of any type, by naming the type.
+For example, to create a new &lt;h2&gt; element::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">dom</span><span class="o">.</span><span class="n">newEl</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Element</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;h2&quot;</span><span class="p">,</span> <span class="s2">&quot;My Custom Heading&quot;</span><span class="p">,</span> <span class="s2">&quot;h2el&quot;</span><span class="p">,</span> <span class="p">{})</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Horizontal position of the element</p></li>
+<li><p><strong>y</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">number()</span></code></span>) – Vertical position of the element</p></li>
+<li><p><strong>el</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The HTML element type, such as h3, h2, span, etc.</p></li>
+<li><p><strong>value</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – The content of the HTML element</p></li>
+<li><p><strong>id</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">string()</span></code></span>) – Unique identifier string for this element</p></li>
+<li><p><strong>kwargs</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – CSS styles for this element</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

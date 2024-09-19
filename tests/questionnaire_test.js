@@ -32,6 +32,8 @@ function setup(){
 
     // Dom elements aren't drawn in the draw loop - since they're not removed and re-rendered
 
+    content.dom.divA = new Div(10, 10, 'divA')
+
     content.dom.inputA = new Input(0, 5, "", "inputA");
     content.dom.inputA.appendTo(content.dom.divA);
 
@@ -78,6 +80,8 @@ function setup(){
         }
         
     })
+
+    content.dom.newEl = new Element(50, 10, "h2", "My Custom Heading", "h2el", {})
 }
 
 function windowResized() {

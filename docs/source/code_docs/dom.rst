@@ -302,3 +302,69 @@ Document Object Model (DOM)
         :param function callback: Callback to run once the slider interaction is complete. Will run once.
         :return: Callback return
         :rtype: any
+
+.. js:class:: A(x, y, url, text, id=undefined, kwargs={})
+
+    Create a new anchor <a> element.
+
+    :param number x: Horizontal position of the element
+    :param number y: Vertical position of the element
+    :param string url: URL to redirect the window to
+    :param string text: Text value for the hyperlink
+    :param string id: Unique identifier string for this element
+    :param object kwargs: CSS styles for this element
+
+    .. js:method:: setUrl(url)
+
+        Update the redirect URL for this anchor tag
+
+        :param string url: New URL for redirecting
+        :return: this object reference
+        :rtype: object
+
+.. js:class:: Checkbox(x, y, id=undefined, label="", kwargs={})
+
+    Create a new HTML checkbox element.
+
+    :param number x: Horizontal position of the element
+    :param number y: Vertical position of the element
+    :param string id: Unique identifier string for this element
+    :param string label: Option to add a text label to the checkbox
+    :param object kwargs: CSS styles for this element
+
+    .. js:method:: isChecked()
+
+        Return a boolean indicating if the chechbox is currently checked or not.
+
+        :return: true if checked, false if not
+        :rtype: boolean
+
+    .. js:method:: onChange()
+
+        Set a callback to run when a change (check or unchecked) is detected. Pair with the method `isChecked()` to run callback only when checked.
+
+        :return: Callback return
+        :rtype: any
+
+.. js:class:: Select(x, y, id=undefined, kwargs={})
+
+    Create a new select-style HTML input element.
+
+    :param number x: Horizontal position of the element
+    :param number y: Vertical position of the element
+    :param string id: Unique identifier string for this element
+    :param object kwargs: CSS styles for this element
+
+.. js:class:: Element(x, y, el, value="", id=undefined, kwargs={})
+
+    Create a new specified HTML element of any type, by naming the type. 
+    For example, to create a new <h2> element:::
+
+        content.dom.newEl = new Element(50, 10, "h2", "My Custom Heading", "h2el", {})
+    
+    :param number x: Horizontal position of the element
+    :param number y: Vertical position of the element
+    :param string el: The HTML element type, such as h3, h2, span, etc. 
+    :param string value: The content of the HTML element
+    :param string id: Unique identifier string for this element
+    :param object kwargs: CSS styles for this element

@@ -152,7 +152,8 @@ function pEventListener(e, event) {
     } else if (event == "drag"){
         target = draggables;
     } else {
-        throw new Error(`Event type ${event} not recognised. Must be either click or drag.`)
+        console.log("Event type not specified - assuming click");
+        target = 'click';
     }
 
     target.forEach(obj => {
@@ -3161,14 +3162,3 @@ class Form extends pDOM{
 
     }
 }
-
-/*
-Classes to add:
-    - Timeline class
-    - Questionnaire class using the p5 DOM attributes
-
-Extra thoughts:
-    - Better to build with npm and then use webpack - since it depends on lodash and p5.js
-    - An animations class would be great - but not hugely useful within the lab
-    - Functionality for multiplayer modes would be super, using socket.js or something, but again we need a lab use case first
-*/

@@ -1,19 +1,19 @@
 // Check prerequisites
-// if (_ == undefined){throw new Error("Psychex requires lodash to be loaded.")}
-// if (p5 == undefined){throw new Error("Psychex requires p5.js to be loaded.")}
-
-import _ from 'lodash';
-import * as p5 from 'p5';
+if (_ == undefined){throw new Error("Psychex requires lodash to be loaded.")}
+if (p5 == undefined){throw new Error("Psychex requires p5.js to be loaded.")}
 
 // -- REQUIRED PARAMS -- DO NOT EDIT --
 p5.disableFriendlyErrors = true;
 var clickables = [];
+var draggables = [];
 var canvas;
 var roundData;
 var isFullScreen = false;
 var begin;
 var blockLoop = false;
-export var psychex = {};
+var psychex = {};
+var _keysPressed = [];
+var params = {positionMode : "PERCENTAGE"};
 
 psychex.aesthetics = {
     show : () => {
@@ -26,13 +26,13 @@ psychex.aesthetics = {
     pText : {
         textColor: 'black',
         textSize: 20,
-        textStyle: "NORMAL",
+        textStyle: 'normal',
         strokeWeight: 0.5,
-        fontFamily: "sans-serif",
+        fontFamily: "Arial",
         textAlign: "CENTER",
         angleMode: "DEGREES",
         positionMode: "PERCENTAGE",
-        stroke: "black",
+        stroke: "rgba(0, 0, 0, 0)",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pText")},
         show: () => {psychex.aesthetics._show("pText")},
     },
@@ -42,8 +42,7 @@ psychex.aesthetics = {
         borderWidth: 2,
         rectMode: "CENTER",
         positionMode: "PERCENTAGE",
-        stroke: "black",
-        strokeWeight: 1,
+        // stroke: "black",
         edit : (aes) => {psychex.aesthetics._edit(aes, "pRectangle")},
         show: () => {psychex.aesthetics._show("pRectangle")},
     },
@@ -53,8 +52,8 @@ psychex.aesthetics = {
         borderWidth: 2,
         angleMode: "DEGREES",
         positionMode: "PERCENTAGE",
-        stroke: "black",
-        strokeWeight: 1,
+        // stroke: "black",
+        // strokeWeight: 1,
         edit : (aes) => {psychex.aesthetics._edit(aes, "pCircle")},
         show: () => {psychex.aesthetics._show("pCircle")},
     },
@@ -122,29 +121,56 @@ psychex.keyPressEvents = {
     clear: () => {psychex.keyPressEvents.events = []},
 }
 
-// TODO: Currently we need to manually attach a click event listener to the window - this should be done automatically by Psychex surely?
+psychex.keyHoldEvents = {
+    events: [],
+    register: (k, callback) => {
+        // Check if an event is written to this key already
+        let existingEvents = psychex.keyHoldEvents.events.filter(i => (i.k == k));
+        if (existingEvents.length == 0){
+            // Write new event
+            psychex.keyHoldEvents.events.push({k: k, callback: callback});
+        } else {
+            existingEvents[0].callback = callback;
+        }
+    },
+    clear: () => {psychex.keyHoldEvents.events = []},
+}
 
-function pClickListener(e) {
+function pEventListener(e, event) {
+    if (clickables.length == 0 && draggables.length == 0){return}
     // TODO circle click listener
     // Check what global positioning system is being used
     const convertTo = (params.positionMode == "PERCENTAGE" ? "PIXELS" : "IGNORE");
     // If positionMode == "PERCENTAGE", we want to convert mouse click coords from pixels (the default) to percentage
     // If positionMode == "PIXELS", we want it to stay as pixels, so we can use the "IGNORE" setting in _convertCoordinates to do nothing essentially
     const C = Primitive._convertCoordinates(createVector(mouseX, mouseY), convertTo);
-    clickables.forEach(obj => {
+
+    // Set the event type based on parameter
+    let target;
+    if (event == "click"){
+       target = clickables; 
+    } else if (event == "drag"){
+        target = draggables;
+    } else {
+        console.log("Event type not specified - assuming click");
+        target = 'click';
+    }
+
+    target.forEach(obj => {
         if (obj.type == "pImage"){
             if (obj.constants.imageMode == "CENTER") {
                 // -- Image / Center -- //
                 if (_.inRange(C.x, (obj.pos.x-obj.dims.x/2), (obj.pos.x+obj.dims.x/2))){
                     if (_.inRange(C.y, (obj.pos.y-obj.dims.y/2), (obj.pos.y+obj.dims.y/2))){
-                        obj.onClick(obj);
+                        event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
                     }
                 }
             } else if (obj.constants.imageMode == "CORNER"){
                 // -- Image / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
-                        obj.onClick(obj);
+                        // obj.onClick(obj);
+                        event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
                     }
                 }
             }
@@ -153,14 +179,16 @@ function pClickListener(e) {
                 // -- Rect / Center -- //
                 if (_.inRange(C.x, obj.pos.x-obj.dims.x/2, obj.pos.x+obj.dims.x/2)){
                     if (_.inRange(C.y, obj.pos.y-obj.dims.y/2, obj.pos.y+obj.dims.y/2)){
-                        obj.onClick(obj);
+                        // obj.onClick(obj);
+                        event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
                     }
                 }
             } else if (obj.constants.rectMode == "CORNER" || obj.constants.rectMode == "corner") {
                 // -- Rect / Corner -- //
                 if (_.inRange(C.x, obj.pos.x, obj.pos.x+obj.dims.x)){
                     if (_.inRange(C.y, obj.pos.y, obj.pos.y+obj.dims.y)){
-                        obj.onClick(obj);
+                        // obj.onClick(obj);
+                        event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
                     }
                 }
             } 
@@ -177,20 +205,21 @@ function pClickListener(e) {
 
             let inCircle = isInCircle(posPix.x, posPix.y, CPix.x, CPix.y, radiusPix)
             if (inCircle){
-                obj.onClick(obj)
+                // obj.onClick(obj)
+                event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
             }
         } else if (obj.type == "pTriangle"){
             // Find the lowest and highest x values
             // This could be implemented by taking click position and finding the closest triangle point, then
             // checking if angle between point and click is outside of the angle between the point and the other 2 points
             // but the amount of computation to do here might be really heavy, so needs testing
-            throw new Error("FYI, triangle clicking isn't currently supported.")
+            throw new Error("Triangle clicking isn't currently supported, but you can implement it directly yourself if you wish. See the p5.js docs for more information on processing mouse clicks.")
         
         } else if (obj.type = "pText") {
             // Width uses p5.textWidth(), height taken from textSize (which is height of text in pixels by definition)
             let CPix = obj.constants.positionMode == "PERCENTAGE" ? Primitive.toPixels(C) : C;
             let posPix = obj.constants.positionMode == "PERCENTAGE" ? Primitive.toPixels(obj.pos) : obj.pos; 
-            if (_.inRange(CPix.x, posPix.x-textWidth(obj.text)/2, posPix.x+textWidth(obj.text/2))){
+            if (_.inRange(CPix.x, posPix.x-textWidth(obj.text)/3, posPix.x+(textWidth(obj.text)/3))){
                 let fsize;
                 try {
                     // Try and read textSize from aesthetics list
@@ -199,25 +228,21 @@ function pClickListener(e) {
                     // If not found use a default val of 30
                     fsize = 30;
                 }
-                if (_.inRange(CPix.y, posPix.y-fsize/2, posPix.y+fsize/2)){
-                    obj.onClick(obj);
+                if (_.inRange(CPix.y, (posPix.y)-fsize/2, posPix.y+(fsize*obj.nLines)/2 + obj.lineSpacing*obj.nLines)){
+                    // obj.onClick(obj);
+                    event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
                 }
             }
-
-        
         } else {
             if (_.inRange(C.x, obj.pos.x*0.9, obj.pos.x*1.1)){
                 if (_.inRange(C.y, obj.pos.y*0.9, obj.pos.y*1.1)){
                     console.log("other")
-                    obj.onClick(obj);
+                    // obj.onClick(obj);
+                    event == "click" ? obj.onClick(obj) : obj.onDrag(obj);
                 }
             }
         }
     })
-}
-
-function pKeyboardInput(){
-    // Add rules for a keyboard input
 }
 
 function keyPressed(e){
@@ -225,6 +250,20 @@ function keyPressed(e){
     // Iterate over contents of psychex.keyPressEvents and see if one matches the key pressed
     // Run callback if registered
     psychex.keyPressEvents.events.filter(i => (i.k == key)).forEach(i => {i.callback(e)});
+}
+
+/**
+ * The onHold processor runs keypress callbacks in line with the framerate of the draw loop. 
+ * To use, it must be included in the main draw function, eg.: `onHold()`
+ * This is intended for controlling movement, as it's highly sensitive and not suitable for typing for instance.
+ */
+function onHold(){
+    // Note that currently pressing key B while A is held stops A from continuing to run, even if A remains pressed after B is lifted
+    Object.keys(psychex.keyHoldEvents.events).forEach(i => {
+        if (keyIsDown(keyCode)){
+            psychex.keyHoldEvents.events.filter(i => (i.k == key)).forEach(i => {i.callback()});
+        }
+    })
 }
 
 class Psychex{
@@ -381,13 +420,21 @@ class Primitive extends Psychex{
         this.pos = createVector(x, y);
 
         this.isClickable = false;
+        this.isDraggable = false;
         this.scaleBy = 1;
         this.rotateBy = 0;
+        // Save initial canvas dimensions
+        this.startCanvasDims = createVector(width, height);
 
         // Control settings
         // fill, stroke, linewidth
     }
 
+    /**
+     * Static method to convert the input values from percentages to pixels relative to the available convas size
+     * @param {object} pos A p5.Vector or object with keys `x` and `y` to be converted
+     * @returns {object} A p5.Vector with the coordinates as pixels
+     */
     static toPixels(pos){
         // Check if vector or array - either allowed, but convert to vector internally
         pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
@@ -397,6 +444,11 @@ class Primitive extends Psychex{
         )
     }
 
+    /**
+     * Static method to convert the input values from pixels to percentage relative to the available canvas size
+     * @param {any} pos A p5.Vector or object with keys `x` and `y` to be converted
+     * @returns {any} A p5.Vector with the coordinates as percentage
+     */
     static toPercentage(pos){
         // Check if vector or array - either allowed, but convert to vector internally
         pos = (pos.isPInst? pos : createVector(pos[0], pos[1]));
@@ -518,6 +570,24 @@ class Primitive extends Psychex{
         return this;
     }
 
+    toggleDraggable(){
+        // Adds/removes if this object is in the list of draggables to check on global click
+        // Store in global reference to all renderables
+        if (draggables != undefined){
+            if (draggables.includes(this)){
+                draggables = draggables.filter(c => c != this);
+                this.isDraggable = false;
+            } else {
+                draggables.push(this)
+                this.isDraggable = true;
+            }
+        } else {
+            throw new Error("Could not find instantiation of global 'draggables'. This must exist to store references to screen objects.")
+        }
+
+        return this;
+    }
+
     getCenter(){
         // return the center of the primitive - basically only useful if set to CORNER mode
         if (this.type == "pImage" || this.type == "pRectangle"){
@@ -538,6 +608,16 @@ class Primitive extends Psychex{
         } else {
             this.pos = createVector(x, y);
         }  
+    }
+
+    /**
+     * Move the primitive by a vector amount, v
+     * @param {Object} v Object with keys x and y, or a p5 object created with `createVector`
+     * @returns {any}
+     */
+    moveBy(v){
+        this.pos.x += v.x;
+        this.pos.y += v.y;
     }
 
     update(update={}){
@@ -597,6 +677,16 @@ class Primitive extends Psychex{
 
     onClick(e){}
 
+    onDrag(e){}
+
+    onResize(){
+        // If window resizing is detected, handle a resize to scale with the new size of the window
+        let newWidth = width;
+        let newHeight = height;
+        let ratio = newWidth/newHeight;
+        return ratio;
+    }
+
     draw(){
         // Run each of the aesthetic functions stored in this.aesthetics
         Object.keys(this.aesthetics).forEach(aes => {
@@ -611,11 +701,8 @@ class Primitive extends Psychex{
             } catch (error) {
                 console.log(this)
                 throw new Error(`Likely calling super.draw() unnecessarily - you can ignore this error, or remove the super.draw() call if not adding a custom primitive.`)
-            }
-
-            
+            }            
         }
-        
         // this._pos = this.pos;
         this.convertCoordinates();
         return this._pos;
@@ -630,14 +717,15 @@ class Primitive extends Psychex{
  * @param {Object} kwargs={} dict of optional aesthetics and kwargs
  * @returns {Object} pText object
  */
-export class pText extends Primitive {
+class pText extends Primitive {
     constructor(text, x, y, kwargs={}){
         // -- Set default aesthetics -- //
         super(x, y, kwargs);
         this.type="pText";
         this.text = text.toString();
         this.scaleBy = 1;
-        this.lineSpacing = 0;
+        this.lineSpacing = kwargs.lineSpacing || 0;
+        this.nLines = 1;
         // add default aesthetics to the pText object
         this.defaultAesthetics = psychex.aesthetics.pText;
         this._handleKwargs({...this.defaultAesthetics, ...this.kwargs})
@@ -712,6 +800,10 @@ export class pText extends Primitive {
         })
     }
 
+    setText(text){
+        this.text = text;
+    }
+
     static handleNewLine(t){
         t = t.toString()
         try{
@@ -726,6 +818,14 @@ export class pText extends Primitive {
         }
     }
 
+    /**
+     * Static method for creating and drawing a text object on the fly.
+     * @param {string} textContent A string of text to be rendered to the screen
+     * @param {number} x The x (horizontal) coordinates of the anchor point
+     * @param {number} y The y (vertical) coordinates of the anchor point
+     * @param {Object} kwargs={} Kwargs to define text properties
+     * @returns {undefined}
+     */
     static draw_(textContent, x, y, kwargs={}){
         // Static draw method
         textContent = textContent.toString();
@@ -753,6 +853,7 @@ export class pText extends Primitive {
         scale(this.scaleBy);
         // Check if text contains a newline, and handle that
         let nls = pText.handleNewLine(this.text);
+        this.nLines = nls.length;
         nls.forEach((ln, ix) => {
             text(ln, 0, (ix*(textSize() + this.lineSpacing)));
         })
@@ -792,7 +893,7 @@ class pRectangle extends Primitive{
         this.img = new pImage(this.pos.x, this.pos.y, imgObj, kwargs);
     }
 
-    static draw_(x, y, w, h, kwargs={}){
+    static draw_(x, y, w, h, kwargs){
         // Static draw method for rect
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
         push();
@@ -883,17 +984,6 @@ class pCircle extends Primitive{
     }
 }
 
-/**
- * Psychex triangle class
- * @param {number} x1: Horizontal coordinate of the first vertex of the triangle
- * @param {number} y1: Vertical coordinate of the first vertex of the triangle
- * @param {number} x2: Horizontal coordinate of the second vertex of the triangle
- * @param {number} y2: Vertical coordinate of the second vertex of the triangle
- * @param {number} x3: Horizontal coordinate of the third vertex of the triangle
- * @param {number} y3: Vertical coordinate of the third vertex of the triangle
- * @param {Object} kwargs={} Additional aesthetics and kwargs
- * @returns {pTriangle}
- */
 class pTriangle extends Primitive{
     constructor(x1, y1, x2, y2, x3, y3, kwargs={}){
         super(x1, y1, kwargs);
@@ -919,16 +1009,29 @@ class pTriangle extends Primitive{
 
     static draw_(x1, y1, x2, y2, x3, y3, kwargs={}){
         if (typeof(kwargs) != "object"){throw new Error(`Expected kwargs to be type object, instead got ${type(kwargs)}.`)}
-        const primitiveObject = new Primitive(x1, y1, kwargs);
-        primitiveObject._handleKwargs({...psychex.aesthetics.pTriangle, ...kwargs})
-        let pos2 = primitiveObject.convertCoordinates(createVector(x2, y2));
-        let pos3 = primitiveObject.convertCoordinates(createVector(x3, y3));
-        let pos1 = primitiveObject.draw();
-        let x2Diff = createVector(pos2.x - pos1.x, pos2.y - pos1.y)
-        let x3Diff = createVector(pos1.x - pos3.x, pos1.y - pos3.y)
         push();
-        translate(pos1.x, pos1.y)
-        triangle(0, 0, x2Diff.x, x2Diff.y, -x3Diff.x, x3Diff.y);
+        const primitiveObject = new Primitive(x1, y1, kwargs);
+        let pm;
+        if (Object.keys(kwargs).includes("positionMode")){
+            pm = kwargs["positionMode"];
+        } else {
+            pm = (primitiveObject.constants.positionMode == "PERCENTAGE" ? "PERCENTAGE" : "PIXELS")
+        }
+        let pos1, pos2, pos3;
+        if (pm == "PERCENTAGE"){
+            pos1 = Primitive.toPixels(createVector(x1, y1));
+            pos2 = Primitive.toPixels(createVector(x2, y2));
+            pos3 = Primitive.toPixels(createVector(x3, y3));
+        } else {
+            pos1 = createVector(x1, y1);
+            pos2 = createVector(x2, y2);
+            pos3 = createVector(x3, y3);
+        }
+
+        push();
+        translate(0, 0);
+        // TODO finish
+        triangle(this.pos1.x, this.pos1.y, this.pos2.x, this.pos2.y, this.pos3.x, this.pos3.y);
         pop();
     }
 
@@ -951,7 +1054,7 @@ class pTriangle extends Primitive{
  */
 class pImage extends Primitive{
     /*
-        Expects a p5 image object reference, from assets.imgs as input
+        Expects a p5 image object reference, from assets.imgs for example, as input
     */
     constructor(x, y, img, kwargs={}){
         super(x, y, kwargs);
@@ -962,6 +1065,10 @@ class pImage extends Primitive{
         this.img = img;
         this.width = this.img.width;
         this.height = this.img.height;
+        // Store the ratio width and height as propWidth and propHeight
+        this.propWidth = 100*this.img.width/this.width;
+        this.propHeight = 100*this.img.height/this.height;
+        this.propDims = createVector(this.propWidth, this.propHeight);
         this.scaleBy = 1;
         this.scaleDimensions();
         // this.dims = Primitive._convertCoordinates(createVector(this.img.width, this.img.height), "PIXELS");
@@ -1008,6 +1115,12 @@ class pImage extends Primitive{
         translate(primitiveObject.pos.x, primitiveObject.pos.y);
         image(img, 0, 0);
         pop();
+    }
+
+    onResize(){
+        let dW = width/this.startCanvasDims.x;
+        let dH = height/this.startCanvasDims.y;
+        this.setScale((dW + dH)/2);
     }
 
     draw() {
@@ -1166,9 +1279,17 @@ class Countdown extends Primitive {
     }
 }
 
+/**
+ * The basis for an N-Arm bandit task. This class is designed to be extended to add custom functionality, and other Psychex objects as graphics for interaction.
+ * Probabilities are sampled from a uniform distribution between 0 and 1 by default, but can be overwritten, or specific probabilities per arm specified.
+ * @param {number} x The horizontal position allowing the developer to have a ref point during extension
+ * @param {number} y The vertical position allowing the developer to have a ref point during extension
+ * @param {number} nArms=2 Number of arms in the task
+ * @param {any} probabilities="uniform" Probability type, or an array of probabilities per arm
+ */
 class NArmBandit extends Primitive{
-    constructor(x, y, nArms=2, probabilities="random"){
-        super();
+    constructor(x, y, nArms=2, probabilities="uniform"){
+        super(x, y, {});
         this.nArms = nArms;
         // Sanitise probability input
         if (this._checkProbabilities(probabilities)) {this.probabilities = probabilities};
@@ -1177,8 +1298,8 @@ class NArmBandit extends Primitive{
 
     _checkProbabilities(p){
         if (typeof(p) == "string"){
-            if (!["random"].includes(p)){
-                throw new Error(`Probability type ${p} not recognised: must be one of: random`)
+            if (!["uniform"].includes(p)){
+                throw new Error(`Probability type ${p} not recognised: must be one of: uniform`)
             } else {
                 return true
             }
@@ -1189,36 +1310,64 @@ class NArmBandit extends Primitive{
                 return true
             }
         } else {
-            throw new Error(`Must provide either a probability type (eg. 'random') or an array of values matching the number of arms (eg. if nArms=2, [0.5, 0.5])`);
+            throw new Error(`Must provide either a probability type (eg. 'uniform') or an array of values matching the number of arms (eg. if nArms=2, [0.5, 0.5])`);
         }
     }
 
+    /**
+     * Convert an input key to probabilities
+     * @returns {any}
+     */
     convertKeyToProbabilities(){
-        // If user provides this.probabilities as a string code - eg. "random", convert to a list of probabilities
+        // If user provides this.probabilities as a string code - eg. "uniform", convert to a list of probabilities
         if (typeof(this.probabilities) == "string"){
+            // Sample probs from uniform distribution
             this.probabilities = _.range(0, this.nArms).map(i => _.random(0, 1, true));
             if (this.constants.verbose){console.log(`Bandit arm values set to: ${this.probabilities}`)}
         }
     }
 
+    /**
+     * Set the number of arms
+     * @param {number} n number of arms
+     * @returns {object} this
+     */
     setNArms(n){
         this.nArms = n;
         return this;
     }
 
-    getNArms(n){
+    /**
+     * Get the number of arms as a number
+     * @returns {number} The number of arms
+     */
+    getNArms(){
         return this.nArms;
     }
 
+    /**
+     * Set the arm probabilities, either as a string code or as an array of probability values
+     * @param {any} p probability as string or array of numbers, one value per arm if array used
+     * @returns {object} this
+     */
     setProbabilities(p){
         if (this._checkProbabilities(p)) {this.probabilities = p};
         return this;
     }
 
+    /**
+     * Get the arm probabilities
+     * @returns {Array} arm probability values
+     */
     getProbabilities(){
         return this.probabilities;
     }
 
+    /**
+     * Pull the arm related to the given index in `this.probabilities`. E.g. to pull arm 0, do `pullArm(0)`, related to `this.probabilities[0]`
+     * @param {number} index The arm index defined by `this.probabilities`. NB: indexing begins at 0.
+     * @returns {boolean} the outcome of the arm, either true for 'successful pull', else false
+     */
     pullArm(index){
         /*
             Pull the arm related to the given index in this.probabilities.
@@ -1229,19 +1378,6 @@ class NArmBandit extends Primitive{
         // Generate a random number
         const drawnVal = _.random(0, 1, true);
         return (drawnVal <= this.probabilities[index]) ? true : false;
-    }
-
-    update(probabilities, nArms){
-        /*
-            Update the number of arms or probabilities used manually by providing new values for both quantities respectively.
-        */
-        this.nArms = nArms;
-        if (this._checkProbabilities(probabilities)) {this.probabilities = probabilities};
-        this.convertKeyToProbabilities();
-    }
-
-    draw(){
-
     }
 }
 
@@ -1301,7 +1437,7 @@ class Game {
      * @param {string} key="data" identification key that can be used to retrieve the data. Must be unique. Data can be retrieved with the Psychex method `Game.loadFromLocalStorage`.
      * @returns {undefined}
      */
-    saveToLocalStorage(data, key="data"){
+    static saveToLocalStorage(data, key="data"){
         // Save data to the player's browser
         let ID = key;
         localStorage.setItem(ID, data);
@@ -1312,7 +1448,7 @@ class Game {
      * @param {any} key="data" The unique identification key for the stored data
      * @returns {any} The previously stored data
      */
-    loadFromLocalStorage(key="data"){
+    static loadFromLocalStorage(key="data"){
         let ID = key;
         try {
             return localStorage.getItem(ID);    
@@ -1512,7 +1648,7 @@ class Fullscreen{
                 }
             })
         }, this.settings.initialOffsetTime)
-    }
+    };
 
     detect(){
         // console.log("detecting...")
@@ -1761,9 +1897,10 @@ class GridWorld extends Primitive {
      * @param {any} props={}: A dict-object containing the usual allowed aesthetics properties for a *pRectangle*
      * @returns {Object} Ref to the edited cell
      */
-    setCellProps(id, props={}){
+    updateCell(id, props={}){
         // Set the properties on a single cell
         // The input, id, can either be the index or coords, and the method will adapt
+        if (id == undefined){throw new Error(`No id provided for gridworld cell. Pass an index of set of coords to edit cell properties.`)}
 
         let cell = this.getCell(id);
         cell.update(props);
@@ -2073,11 +2210,12 @@ class GridWorld extends Primitive {
     /**
      * Utility for automatically checking gridworld outer boundaries when building a world that the player moves through. Contains key-mappings of the arrow and w-a-s-d keys
         and returns a boolean for if the proposed movement is within or out of bounds.
-     * @param {Array} pos: The current position (eg. at time *t*), to be compared with the proposed new position, after movement (eg. at time *t+1*). Must be grid coords - indices can be converted using ``indexToCoords()``.
+     * @param {Array} pos: The current position (eg. at time *t*), to be compared with the proposed new position, after movement (eg. at time *t+1*).
      * @param {string} k: The key-code of the pressed key. Accepts "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "w", "a", "s", "d". Each of these is mapped to the vector-equivalent of the movement.
      * @returns {Object} A dict containing 2 values: *allowed* a boolean for an allowed movement (true) or not, and *pos* the coordinates of the new position after the movement, regardless of it allowed or not.
      */
     checkBounds(pos, k){
+        if (typeof(pos) == "number"){pos = this.indexToCoords(pos)}
         // Utility function to check if a proposed movement would be within bounds
         let keyMapping = {
             'ArrowLeft' : [0, -1],
@@ -2110,6 +2248,7 @@ class GridWorld extends Primitive {
      * 
      * @returns {any}
      */
+
     draw(){
         // Draw each of the cells
         this.cells.forEach(cell => {
@@ -2124,14 +2263,902 @@ class GridWorld extends Primitive {
     }
 }
 
-/*
-Classes to add:
-    - Slideshow
-    - Stages (integrated within game class now) 
-    - UI/HUD
+/**
+ * Base class offering wrappers for interacting with the DOM. Specific element classes can inherit from this class and
+ * use methods such as `setId`, `setText`, `center`, `setPosition`, and more. For an exhaustive list, see the main Psychex docs.
+ * @param {number} x=0 Horizontal position of the element
+ * @param {number} y=0 Vertical position of the element
+ * @param {string} id=undefined unique identifier
+ * @param {object} kwargs={} additional kwargs
+ */
+class pDOM extends Primitive {
+    constructor(x=0, y=0, id=undefined, kwargs={}){
+        super(x, y, {})
+        this.x = x;
+        this.y = y;
+        this.pixels = Primitive.toPixels(createVector(x, y));
+        this.id = id;
+        // Wrap p5.js DOM tools in a handy way for getting inputs from the player
+        this.elements = {};
+        // Store references to any child psychex objects
+        this.children = {};
+        // Create a dict to store aesthetics
+        this.aesthetics = {};
+        // Set centered as default
+        // this.centering = true;
+    }
 
-Extra thoughts:
-    - Better to build with npm and then use webpack - since it depends on lodash and p5.js
-    - An animations class would be great - but not hugely useful within the lab
-    - Functionality for multiplayer modes would be super, using socket.js or something, but again we need a lab use case first
-*/
+    /**
+     * Sets the HTML id property of the element. This allows it to be accessed via `document.getElementById(id)` as you would with
+     * any ordinary DOM element.
+     * @param {any} id
+     * @returns {Object} this
+     */
+    setId(id){
+        if (id == undefined){
+            // Set to a random string
+            const opts = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            id = _.sampleSize(opts, 8).toString().replaceAll(",", "")
+        } else {
+            this.id = id
+        }
+        try {
+            this.el.id(id);    
+        } catch (error) {
+            console.log(`Warning: It's possible you're trying to access the underlying element (e.g. through update()) before initialising it. Remember to call draw() before changing element properties. This was detected through a ${this.type} element.`)
+        }
+        
+        
+        return this;
+    }
+
+    /**
+     * Read the id of the element
+     * @returns {string} the element id
+     */
+    getId(){
+        return this.el.id;
+    }
+
+    /**
+     * Convert coordinates to pixels, and check if the element has a parent object attached.  If so, compute x and y relative to parent's dims.
+     * @param {object} pos The position of the element as a p5.vector or object with `x` and `y` keys.
+     * @returns {object} Updated position vector, with keys `x` and `y`.
+     */
+    computePixelCoordinates(pos){
+        if (this.parent != undefined){
+            // Compute relative to parent width and height
+            return createVector(
+                this.parent.getSize().width*(pos.x/100),
+                this.parent.getSize().height*(pos.y/100)
+            )
+        } else {
+            // Compute relative to canvas width and height
+            return createVector(
+                canvas.width*(pos.x/100),
+                canvas.height*(pos.y/100)
+            )
+        }
+    }
+
+    /**
+     * Set the text value of the element. This directly edits the `innerHTML` property of the HTML element.
+     * This accepts HTML as an input. For instance, passing `Some <b>bold<\b> text` in would render 'bold' in bold.
+     * @param {String} t New innerHTML of the element.
+     * @param {Boolean} append If true, append this to the existing innerHTML. If false, overwrite. Default = false.
+     * @returns {Object} this
+     */
+    setText(t, append=false){
+        this.el.html(t, append)
+        return this;
+    }
+
+    /**
+     * Return the innerHTML of the element as a string
+     * @returns {String} The innerHTML content of the element, including HTML tags.
+     */
+    getText(){
+        return this.el.html()
+    }
+
+    /**
+     * Center the element within its div. If it has no parent div, it will be placed centrally on the page.
+     * Note that updating the innerHTML won't recenter the element, this must be manually called afterwards.
+     * @returns {Object} this
+     */
+    center(){
+        this.el.center();
+        return this;
+    }
+
+    /**
+     * Move the element to be aligned such that its anchor point is directly in the centre of the element rect.
+     * This is the default setting for all elements.
+     * @returns {this}
+     */
+    alignCenter(){
+        // Set the anchor point of the element to be in the center of its rect
+        this.el.position(this.pixels.x-this.getSize().width/2, this.pixels.y-this.getSize().height/2);
+        this.pixels = createVector(this.el.x, this.el.y);
+        return this;
+    }
+
+    /**
+     * Move the element to be aligned such that its anchor point is directly to the upper LHS of the element rect.
+     * This assumes that the element has started centrally, and is being updated to be left-aligned.
+     * @returns {this}
+     */
+    alignLeft(){
+        // Set the anchor point of the element to be to the left of its rect
+        this.el.position(this.pixels.x-this.getSize().width, this.pixels.y-this.getSize().height);
+        this.pixels = createVector(this.el.x, this.el.y);
+        return this;
+    }
+
+    /**
+     * Set the alignment value for the element to be applied during future updates. i.e. if the element is moved or re-positioned,
+     * the calculation will be done using an anchor point either at the centre or upper-LHS of the element.
+     * Accepted values for this are 'center' or 'left'.
+     * @param {string} alignment The alignment value, must be one of 'center' or 'left'. Throws error if not recognised.
+     * @param {any} update=true If true, reposition the element within this method by calling the relevant align method. If false, do nothing.
+     * @returns {this}
+     */
+    setAlignment(alignment, update=true){
+        if (!["center", "left"].includes(alignment)){
+            throw new Error(`Could not recognise alignment ${alignment}. Alignment value must be one of 'center' or 'left'.`)
+        }
+
+        this.centering = (alignment == "center");
+
+        if (update){
+            if (this.centering){
+                this.alignCenter();
+            }
+            else {
+                this.alignLeft();
+            }
+        }
+        
+        return this;
+    }
+
+    /**
+     * Make this element the child of the input parent. 
+     * This is performed at 2 levels: the DOM level, where the child element is set as the child of the parent element,
+     * and at a Psychex level, where references to each Psychex object are stored as `parent` and added to the list of `children`, respectively.
+     * Once an element is made into a child, its position becomes relative to the parent.
+     * @param {Object} parentObj The Psychex parent object that this object will be appended to. NB: this is not the DOM element, but the Psychex object.
+     * @param {boolean} reposition=false If true, automatically reposition the child to make its stored position relative to the parent. If false, do nothing.
+     */
+    appendTo(parentObj, reposition=false){
+        // Make this element a child of the named parent element
+        parentObj.el.child(this.el);
+        // Set a reference to the parent psychex object
+        this.parent = parentObj;
+        // Set a reference to this psychex object within the parent object
+        // parentObj.children.push(this);
+        parentObj.children[this.id] = this;
+        // If reposition is true, update the position relative to the new parent object
+        if (reposition){
+            // Get the size of the parent object in pixels
+            let parentSize = parentObj.getSize(false);
+            // Get the pixels offset of the child element
+            let nPos = createVector(
+                parentSize.width*(this.pos.x/100),
+                parentSize.height*(this.pos.y/100)
+            );
+            this.pixels = nPos;
+
+            // Update position using the pixel value by directly accessing the p5 position method
+            // Note the % values haven't changed so we don't need to update this.pos
+            this.el.position(nPos.x, nPos.y);
+            if (this.centering) this.alignCenter();
+        }
+
+        return this;
+    }
+
+    /**
+     * Set the width and height of the element.
+     * Passing in a single value will edit just the width, and height is adjusted automatically to maintain the w/h ratio.
+     * Passing in integers for both width and height will manually set both values.
+     * Either value can be replaced with `AUTO`, a constant that keeps ratio the same.
+     * 
+     * e.g: ::
+     * 
+     *     setSize(50, AUTO) // Sets width to 50 while autoing height
+     *     setSize(100, 100) // Sets width to 100 and height to 100
+     * @param {any} width Width value or AUTO
+     * @param {any} height Height value or AUTO
+     * @returns {Object} this
+     */
+    setSize(width, height){
+        let dims = Primitive._convertCoordinates(createVector(width, height));
+        // Accepts the keyword AUTO, which uses the CSS 'auto' to keep scale the same
+        // Passing in AUTO to either width or height will auto-compute it based on the other value
+        this.el.size(width == AUTO ? AUTO : dims.x, height == AUTO ? AUTO : height);
+        return this;
+    }
+
+    /**
+     * Return the size of the element
+     * @param {boolean} asPercentage=false If true, return value as % of canvas size. If false, return as pixels.
+     * @returns {object} size as an object with keys `x` and `y`
+     */
+    getSize(asPercentage=false){
+        if (asPercentage){
+            return Primitive._convertCoordinates(this.el.size())
+        } else {
+            return this.el.size();
+        }
+    }
+
+    /**
+     * Return the element's value.
+     * @returns {string} the element's value
+     */
+    getValue(){
+        return this.el.value();
+    }
+
+    /**
+     * Set the contents of the element's value parameter. Accepts HTML string as input.
+     * @param {string} value
+     * @returns {this}
+     */
+    setValue(value){
+        this.el.value(value);
+        return this;
+    }
+
+    /**
+     * Sets the current position of the element using the provided coordinates. Expects numerical `%` inputs.
+     * Unlike in the canvas objects, this will be anchored by the top-right-hand corner of the element.
+     * @param {number} x The x-coordinate of the element in percentage
+     * @param {number} y The y-coordinate of the element in percentage
+     * @returns {this}
+     */
+    setPosition(x, y){
+        // Get pixel values from input
+        let pos = this.computePixelCoordinates(createVector(x, y))
+        // Save copy of pos to Psychex obj
+        // this.pos = createVector(x, y);
+        // Update HTML position
+        this.el.position(pos.x, pos.y)
+        return this;
+    }
+
+    /**
+     * Return the current position of the element, either as % or in pixels
+     * @param {boolean} asPixels=false If true, return in pixels, if false return in terms of %
+     * @returns {object} The coordinates of the element
+     */
+    getPosition(asPixels=false){
+        return asPixels ?  this.el.position() : {x: this.pos.x, y: this.pos.y};
+    }
+
+    // toggleDraggable(){
+    // NB: Commenting out as having issues with this
+    //     this.el.draggable();
+    // }
+
+    /**
+     * Set element CSS styling by passing in a styling object. Also allows width and height to be set through kwargs.
+     * Calls the `setId` method to update ID on instantiation. For example, to instantiate some text: ::
+     * 
+     *     content.dom.styledText = new p(50, 60, "Some styled text", "styledText", {'color': 'blue'});
+     * 
+     *  
+     * @param {object} kwargs={} Object mapping CSS properties to their values. Takes in standard CSS names as keys (must be strings).
+     * @returns {this}
+     */
+    update(kwargs={}){
+        // Set styling for the element
+        Object.keys(kwargs).forEach(k => {
+            // Detect if the user has forgotten to include a unit, and attach pixels as default
+            if (k == "height" || k == "width"){
+                if (!kwargs[k].endsWith("px") && !kwargs[k].endsWith("%") && !kwargs[k].endsWith("em") && !kwargs[k].endsWith("rem")){
+                    console.log(`No unit provided for ${k} : assuming pixels.`)
+                    kwargs[k] += "px";
+                }
+            }
+            this.aesthetics[k] = kwargs[k];
+            this.el.style(k, kwargs[k]);
+        })
+        this.height = this.el.height;
+        this.width = this.el.width;
+        this.setId(this.id)
+
+        return this;
+    }
+
+    clear(){
+        this.setValue("");
+        if (this.type == 'checkbox'){
+            this.setValue(false)
+        }
+    }
+
+    applyDefaults(){
+        return {
+            'margin' : '0px',
+            'padding' : '0px'
+        }
+    }
+
+    /**
+     * Set callback when mouse is over the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
+    mouseOver(callback){
+        return this.el.mouseOver(callback);
+    }
+
+    /**
+     * Set callback when mouse leaves the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
+    mouseOut(callback){
+        return this.el.mouseOut(callback);
+    }
+
+    /**
+     * Set callback when mouse move is detected within the bounds of the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
+    mouseMoved(callback){
+        return this.el.mouseMoved(callback);
+    }
+
+    /**
+     * Set callback when the mouse click is released on the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
+    mouseReleased(callback){
+        return this.el.mouseReleased(callback);
+    }
+
+    /**
+     * Set callback when the mouse wheel is used on the element
+     * @param {function} callback
+     * @returns {any} callback return
+     */
+    mouseWheel(callback){
+        return this.el.mouseWheel(callback);
+    }
+
+    /**
+     * Show the current element. If it is already showing, do nothing.
+     * @returns {this}
+     */
+    show(){
+        this.el.show();
+        return this;
+    }
+
+    /**
+     * Hide the current element. If it is already hidden, do nothing.
+     * @returns {this}
+     */
+    hide(){
+        this.el.hide();
+        return this;
+    }
+
+    draw(){
+        if (this.el != undefined){
+            throw new Error(`DOM objects must not be called after their instantation (and after their first draw call).`)
+        }
+        return super.draw();
+    }
+}
+
+/**
+ * Create a new HTML `div` element.
+ * @param {any} x
+ * @param {any} y
+ * @param {any} id=undefined
+ * @param {any} kwargs={}
+ * @returns {any}
+ */
+class Div extends pDOM {
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.type = "Div";
+        this.draw();
+        this.update(kwargs);
+    }
+
+    /**
+     * Create the element and add it to the DOM. 
+     * NB: This is only called once when the object is instantiated! It must not be called multiple times.
+     * @returns {any}
+     */
+    draw(){
+        let p = super.draw();
+        this.el = createDiv();
+        this.el.position(p.x, p.y);
+    }
+}
+
+/**
+ * Create a new HTML `p` element.
+ * @param {any} x Horizontal position of the element
+ * @param {any} y Vertical position of the element
+ * @param {any} value The text content of the string. Accepts html and rich text.
+ * @param {any} id=undefined Unique identifier string for this element
+ * @param {any} kwargs={} CSS styles for this element
+ */
+class p extends pDOM {
+    constructor(x, y, value, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.value = value;
+        this.type = "p";
+        this.pixWidth = 6*this.value.length;
+        this.draw();
+        this.el.size(this.pixWidth, AUTO);
+        if (Object.keys(kwargs).includes('align')){
+            if (kwargs['align'] == 'center'){
+                this.centering = true;
+            } else if (kwargs['align'] == 'left'){
+                this.centering = false;
+            } else {
+                this.centering = true;
+            }
+        } else {
+            this.centering = true;
+        }
+        
+        if (this.centering) this.alignCenter();
+        this.update({...this.applyDefaults(), ...kwargs});
+    }
+
+    
+
+    draw(){
+        let p = super.draw();
+        this.el = createP(this.value);
+        this.el.position(p.x, p.y);
+    }
+}
+
+/**
+ * Create a new HTML `input` element.
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} value="" The starting value of the input. Can be set to "" to have an empty value.
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class Input extends pDOM {
+    constructor(x, y, value="", id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.value = value;
+        this.type = "input";
+        this.draw();
+        if (Object.keys(kwargs).includes('align')){
+            if (kwargs['align'] == 'center'){
+                this.centering = true;
+            } else if (kwargs['align'] == 'left'){
+                this.centering = false;
+            } else {
+                this.centering = true;
+            }
+        } else {
+            this.centering = true;
+        }
+        
+        if (this.centering) this.alignCenter();
+        this.update({...this.applyDefaults(), ...kwargs});
+    }
+
+    /**
+     * Provide a callback that runs when data is input to this element
+     * @param {function} callback A callback to be run on each input - i.e. each time a key is typed while the box is active.
+     * @returns {Object} this
+     */
+    onInput(callback){
+        if (callback == undefined){
+            console.log("No callback set for button click.")
+        } else {
+            return this.el.input(callback);
+        }
+    }
+
+    /**
+     * Add placeholder text to the input box
+     * @param {String} t placeholder text 
+     * @returns {Object} this
+     */
+    setPlaceHolder(t){
+        this.el.elt.placeholder = t;
+        return this;
+    }
+
+    /**
+     * Return the current placeholder text
+     * @returns {string} the placeholder text
+     */
+    getPlaceholder(){
+        return this.el.elt.placeholder;
+    }
+
+    /**
+     * Clear the value of the current input. Useful for when building forms.
+     * @returns {this}
+     */
+    clear(){
+        this.el.value("");
+        return this;
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createInput(this.value);
+        this.el.position(p.x, p.y);
+    }
+}
+
+/**
+ * Create a new HTML `button` element.
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} value The text content of the button
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class Button extends pDOM{
+    constructor(x, y, value, id=undefined, kwargs={}){
+        super(x, y, id, kwargs)
+        this.value = value;
+        this.type = "button";
+        this.draw();
+        this.el.mousePressed(this.onClick);
+        
+        if (Object.keys(kwargs).includes('align')){
+            if (kwargs['align'] == 'center'){
+                this.centering = true;
+            } else if (kwargs['align'] == 'left'){
+                this.centering = false;
+            } else {
+                this.centering = true;
+            }
+        } else {
+            this.centering = true;
+        }
+        
+        if (this.centering) this.alignCenter();
+        this.update({...this.applyDefaults(), ...kwargs});
+    }
+
+    /**
+     * Pass a callback to be called when the button is clicked.
+     * Note that unlike Psychex canvas objects, this accepts a callback as the parameter, rather than being the callback itself.
+     * This is because we need to call the additional `mousePressed` method to update the callback in the DOM.
+     * @param {function} callback Callback to be called when the button is pressed.
+     */
+    onClick(callback){
+        return this.el.mousePressed(callback)
+    }
+
+    draw() {
+        let p = super.draw();
+        this.el = createButton(this.value);
+        this.el.position(p.x, p.y);
+    }
+}
+
+/**
+ * Create a new HTML `slider` element
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class Slider extends pDOM {
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.default = 0.5;
+        this.step = 0;
+        this.type = "slider";
+        this.draw();
+
+        if (Object.keys(kwargs).includes('align')){
+            if (kwargs['align'] == 'center'){
+                this.centering = true;
+            } else if (kwargs['align'] == 'left'){
+                this.centering = false;
+            } else {
+                this.centering = true;
+            }
+        } else {
+            this.centering = true;
+        }
+        
+        if (this.centering) this.alignCenter();
+        this.update({...this.applyDefaults(), ...kwargs});
+    }
+
+    /**
+     * Set the minimum and maximum values stored for the slider. This doesn't change the slider aesthetics, but will change the value returned when the slider is moved.
+     * @param {number} min The lower-bound (LHS of the slider scale)
+     * @param {number} max The upper-bound (RHS of the slider scale)
+     * @returns {this}
+     */
+    setRange(min, max){
+        this.el.elt.min = min;
+        this.el.elt.max = max;
+        return this;
+    }
+
+    /**
+     * Set default (starting) value for the slider notch. E.g. if the range is set to [0, 1], then the midpoint would be 0.5.
+     * @param {number} d notch default value
+     * @returns {this}
+     */
+    setDefault(d){
+        this.default = d;
+        this.setValue(this.default)
+        return this;
+    }
+
+    /**
+     * Register a callback that fires at the end of each slider interaction, i.e. after the slider has been moved, and the mouseclick released.
+     * @param {any} callback Callback to run once the slider interaction is complete. Will run once.
+     * @returns {any}
+     */
+    onChangeEnd(callback){
+        this.el.changed(callback);
+    }
+
+    /**
+     * Register a callback that will fire continuously as the slider value is being changed. Useful if you need to make changes immediately responsive to input.
+     * @param {function} callback
+     * @returns {any} callback return
+     */
+    onChange(callback){
+        return this.el.input(callback)
+    }
+
+    /**
+     * Overwrites the clear method to set value to user-set default instead of 0.
+     * @returns {object} this
+     */
+    clear(){
+        this.setValue(this.default);
+        return this;
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createSlider(0, 1, this.default, this.step);
+        this.el.position(p.x, p.y)
+    }
+}
+
+/**
+ * Create a new HTML anchor (`a`) element
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} url URL to redirect the window to
+ * @param {string} text Text value for the hyperlink
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class A extends pDOM {
+    constructor(x, y, url, text, id=undefined, kwargs={}){
+        super(x, y, id, kwargs)
+        this.url = url;
+        this.text = text;
+        if (this.text == undefined) {this.text = ""};
+        if (this.url == undefined) {this.url = "#"};
+        this.draw();
+        this.update(kwargs);
+    }
+
+    /**
+     * Update the redirect URL for this anchor tag
+     * @param {any} url New URL for redirecting
+     * @returns {this}
+     */
+    setUrl(url){
+        this.url = url;
+        this.el.elt.href = url;
+        return this;
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createA(this.url, this.text);
+        this.el.position(p.x, p.y)
+    }
+}
+
+/**
+ * Create a new HTML checkbox element.
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {string} label="" Option to add a text label to the checkbox
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class Checkbox extends pDOM{
+    constructor(x, y, id=undefined, label="", kwargs={}){
+        super(x, y, id, kwargs);
+        this.label = label;
+        this.draw();
+        if (Object.keys(kwargs).includes('align')){
+            if (kwargs['align'] == 'center'){
+                this.centering = true;
+            } else if (kwargs['align'] == 'left'){
+                this.centering = false;
+            } else {
+                this.centering = true;
+            }
+        } else {
+            this.centering = true;
+        }
+        
+        if (this.centering) this.alignCenter();
+        this.update({...this.applyDefaults(), ...kwargs});
+    }
+
+    /**
+     * Return a boolean indicating if the chechbox is currently checked or not.
+     * @returns {boolean} true if checked, false if not
+     */
+    isChecked(){
+        return this.el.checked();
+    }
+
+    /**
+     * Set a callback to run when a change (check or unchecked) is detected. Pair with the method `isChecked()` to run callback only when checked.
+     * @param {function} callback function to run when a change is detected
+     * @returns {any} callback return
+     */
+    onChange(callback){
+        return this.el.input(callback);
+    }
+
+    /**
+     * Overwrite parent method to return boolean of if this is checked or not
+     * @returns {boolean} true if checked, false if not
+     */
+    getValue() {
+        return this.isChecked()
+    }
+
+    /**
+     * Change the value (checked or unchecked) of the checkbox
+     * @param {boolean} value true if checked, false if unchecked
+     * @returns {object} this
+     */
+    setValue(value){
+        this.el.checked(value);
+        return this;
+    }
+
+    draw(){
+        let p = super.draw(); 
+        this.el = createCheckbox(this.label);
+        this.el.position(p.x, p.y);
+    }
+}
+
+/**
+ * Create a new select-style HTML input element (a dropdown list)
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class Select extends pDOM{
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.draw();
+        this.update(kwargs);
+    }
+
+    /**
+     * Add a new option to the select dropdown
+     * @param {string} option The option to add
+     * @returns {this}
+     */
+    addOption(option){
+        this.el.option(option);
+        return this;
+    }
+
+    /**
+     * Disable the specified option
+     * @param option The option to disable
+     * @returns {any}
+     */
+    disableOption(option){
+        this.el.disable(option)
+        return this;
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createSelect()
+        this.el.position(p.x, p.y);
+    }
+}
+
+/**
+ * Create a new specified HTML element of any type, by naming the input.
+ * For example, to create a new <h2> element:::
+
+        content.dom.newEl = new Element(50, 10, "h2", "My Custom Heading", "h2el", {})
+
+ * @param {number} x Horizontal position of the element
+ * @param {number} y Vertical position of the element
+ * @param {string} el The HTML element type, such as h3, h2, span, etc. 
+ * @param {string} value="" The content of the HTML element
+ * @param {string} id=undefined Unique identifier string for this element
+ * @param {object} kwargs={} CSS styles for this element
+ */
+class DomElement extends pDOM{
+    constructor(x, y, el, value="", id=undefined, kwargs={}){
+        super(x, y, id, kwargs);
+        this.elType = el;
+        this.value = value;
+        this.centering = true;
+        this.draw();
+        // this.el.position(this.pixels.x-this.getSize().width/2, this.pixels.y-this.getSize().height/2);
+        // this.el.position(0, 0)
+        if (this.centering) this.alignCenter();
+        this.update(kwargs);
+    }
+
+    draw(){
+        let p = super.draw();
+        this.el = createElement(this.elType, this.value);
+        // this.el.position(p.x, p.y);
+        // this.el.position(p.x, p.y)
+        this.el.position(0, 0)
+    }
+}
+
+class Form extends pDOM{
+    constructor(x, y, id=undefined, kwargs={}){
+        super(x, y, `${id}_div`, kwargs)
+        this.fields = {};
+        this.contentDiv = new Div(this.pos.x, this.pos.y);
+        this.submitBtn = new Button(0, 0, "Submit", `${id}_submitBtn`);
+        this.submitBtn.appendTo(this.contentDiv, true);
+        this.fieldSpacing = createVector(7.5, 7.5)
+    }
+
+    addField(id, fieldType, label, placeholder="", as="row", kwargs={}){
+        if (!["text"].includes(fieldType)){throw new Error(`Did not recognise field type ${fieldType}. Must be one of: 'text'`)};
+        // Create a new div for this field and append to the parent div
+        let newDiv = new Div(0, this.fieldSpacing.y*(Object.keys(this.fields).length));
+        newDiv.appendTo(this.contentDiv)
+        // Create a new label and input based on type
+        let newLabel = new p(0, -2, label, `${id}_label`, kwargs.label || {});
+        newLabel.appendTo(newDiv);
+        let newInput;
+        if (fieldType == "text"){
+            newInput = new Input(this.fieldSpacing.x, 0, "", `${id}_input`, kwargs.input || {});
+            newInput.appendTo(newDiv);
+            newInput.setPlaceHolder(placeholder);
+        }
+        
+        this.fields[id] = newDiv;
+
+        // If a new field is added, reposition the submit button dynamically
+        this.submitBtn.setPosition(0, this.fieldSpacing.y*(Object.keys(this.fields).length));
+
+        return this;
+    }
+
+    removeField(){
+
+    }
+}

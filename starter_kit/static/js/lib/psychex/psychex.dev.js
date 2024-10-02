@@ -1278,17 +1278,9 @@ class Countdown extends Primitive {
     }
 }
 
-/**
- * The basis for an N-Arm bandit task. This class is designed to be extended to add custom functionality, and other Psychex objects as graphics for interaction.
- * Probabilities are sampled from a uniform distribution between 0 and 1 by default, but can be overwritten, or specific probabilities per arm specified.
- * @param {number} x The horizontal position allowing the developer to have a ref point during extension
- * @param {number} y The vertical position allowing the developer to have a ref point during extension
- * @param {number} nArms=2 Number of arms in the task
- * @param {any} probabilities="uniform" Probability type, or an array of probabilities per arm
- */
 class NArmBandit extends Primitive{
-    constructor(x, y, nArms=2, probabilities="uniform"){
-        super(x, y, {});
+    constructor(x, y, nArms=2, probabilities="random"){
+        super();
         this.nArms = nArms;
         // Sanitise probability input
         if (this._checkProbabilities(probabilities)) {this.probabilities = probabilities};
@@ -1297,8 +1289,8 @@ class NArmBandit extends Primitive{
 
     _checkProbabilities(p){
         if (typeof(p) == "string"){
-            if (!["uniform"].includes(p)){
-                throw new Error(`Probability type ${p} not recognised: must be one of: uniform`)
+            if (!["random"].includes(p)){
+                throw new Error(`Probability type ${p} not recognised: must be one of: random`)
             } else {
                 return true
             }
@@ -1309,64 +1301,36 @@ class NArmBandit extends Primitive{
                 return true
             }
         } else {
-            throw new Error(`Must provide either a probability type (eg. 'uniform') or an array of values matching the number of arms (eg. if nArms=2, [0.5, 0.5])`);
+            throw new Error(`Must provide either a probability type (eg. 'random') or an array of values matching the number of arms (eg. if nArms=2, [0.5, 0.5])`);
         }
     }
 
-    /**
-     * Convert an input key to probabilities
-     * @returns {any}
-     */
     convertKeyToProbabilities(){
-        // If user provides this.probabilities as a string code - eg. "uniform", convert to a list of probabilities
+        // If user provides this.probabilities as a string code - eg. "random", convert to a list of probabilities
         if (typeof(this.probabilities) == "string"){
-            // Sample probs from uniform distribution
             this.probabilities = _.range(0, this.nArms).map(i => _.random(0, 1, true));
             if (this.constants.verbose){console.log(`Bandit arm values set to: ${this.probabilities}`)}
         }
     }
 
-    /**
-     * Set the number of arms
-     * @param {number} n number of arms
-     * @returns {object} this
-     */
     setNArms(n){
         this.nArms = n;
         return this;
     }
 
-    /**
-     * Get the number of arms as a number
-     * @returns {number} The number of arms
-     */
-    getNArms(){
+    getNArms(n){
         return this.nArms;
     }
 
-    /**
-     * Set the arm probabilities, either as a string code or as an array of probability values
-     * @param {any} p probability as string or array of numbers, one value per arm if array used
-     * @returns {object} this
-     */
     setProbabilities(p){
         if (this._checkProbabilities(p)) {this.probabilities = p};
         return this;
     }
 
-    /**
-     * Get the arm probabilities
-     * @returns {Array} arm probability values
-     */
     getProbabilities(){
         return this.probabilities;
     }
 
-    /**
-     * Pull the arm related to the given index in `this.probabilities`. E.g. to pull arm 0, do `pullArm(0)`, related to `this.probabilities[0]`
-     * @param {number} index The arm index defined by `this.probabilities`. NB: indexing begins at 0.
-     * @returns {boolean} the outcome of the arm, either true for 'successful pull', else false
-     */
     pullArm(index){
         /*
             Pull the arm related to the given index in this.probabilities.
@@ -1377,6 +1341,19 @@ class NArmBandit extends Primitive{
         // Generate a random number
         const drawnVal = _.random(0, 1, true);
         return (drawnVal <= this.probabilities[index]) ? true : false;
+    }
+
+    update(probabilities, nArms){
+        /*
+            Update the number of arms or probabilities used manually by providing new values for both quantities respectively.
+        */
+        this.nArms = nArms;
+        if (this._checkProbabilities(probabilities)) {this.probabilities = probabilities};
+        this.convertKeyToProbabilities();
+    }
+
+    draw(){
+
     }
 }
 
@@ -2571,13 +2548,6 @@ class pDOM extends Primitive {
         return this;
     }
 
-    clear(){
-        this.setValue("");
-        if (this.type == 'checkbox'){
-            this.setValue(false)
-        }
-    }
-
     applyDefaults(){
         return {
             'margin' : '0px',
@@ -2923,15 +2893,6 @@ class Slider extends pDOM {
         return this.el.input(callback)
     }
 
-    /**
-     * Overwrites the clear method to set value to user-set default instead of 0.
-     * @returns {object} this
-     */
-    clear(){
-        this.setValue(this.default);
-        return this;
-    }
-
     draw(){
         let p = super.draw();
         this.el = createSlider(0, 1, this.default, this.step);
@@ -3023,24 +2984,6 @@ class Checkbox extends pDOM{
         return this.el.input(callback);
     }
 
-    /**
-     * Overwrite parent method to return boolean of if this is checked or not
-     * @returns {boolean} true if checked, false if not
-     */
-    getValue() {
-        return this.isChecked()
-    }
-
-    /**
-     * Change the value (checked or unchecked) of the checkbox
-     * @param {boolean} value true if checked, false if unchecked
-     * @returns {object} this
-     */
-    setValue(value){
-        this.el.checked(value);
-        return this;
-    }
-
     draw(){
         let p = super.draw(); 
         this.el = createCheckbox(this.label);
@@ -3102,7 +3045,7 @@ class Select extends pDOM{
  * @param {string} id=undefined Unique identifier string for this element
  * @param {object} kwargs={} CSS styles for this element
  */
-class DomElement extends pDOM{
+class Element extends pDOM{
     constructor(x, y, el, value="", id=undefined, kwargs={}){
         super(x, y, id, kwargs);
         this.elType = el;

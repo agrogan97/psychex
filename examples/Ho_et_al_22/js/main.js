@@ -7,7 +7,7 @@ var myGame;
 
 function handleClick(e){
     // -- p5.js click listener -- //
-    pClickListener(e)
+    pEventListener(e, 'click');
 }
 
 function preload(){

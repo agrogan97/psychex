@@ -6,17 +6,27 @@ In this section, we'll go through the steps necessary to set up Psychex and use 
 Installation
 ------------
 
-Psychex can be installed from Github. Download the source code file and place in a `lib` folder (or equivalent folder of your liking).
-Import the file into your project by referencing in your base HTML file, as such::
+Psychex can be installed from the Psychex Github repo. There are 2 Psychex versions available:
 
-    <script src="lib/psychex.core.js"></script>
+- src/psychex.dev.js
+- src/psychex.production.js
 
-Psychex is a wrapper for the `p5.js <https://p5js.org/>`_ library and uses the same required functions. 
+The former includes code docs and tooltips, which offer a handy way of getting details about classes and methods within
+an editor such as VS Code. It's also the version to use if you wish to extend contribute to Psychex.
+The latter is a production-optimised version that can be used when your experiment is made playable by real people on the internet.
+This version has unnecessary data such as comments and whitespace removed, making it smaller and faster-loading for your participants.
+We recommend using the *dev* version for developing, and the *production* build for the real thing.
 
-Skeleton Setup 
---------------
+Once you've downloaded the code file, place it somewhere in your project, and import the file into your project by referencing in your base HTML file, as such::
 
-Alternatively, download the skeleton folder from examples/skeleton - this contains barebones files that will work out of the box. If you choose to do this, you can serve the file by opening a terminal of your choice, navigating to the project root, and running
+    <script src="lib/psychex.dev.js"></script>
+
+Psychex is a wrapper for the `p5.js <https://p5js.org/>`_ library and uses the same required functions.
+
+Starter Kit Setup 
+-----------------
+
+Alternatively, download the folder *starter_kit* - this contains barebones files that will work out of the box, and is a good foundation from which to build your project. If you choose to do this, you can serve the file by opening a terminal of your choice, navigating to the project root, and running
 something like: ::
 
     python -m http.server
@@ -37,8 +47,12 @@ Running Psychex with JATOS
 
 Psychex integrates nicely with JATOS, if you're using that to serve experiments, and requires minimal changes to your codebase - in fact, they're a great pairing!
 
+For details on how to get the most out of Psychex + JATOS, see :doc:`../tutorial/deploying`.
+
 Manual Setup
 ------------
+
+If you're using the starter kit, the file *main.js* contains the following functions by default.
 
 The following can be used as a basic template::
 
@@ -86,7 +100,7 @@ Draw
 
 The draw() function is an *animation loop*: it extends the JS *requestAnimationFrame()* function.
 This function is run many times per second, typically based on the display refresh rate: e.g., for a 60Hz display, *draw()* will run 60 times per second.
-This powers animations and dynamically rendered content. The frame rate can be queried with the p5.js function::
+This powers animations and dynamically rendered content. The frame rate can be queried or set with the function::
 
     // Return the current framerate:
     frameRate();

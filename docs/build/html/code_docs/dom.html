@@ -52,68 +52,75 @@
 <li class="toctree-l1"><a class="reference internal" href="paradigms.html">Composite Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Utilities.html">Meta-Classes, Utilities, and Support Classes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Document Object Model (DOM)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#DOM"><code class="docutils literal notranslate"><span class="pre">DOM</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.setId"><code class="docutils literal notranslate"><span class="pre">DOM.setId()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.getId"><code class="docutils literal notranslate"><span class="pre">DOM.getId()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.setText"><code class="docutils literal notranslate"><span class="pre">DOM.setText()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.getText"><code class="docutils literal notranslate"><span class="pre">DOM.getText()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.center"><code class="docutils literal notranslate"><span class="pre">DOM.center()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.appendTo"><code class="docutils literal notranslate"><span class="pre">DOM.appendTo()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.setSize"><code class="docutils literal notranslate"><span class="pre">DOM.setSize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.getSize"><code class="docutils literal notranslate"><span class="pre">DOM.getSize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.setValue"><code class="docutils literal notranslate"><span class="pre">DOM.setValue()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.getValue"><code class="docutils literal notranslate"><span class="pre">DOM.getValue()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.setPosition"><code class="docutils literal notranslate"><span class="pre">DOM.setPosition()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.getPosition"><code class="docutils literal notranslate"><span class="pre">DOM.getPosition()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.update"><code class="docutils literal notranslate"><span class="pre">DOM.update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseOver"><code class="docutils literal notranslate"><span class="pre">DOM.mouseOver()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseOut"><code class="docutils literal notranslate"><span class="pre">DOM.mouseOut()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseMoved"><code class="docutils literal notranslate"><span class="pre">DOM.mouseMoved()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseReleased"><code class="docutils literal notranslate"><span class="pre">DOM.mouseReleased()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.mouseWheel"><code class="docutils literal notranslate"><span class="pre">DOM.mouseWheel()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.show"><code class="docutils literal notranslate"><span class="pre">DOM.show()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#DOM.hide"><code class="docutils literal notranslate"><span class="pre">DOM.hide()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-custom-form-tutorial">Create a Custom Form - Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-documentation">Code Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#DOM"><code class="docutils literal notranslate"><span class="pre">DOM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.setId"><code class="docutils literal notranslate"><span class="pre">DOM.setId()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.getId"><code class="docutils literal notranslate"><span class="pre">DOM.getId()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.setText"><code class="docutils literal notranslate"><span class="pre">DOM.setText()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.getText"><code class="docutils literal notranslate"><span class="pre">DOM.getText()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.center"><code class="docutils literal notranslate"><span class="pre">DOM.center()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.appendTo"><code class="docutils literal notranslate"><span class="pre">DOM.appendTo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.setSize"><code class="docutils literal notranslate"><span class="pre">DOM.setSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.getSize"><code class="docutils literal notranslate"><span class="pre">DOM.getSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.setValue"><code class="docutils literal notranslate"><span class="pre">DOM.setValue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.getValue"><code class="docutils literal notranslate"><span class="pre">DOM.getValue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.setPosition"><code class="docutils literal notranslate"><span class="pre">DOM.setPosition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.getPosition"><code class="docutils literal notranslate"><span class="pre">DOM.getPosition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.update"><code class="docutils literal notranslate"><span class="pre">DOM.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.mouseOver"><code class="docutils literal notranslate"><span class="pre">DOM.mouseOver()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.mouseOut"><code class="docutils literal notranslate"><span class="pre">DOM.mouseOut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.mouseMoved"><code class="docutils literal notranslate"><span class="pre">DOM.mouseMoved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.mouseReleased"><code class="docutils literal notranslate"><span class="pre">DOM.mouseReleased()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.mouseWheel"><code class="docutils literal notranslate"><span class="pre">DOM.mouseWheel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.show"><code class="docutils literal notranslate"><span class="pre">DOM.show()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DOM.hide"><code class="docutils literal notranslate"><span class="pre">DOM.hide()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Div"><code class="docutils literal notranslate"><span class="pre">Div</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#p"><code class="docutils literal notranslate"><span class="pre">p</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Input"><code class="docutils literal notranslate"><span class="pre">Input</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Input.onInput"><code class="docutils literal notranslate"><span class="pre">Input.onInput()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Input.setPlaceholder"><code class="docutils literal notranslate"><span class="pre">Input.setPlaceholder()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Input.getPlaceholder"><code class="docutils literal notranslate"><span class="pre">Input.getPlaceholder()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Input.clear"><code class="docutils literal notranslate"><span class="pre">Input.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Div"><code class="docutils literal notranslate"><span class="pre">Div</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#p"><code class="docutils literal notranslate"><span class="pre">p</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Input"><code class="docutils literal notranslate"><span class="pre">Input</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Input.onInput"><code class="docutils literal notranslate"><span class="pre">Input.onInput()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Input.setPlaceholder"><code class="docutils literal notranslate"><span class="pre">Input.setPlaceholder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Input.getPlaceholder"><code class="docutils literal notranslate"><span class="pre">Input.getPlaceholder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Input.clear"><code class="docutils literal notranslate"><span class="pre">Input.clear()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Button.onClick"><code class="docutils literal notranslate"><span class="pre">Button.onClick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Button.onClick"><code class="docutils literal notranslate"><span class="pre">Button.onClick()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Slider"><code class="docutils literal notranslate"><span class="pre">Slider</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Slider.setRange"><code class="docutils literal notranslate"><span class="pre">Slider.setRange()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Slider.setDefault"><code class="docutils literal notranslate"><span class="pre">Slider.setDefault()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Slider.onChange"><code class="docutils literal notranslate"><span class="pre">Slider.onChange()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Slider.onChangeEnd"><code class="docutils literal notranslate"><span class="pre">Slider.onChangeEnd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Slider"><code class="docutils literal notranslate"><span class="pre">Slider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Slider.setRange"><code class="docutils literal notranslate"><span class="pre">Slider.setRange()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Slider.setDefault"><code class="docutils literal notranslate"><span class="pre">Slider.setDefault()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Slider.onChange"><code class="docutils literal notranslate"><span class="pre">Slider.onChange()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Slider.onChangeEnd"><code class="docutils literal notranslate"><span class="pre">Slider.onChangeEnd()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#A"><code class="docutils literal notranslate"><span class="pre">A</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#A.setUrl"><code class="docutils literal notranslate"><span class="pre">A.setUrl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#A"><code class="docutils literal notranslate"><span class="pre">A</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#A.setUrl"><code class="docutils literal notranslate"><span class="pre">A.setUrl()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Checkbox"><code class="docutils literal notranslate"><span class="pre">Checkbox</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Checkbox.isChecked"><code class="docutils literal notranslate"><span class="pre">Checkbox.isChecked()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Checkbox.onChange"><code class="docutils literal notranslate"><span class="pre">Checkbox.onChange()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Checkbox"><code class="docutils literal notranslate"><span class="pre">Checkbox</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Checkbox.isChecked"><code class="docutils literal notranslate"><span class="pre">Checkbox.isChecked()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Checkbox.onChange"><code class="docutils literal notranslate"><span class="pre">Checkbox.onChange()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Select"><code class="docutils literal notranslate"><span class="pre">Select</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Element"><code class="docutils literal notranslate"><span class="pre">Element</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Select"><code class="docutils literal notranslate"><span class="pre">Select</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Element"><code class="docutils literal notranslate"><span class="pre">Element</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/deploying.html">Deploying to the Internet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/contributing.html">Contributing to Psychex</a></li>
 </ul>
 
         </div>
@@ -142,6 +149,256 @@
              
   <section id="document-object-model-dom">
 <h1>Document Object Model (DOM)<a class="headerlink" href="#document-object-model-dom" title="Link to this heading"></a></h1>
+<p>Psychex offers classes to interact with the DOM, allowing you to build HTML elements alongside your canvas elements!
+This helps contain all your needs within the Psychex framework, and can be used to incorporate forms, and questionnaires into your
+experiments.</p>
+<p>This page contains tutorials showing how to create a Psychex form. Further down the page are the details on the methods available for each of
+the classes.</p>
+<section id="create-a-custom-form-tutorial">
+<h2>Create a Custom Form - Tutorial<a class="headerlink" href="#create-a-custom-form-tutorial" title="Link to this heading"></a></h2>
+<p>The following tutorial shows how you can build a custom form from scratch, using Psychex versions of normal HTML elements.</p>
+<p>The purpose of this tutorial is to show how you can define, position, and style different elements using Psychex. The final form you’ll
+produce is perfectly usable for an experiment - but may have some limitations if you wanted something more complex.</p>
+<p>By the end of the tutorial, you’ll be able to confidently use elements like checkboxes, sliders, text, and input fields to get data from users.</p>
+<p>This can be extremely useful for implementing attention checks, inter-round feedback, or quick responses when using a mixture of canvas and DOM elements,
+without having to redirect to a new page, or go through complex positioning in your HTML.</p>
+<p>Start by downloading the <cite>starter_kit</cite> folder from the Github repo. Open up the entrypoint file: <cite>static/js/main.js</cite>.
+This contains definitions of the core functions you need to get started.</p>
+<p>The first thing we’ll do is define a custom form class. Define this at the bottom of the page:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span><span class="w"> </span><span class="nx">MyTutorialForm</span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">){</span>
+
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This takes coordinates <cite>x</cite> and <cite>y</cite> as input.</p>
+<p>Psychex DOM elements work in a different way to canvas elements, in that they don’t need to be redrawn
+continuously in an animation loop - <strong>they only need to be drawn once</strong>. This means that when we define a new element,
+it is registered in the DOM, and kept on the page permanently (unless manually removed).</p>
+<p>Let’s start by defining a new <em>div</em>, and placing a <em>heading</em> and <em>subheading</em> inside it. We’ll make the headings <em>children</em>
+of the <em>div</em>, so that they’re positioned relative to its position. This is exactly the same as if we were writing pure HTML, and we nested
+<em>&lt;h1&gt;</em> elements inside a <em>&lt;div&gt;</em> element. Inside the constructor of your new class, add the following:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a new div element</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Div</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;formDiv&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;50%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;75%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;background-color&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;lightblue&#39;</span><span class="p">});</span>
+<span class="c1">// Create a new empty element, and set it to be an &lt;h2&gt; - then append it to the div</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">heading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">DomElement</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;h2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;New Data Form&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;h2el&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="c1">// Create a new empty element, set it to be an &lt;h3&gt; - and append it to the div</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">subheading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">DomElement</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">12.5</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;h3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Please answer the following questions:&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;h3el&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Here, we start by defining a <cite>Div</cite> class, setting its position at <cite>x</cite>, <cite>y</cite>, giving it an <cite>id</cite> of ‘formDiv’, and passing in some styles.
+Next, we create a new empty element, tell Psychex we’d like it to be an <cite>h2</cite> element, set the text value, and set the ID.
+We then chain the method <cite>appendTo</cite> onto the end, where the first parameter is the target parent element (the div), and the second asks
+if we want to reposition it relative to the parent - which we do. This means that as <cite>x = 50</cite>, the heading text will be placed <cite>50%</cite> along
+the width of the div, <em>not</em> the width of the screen. This system makes Psychex DOM positioning much more flexible than regular HTML positioning.</p>
+<p>Note that this code block above is the same as if we wrote:</p>
+<div class="highlight-HTML notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;formDiv&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 50%; height: 75%; background-color: lightblue;&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;h2el&quot;</span><span class="p">&gt;</span>New Data Form<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h3</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;h3el&quot;</span><span class="p">&gt;</span>Please answer the following questions:<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>We could manually define form fields, inputs, labels, etc. right here in the constructor, but we’d like a more principled, organised
+way of doing this - in particular, one that will help us reuse this class in the future.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The idea of writing classes once and reusing them in future work is often referred to as <strong>DRY</strong> coding: <strong>Don’t Repeat Yourself</strong>!
+Time is valuable in research - do yourself a favour, and write good, clean code.</p>
+</div>
+<p>Define a class method for creating a text input, and start by creating a div to store it in. We want to be able to index any new fields we add,
+so we’ll include position and ID in the parameters:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">newTextField</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// Create a new object inside a class variable called formFields</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Div</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_div`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;100%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;15%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;background-color&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;inherit&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and inside the constructor, define the object we’ve referenced here for storing form fields:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+</pre></div>
+</div>
+<p>In the new div definition, we’ve set the id to be <cite>${id}_div</cite>. This is a dynamic string that will insert the value of the variable
+<cite>id</cite> we pass into the method, into the string we use for the id. For example, if we set the field id to be <cite>myField</cite>, then the div will
+have the id <cite>myField_div</cite>.</p>
+<p>We’re also assigning styles in a very similar way to canvas elements, using an <cite>aesthetics</cite> (or <cite>kwargs</cite>) object. However, instead of using Psychex styling names,
+we’re using <em>CSS</em> names. Often these are similar, but it’s worth checking what the keys are on something like <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/CSS">MDN</a>.
+Here, we’re setting the <cite>background-color</cite> property to inherit from the parent, and we’re defining the width and height of the div.</p>
+<p>Let’s add a new label to the form field, using the <cite>p</cite> class:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">p</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">15</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_label`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;20%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;font-size&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;22px&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">setAlignment</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And finally, a text input box, using the <cite>Input</cite> class:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Input</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_input`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;45%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;50%&#39;</span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">setAlignment</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">setPlaceHolder</span><span class="p">(</span><span class="s2">&quot;Enter ID here&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This creates some text, positioned horizontally adjacent to a textbox input field. We’ve set the placeholder value, and attached both to the form field parent div.
+For more details, look further down this page at the class documentation.</p>
+<p>Let’s call this within the constructor to add the text field to our form:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ... preamble ...</span>
+
+<span class="k">this</span><span class="p">.</span><span class="nx">newTextField</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;f1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Enter ID:&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And instantiate your new form in the main <cite>setup()</cite> block:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">content</span><span class="p">.</span><span class="nx">dom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">dom</span><span class="p">.</span><span class="nx">myForm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">MyTutorialForm</span><span class="p">(</span><span class="mf">25</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Remember, this only needs to be written once in setup, and <strong>not</strong> within draw!</p>
+<p>Now we have a reusable method to add input fields, you can add as many as you’d like, and save the functionality for future use.
+You can also play around with styling and spacing to optimise how the form looks.</p>
+<p>Next, let’s add some different input types. We’ll start with a checkbox, using the <cite>Checkbox</cite> class. Create a new method and add a div and label as previously:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">newCheckboxField</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">){</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Div</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_div`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;100%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;15%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;background-color&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;inherit&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">p</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">15</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_label`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;20%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;font-size&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;22px&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">setAlignment</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is very similar to the text input field we previously created. Next, we’ll define a new checkbox:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Checkbox</span><span class="p">(</span><span class="mf">51</span><span class="p">,</span><span class="w"> </span><span class="mf">40</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_input`</span><span class="p">,</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;center&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;margin-left&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;5px&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;transform&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;scale(2)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;border&#39;</span><span class="o">:</span><span class="s1">&#39;0.5px&#39;</span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally, add this to the constructor so you can see your new checkbox:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">newCheckboxField</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">32.5</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;f2&#39;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Are you enjoying Psychex?&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Now, let’s add in a <cite>Slider</cite> element. These can be useful when asking for ratings of quantities like enjoyment or confidence, for example.
+Create a new class as previously, and define a div and a label:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">newSliderField</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">){</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Div</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_div`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;100%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;15%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;background-color&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;inherit&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">p</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">15</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_label`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;20%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;font-size&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;22px&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">setAlignment</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now, within the same function block, we can define a new slider. We’ll set the range to be between <em>0</em> and <em>1</em>, with
+a default value of <em>0</em>. Feel free to try out different values here to see for yourself what the result is.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Slider</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_input`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;width&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;45%&#39;</span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">setRange</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And add it to the constructor:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">newSliderField</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">45</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;f3&#39;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;How much?&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Lastly, we’ll create a <cite>Select</cite> element. This is essentially a drop-down menu that lets the player choose from a set of options.
+Create a new select class, and add a div and label:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">newSelectField</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">){</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Div</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_div`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;100%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;height&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;15%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;background-color&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;inherit&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">p</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">15</span><span class="p">,</span><span class="w"> </span><span class="nx">labelText</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_label`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;20%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;font-size&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;22px&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">setAlignment</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>And define the select element:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Select</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">_input`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s1">&#39;align&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;width&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;45%&#39;</span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Before we move on, we need to add some options to the menu. We can do this with the <cite>Select</cite> class’ <cite>addOption()</cite> method.
+Add a new parameter to the <cite>newSelectField</cite> method, called <cite>selectOptions</cite>, as such:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">javascript</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="simple">
+<dt>newSelectField(x, y, id, labelText, selectOptions=[]){</dt><dd><p>// …</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>where we’ve set a default value as an empty list. After defining our <cite>select</cite> element, add the following piece of code, which
+will loop over the selectOptions we provide, and call <cite>addOption</cite> on each:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">selectOptions</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">opt</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">field</span><span class="p">.</span><span class="nx">addOption</span><span class="p">(</span><span class="nx">opt</span><span class="p">);</span>
+<span class="w">    </span><span class="p">})</span>
+</pre></div>
+</div>
+<p>And add this field in within the constructor:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">newSelectField</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">55</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;f4&#39;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Choose an option:&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="p">[</span><span class="s2">&quot;Psychex is great&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Psychex is amazing&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Psychex will really help my research&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Psychex is bad&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Obviously, we won’t need the user to ever select the last option in that list, so we can disable it:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">.</span><span class="nx">f4</span><span class="p">.</span><span class="nx">field</span><span class="p">.</span><span class="nx">disableOption</span><span class="p">(</span><span class="s1">&#39;Psychex is bad&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Now we need a submit button to act upon the data entered into the form fields. We can either use the default styling for this button, or define a styling object.
+Separating out styling definitions into a separate object can help make code more organised.
+Within the constructor, add the following:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">btnStyles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;background-color&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;#008CBA&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;border&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;color&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;padding&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;15px 32px&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;text-align&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;text-decoration&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;display&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;inline-block&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;font-size&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;16px&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;box-shadow&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="c1">// Define the button</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">submitBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Button</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">90</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;formSubmitBtn&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">btnStyles</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The final step is to define the functionality when the submit button is clicked. This will involve gathering the
+input data from each form field into a single object, and saving it somewhere.
+You can attach a click listener to the <cite>Button</cite> class (and all other pDOM classes) using <cite>onClick</cite>, similar to with canvas objects.
+The only difference here is that in <em>DOM</em> elements, <cite>onClick</cite> takes the callback as a function parameter, whereas in <em>canvas</em> elements it is overwritten.</p>
+<p>Set the onClick callback in the class constructor:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">submitBtn</span><span class="p">.</span><span class="nx">onClick</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>We can loop over the <cite>formFields</cite> object and access each <cite>field</cite>. These classes have <cite>getValue()</cite> methods to return the value
+entered by the user. We can aggregate these into a single object:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">submitBtn</span><span class="p">.</span><span class="nx">onClick</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">data</span><span class="p">[</span><span class="nx">f</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">f</span><span class="p">].</span><span class="nx">field</span><span class="p">.</span><span class="nx">getValue</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">formFields</span><span class="p">[</span><span class="nx">f</span><span class="p">].</span><span class="nx">field</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Saved data: </span><span class="si">${</span><span class="nx">data</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>If you open up the developer tools and look at the console, you’ll see the form data displayed.</p>
+<p>What you want to do with the data now depends on your setup. For instance, if you were hosting your experiment on JATOS,
+you might then call <cite>Game.saveDataToJatos(data)</cite>, and the data would be available through your interface within the current component.
+If you were running an ExpressJS server, you could use <cite>Game.saveDataToServer(data)</cite>, (+ your endpoint), which would send a POST request
+to the server where the data would be handled and saved to a file, added to a database, or whatever else you may need.</p>
+<p>Now, you have a working form! You may be thinking that this seems like an excessive amount of code for a form - it probably is. There are a few ways
+that this can be shrunk down and made more efficient, by reusing common structures (div + label), etc.</p>
+<p>As an exercise, consider going through and playing around with making the code more compact and efficient, and changing the styling, display,
+and aesthetics.</p>
+</section>
+<section id="code-documentation">
+<h2>Code Documentation<a class="headerlink" href="#code-documentation" title="Link to this heading"></a></h2>
 <dl class="js class">
 <dt class="sig sig-object js" id="DOM">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">DOM</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=undefined</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs={}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM" title="Link to this definition"></a></dt>
@@ -292,14 +549,19 @@ Either value can be replaced with <cite>AUTO</cite>, a constant that keeps ratio
 
 <dl class="js method">
 <dt class="sig sig-object js" id="DOM.getSize">
-<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getSize" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="n"><span class="pre">DOM</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">getSize</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asPercentage=false</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DOM.getSize" title="Link to this definition"></a></dt>
 <dd><p>Return the size of the element as object <cite>{width: w, height: h}</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Width and height of the element</p>
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>asPercentage</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">boolean()</span></code></span>) – If true, return the value as a % of canvas size. if false, return as pixels.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>object with keys <cite>width</cite> and <cite>height</cite>.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Width and height of thxe element</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object with keys <cite>x</cite> and <cite>y</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -886,6 +1148,7 @@ For example, to create a new &lt;h2&gt; element::</p>
 </dl>
 </dd></dl>
 
+</section>
 </section>
 
 

@@ -16,11 +16,15 @@ Setting Default Styles
 ----------------------
 
 All primitives, such as pText, pRectangle, pCircle, etc., have default aesthetics. These are contained within the global variable `psychex.aesthetics`.
-Within this, there contains objects for each of the primitives. You can get details on this by opening a console, and running: ::
+Within this, there contains objects for each of the primitives. You can get details on this by opening a console, and running:
+
+.. code-block:: javascript
 
     psychex.aesthetics.show();
 
-Similarly, to get details about the default settings on a specific primitive, run: ::
+Similarly, to get details about the default settings on a specific primitive, run:
+
+.. code-block:: javascript
 
     psychex.aesthetics.pText.show();
 
@@ -31,13 +35,15 @@ We'll cover manual settings in the next section.
 
 To edit the default properties, you can use the `edit()` function in each `psychex.aesthetics` object. Eg:
 
-.. py:function:: psychex.aesthetics.pText.edit(aes)
+.. js:function:: psychex.aesthetics.pText.edit(aes)
 
     Update the default settings for the chosen (in this case pText) primitive.
 
     :param object aes: A dict mapping property to the new default value. The named properties in this parameter must match the values in the object. You can view these parameters by running psychex.aesthetics.pText.show()
 
-Here's an example of how to set the global defaults for a pText object: ::
+Here's an example of how to set the global defaults for a pText object:
+
+.. code-block:: javascript
 
     var content = {};
 
@@ -56,7 +62,9 @@ Here's an example of how to set the global defaults for a pText object: ::
 .. note::
     If you update the default aesthetics, only the elements defined **after** the update will have the new settings applied. 
     If you wish to apply custom defaults to all elements, do this before defining any elements in `setup()`. To apply one set of defaults to a handful
-    of elements, and different default settings to other elements, define the first group, then edit the settings, then define the next group. For instance: ::
+    of elements, and different default settings to other elements, define the first group, then edit the settings, then define the next group. For instance: 
+
+    .. code-block:: javascript
 
         // .. setup preamble .. //
         content.text1a = new pText("Block 1", 50, 30);
@@ -80,7 +88,9 @@ For more details on this, check the :doc:`../code_docs/primitives` docs.
 
 `kwargs` is an optional parameter included at the end of every Psychex class, that allows you to override settings.
 
-To update the aesthetics for an element, add the styles to `kwargs`, for instance: ::
+To update the aesthetics for an element, add the styles to `kwargs`, for instance: 
+
+.. code-block:: javascript
 
     content.text = new pText("Hello World", 50, 50, {fontColor: 'blue');
     content.moreText = new pText("I <3 Psychex", 50, 60, {fontSize: 48});
@@ -93,7 +103,9 @@ Dynamic Styling
 
 Perhaps you want to update styles in a dynamic way, such as on user-click. No problem!
 
-Each `primitive` object has an `update()` method that allows you to update kwargs and aesthetics at any time. For example: ::
+Each `primitive` object has an `update()` method that allows you to update kwargs and aesthetics at any time. For example: 
+
+.. code-block:: javascript
 
     // Imagine a rectangle shape that's initialised with a red background
     content.someRect = new pRectangle(50, 50, 10, 10, {backgroundColor: "red"});
@@ -114,7 +126,9 @@ Change On-Click
 ***************
 
 Imagine you want the colour of a rectangle to change when it's clicked by a user. This might be used to give the player feedback on an interaction, for example.
-Firstly, we'll create a rectangle object inside setup: ::
+Firstly, we'll create a rectangle object inside setup: 
+
+.. code-block:: javascript
 
     var content = {};
 
@@ -135,7 +149,9 @@ Firstly, we'll create a rectangle object inside setup: ::
 The rectangle is initially rendered with a green background, and a green border.
 
 Let's now make the shape clickable, and edit its `onClick()` property. For a deeper dive into user interactions, 
-check out the tutorial on :doc:`interactions`. Let's register the shape as a clickable object, and edit `onClick`: ::
+check out the tutorial on :doc:`interactions`. Let's register the shape as a clickable object, and edit `onClick`: 
+
+.. code-block:: javascript
 
     // ... previous setup code ... //
 
@@ -148,7 +164,9 @@ check out the tutorial on :doc:`interactions`. Let's register the shape as a cli
 
 Simple as that! Now, when the user clicks the rectangle, it's background and border colour will turn yellow.
 
-We can set this to automatically change back after some time by adding a timeout within the same function: ::
+We can set this to automatically change back after some time by adding a timeout within the same function: 
+
+.. code-block:: javascript
 
     content.myRect.onClick = () => {
         content.myRect.update({backgroundColor: "yellow", borderColor: "yellow"});
@@ -165,7 +183,9 @@ Let's use the same logic to create traffic lights that change colour based on a 
 For this, we want 3 lights (green, amber, and red), that go from red -> red + amber -> green, and then from green ->
 green + amber -> red.
 
-Let's start by defining all our shapes in `setup`: ::
+Let's start by defining all our shapes in `setup`: 
+
+.. code-block:: javascript
 
     var content = {};
 
@@ -192,7 +212,9 @@ Note that, for the crossing button, we've used a `pButton` object. These are cli
 but we do need to specify what will happen `onClick`. Buttons can also contain either `pText` or `pImage` objects. Here, we're adding some text
 through the `addText` method.
 
-Let's go through and add all the rules for changing lights into `onClick`, under our previous definitions: ::
+Let's go through and add all the rules for changing lights into `onClick`, under our previous definitions: 
+
+.. code-block:: javascript
 
     // ... previous setup() code //
 
@@ -225,7 +247,9 @@ Let's go through and add all the rules for changing lights into `onClick`, under
     }
 
 That's it! We're using several nested setTimeouts() to schedule events, but this is just one way of doing it.
-This could also be simplified by predefining the colour changes, such as by defining: ::
+This could also be simplified by predefining the colour changes, such as by defining: 
+
+.. code-block:: javascript
 
     const lightChanges = {
         green: {
@@ -256,7 +280,9 @@ Colour-Changing Timer
 *********************
 
 Finally, this example shows how we can update the styling on a composite item - i.e. a class that contains primitives.
-For this, we'll use the Countdown class. Let's start by initialising a countdown timer: ::
+For this, we'll use the Countdown class. Let's start by initialising a countdown timer: 
+
+.. code-block:: javascript
 
     function setup(){
         // ... setup preamble ... //
@@ -272,7 +298,9 @@ For this, we'll use the Countdown class. Let's start by initialising a countdown
     }
 
 Currently, this has no graphics object (eg. a progress bar etc.) attached to it. The class provides 2 built-in objects: an arc, and a progress bar.
-Let's attach an arc graphic to the underlying countdown logic. ::
+Let's attach an arc graphic to the underlying countdown logic. 
+
+.. code-block:: javascript
 
     // ... preamble ... //
 
@@ -283,7 +311,9 @@ Let's attach an arc graphic to the underlying countdown logic. ::
 
 This shape starts with the same default graphics as *pCircle*. Similarly, the *progressBar* graphic uses the *pRectangle* defaults.
 
-Let's change the timer so that, when it elapses, the background colour changes randomly. Under the last code we wrote, add the following: ::
+Let's change the timer so that, when it elapses, the background colour changes randomly. Under the last code we wrote, add the following: 
+
+.. code-block:: javascript
 
     // ... previous code ... //
     

@@ -6,10 +6,11 @@
 Psychex
 =======
 
-Psychex is a psychology and cognitive science library in JavaScript for building online experiments using JavaScript.
+Psychex is a JavaScript library for building games for online experiments in psychology and the cognitive sciences.
 It was built by A. Grogan in the Department of Experimental Psychology at the University of Oxford.
 
-The main goal of Psychex is to make it easy to build gameified experiments.
+The main goal of Psychex is to make it easy to build gameified experiments, and comes with a range of tools
+for collecting data.
 
 Psychex is completely free and open-source. It's designed to be customised and extended, and 
 open-source contributions are entirely welcomed and appreciated.
@@ -26,10 +27,13 @@ open-source contributions are entirely welcomed and appreciated.
    code_docs/dom
    tutorial/aesthetics
    tutorial/interactions
+   tutorial/animations
    tutorial/n_arm_bandit
    examples/ho_22_example
    examples/faq.rst
    tutorial/js_background_knowledge
+   tutorial/deploying
+   tutorial/contributing
 
 How to Use These Docs
 ---------------------
@@ -38,10 +42,11 @@ These docs contain most (if not all) of the information necessary for using Psyc
 approach them by either reading through how the classes are built and used, but we suggest 
 learning by following through tutorials. In particular, a good learning route might be: 
 
-   #. Read the Getting Started page
+   #. Read the Getting Started and Key Concepts pages
    #. Follow the n-arm bandit tutorial
    #. Look through the styles and aesthetics docs, and follow through the examples
    #. Go through the example where we recreate an experiment by Ho, M. (2022)
+   #. Build your own experiment!
 
 .. Indices and tables
 .. ==================

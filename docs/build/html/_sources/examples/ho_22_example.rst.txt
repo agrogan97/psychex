@@ -11,7 +11,7 @@ Finally, they are queried about their awareness of a particular obstacle during 
 Setting Up
 ----------
 
-We'll start by copying the skeleton folder from *examples*. This contains all the dependencies and boilerplate code we need to get started.
+We'll start by copying the starter kit folder from the Github repo. This contains all the dependencies and boilerplate code we need to get started.
 Next, we can open a terminal, navigate to the root directory, and deploy a server to serve static files. For example, using Python: ::
 
     python -m http.server
@@ -21,7 +21,7 @@ If we open a browser at ``127.0.0.1:8000``, we'll see the Psychex welcome text.
 Building a Gridworld
 --------------------
 
-From the skeleton, we've already got out preload, setup, and draw functions. Let's delete the Psychex welcome text, so *setup* looks like this: ::
+From the starter kit, we've already got out preload, setup, and draw functions. Let's delete the Psychex welcome text, so *setup* looks like this: ::
 
     function setup(){
         var canvas = createCanvas(windowWidth, windowHeight);
@@ -40,7 +40,7 @@ Gridworld Background
 Before we fully dive into the tutorial, let's explore a couple of the features of the gridworld class. If you're already familiar with it, you may
 wish to skip this part. We can instantiate a gridworld in the following way: ::
 
-    var myGrid = new GridWorld(x, y, w, h, nRows, nCols, align, kwargs);
+    var myGrid = new GridWorld(x, y, w, h, nRows, nCols, align, {});
 
 where *x, y* are the coordinates on the screen, *w, h* are the width and height of the gridworld respectively, *nRows, nCols* are the number of rows
 and number of columns respectively, *align* indicates whether the anchor point (i.e. where *x, y* is placed) is at the centre or top-LHS corner of the grid,
@@ -125,7 +125,7 @@ We'll define this within the constructor: ::
         }
     }
 
-This uses ``_.range()``, a function from `lodash <https://lodash.com/>`_. Lodash is included in the skeleton library, so you can use all the
+This uses ``_.range()``, a function from `lodash <https://lodash.com/>`_. Lodash is included in the starter kit, so you can use all the
 utlities it provides out of the box. The `range(a, b)` function creates an array of integers between *a* and *b-1*, which we can then iterate through.
 
 In the original paper, the authors use 12 base mazes, where each maze contains 7 teronimo-shaped obstacles. These base mazes can also be rotated, while the start and 
@@ -221,8 +221,6 @@ And call this is the constructor: ::
 
 Movement Control and Key-Press Events
 -------------------------------------
-
-*Make it mooooove*
 
 Now we'll go over how to attach events to key-presses, so the player can move the token. Psychex allows you to attach callbacks to any key-press. The 
 browser will then listen for key-presses and run the appropriate function. The *Gridworld* class provides an additional wrapper for this, called *handleMovement*.

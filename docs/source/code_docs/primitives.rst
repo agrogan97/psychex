@@ -3,7 +3,7 @@ Primitives
 
 Primitives are the building blocks of more complex composite classes, and represent simple rendereable instances.
 
-.. py:class:: pText(text, x, y, kwargs={})
+.. js:class:: pText(text, x, y, kwargs={})
     
     Instructions to render a string of text
     
@@ -12,7 +12,7 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param number y: The y-coordinates of the string using current *positionMode*
     :param object kwargs={}: An dict-object containing additional keyword args 
 
-   .. py:method:: draw()
+   .. js:method:: draw()
 
         Render the text to the screen and create the underlying p5.js object.
 
@@ -51,7 +51,7 @@ Primitives are the building blocks of more complex composite classes, and repres
         myCustomText.draw();
 
 
-.. py:class:: pRectangle(x, y, w, h, kwargs={})
+.. js:class:: pRectangle(x, y, w, h, kwargs={})
 
     Object that can draw a 4-sided shape to the screen.
 
@@ -61,7 +61,7 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param number h: The height of the shape using current *positionMode*
     :param object kwargs: An dict-object containing additional keyword args 
 
-    .. py:method:: withImage(imgObj, kwargs)
+    .. js:method:: withImage(imgObj, kwargs)
 
         Creates a new pImage object under `this.img` and renders it to the center of the shape.
 
@@ -70,11 +70,11 @@ Primitives are the building blocks of more complex composite classes, and repres
         :return undefined:
         :rtype undefined:
 
-    .. py:method:: draw()
+    .. js:method:: draw()
 
         Draw method that creates the underlying p5.rect
 
-    .. py:method:: draw_(x, y, w, h, kwargs)
+    .. js:method:: draw_(x, y, w, h, kwargs)
 
         Static method that creates a rectangle object on the fly without instantiating an object
 
@@ -102,7 +102,7 @@ Primitives are the building blocks of more complex composite classes, and repres
     }
 
 
-.. py:class:: pCircle(x, y, r, kwargs={})
+.. js:class:: pCircle(x, y, r, kwargs={})
 
     Object that draws a circle to the screen
 
@@ -111,11 +111,11 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param number r: The radius of the circle
     :param object kwargs: A dict-object containing additional keyword args 
 
-    .. py:method:: draw()
+    .. js:method:: draw()
 
         Creates the underlying p5.circle object and renders it
 
-    .. py:method:: draw_()
+    .. js:method:: draw_()
 
         Static method that creates a circle object and renders it on the fly without instantiating an object
 
@@ -136,7 +136,7 @@ Primitives are the building blocks of more complex composite classes, and repres
         }
     }
 
-.. py:class:: pTriangle(x1, y1, x2, y2, x3, y3, kwargs={})
+.. js:class:: pTriangle(x1, y1, x2, y2, x3, y3, kwargs={})
 
     :param number x1: x-coordinate of the first point of the triangle
     :param number y1: y-coordinate of the first point of the triangle
@@ -146,11 +146,11 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param number y3: y-coordinate of the third point
     :param object kwargs: A dict-object containing additional keyword args 
 
-    .. py:method:: draw()
+    .. js:method:: draw()
 
         Draws a triangle to the screen using the coordinates provided to the class constructor.
 
-.. py:class:: pImage(x, y, img, kwargs={})
+.. js:class:: pImage(x, y, img, kwargs={})
 
     Renders an image to the screen.
 
@@ -159,15 +159,15 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param p5.Image img: A p5.image object, loaded using `loadImage()`. See example below for usage.
     :param object kwargs: A dict-object containing additional keyword args 
 
-    .. py:method:: draw()
+    .. js:method:: draw()
 
         Draw the image
 
-    .. py:method:: draw_()
+    .. js:method:: draw_()
 
         Draw the image but statically
 
-.. py:class:: pButton(x, y, w, h, kwargs)
+.. js:class:: pButton(x, y, w, h, kwargs)
 
     A composite object that replicates a clickable button. Internally creates a rectangle object (`this.rect`) and either a text or image object rendered within the rectangle. See methods below for details. Note that *pButton* objects are clickable by default, and don't need to have `toggleClickable()` run.
 
@@ -177,22 +177,22 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param number h: The height of the button using current *positionMode*
     :param object kwargs: An dict-object containing additional keyword args 
 
-    .. py:method:: addImage(...)
+    .. js:method:: addImage(...)
 
-    .. py:method:: addText(text, kwargs)
+    .. js:method:: addText(text, kwargs)
 
         :param string text: Text to be added to the button
         :param object kwargs: An dict-object containing additional keyword args. Includes as default `{textAlign: CENTER}.`
         
-    .. py:method:: clickAnimation()
+    .. js:method:: clickAnimation()
         
         TODO
 
-    .. py:method:: draw()
+    .. js:method:: draw()
 
         Render the button to the screen.
 
-.. py:class:: Countdown(x, y, endtime, kwargs={})
+.. js:class:: Countdown(x, y, endtime, kwargs={})
 
     A countdown timer that allows a callback to be set for when time elapses, with the option to attach a countdown bar or circular timer.
 
@@ -201,7 +201,7 @@ Primitives are the building blocks of more complex composite classes, and repres
     :param number endtime: The number of seconds after which the timer elapses.
     :param object kwargs: An dict-object containing additional keyword args 
 
-    .. py:method:: setGraphic(graphic, params={})
+    .. js:method:: setGraphic(graphic, params={})
 
         Sets the countdown graphic to either a circular arc that spans from 360deg to 0, or a progress bar. Also allows the user to extend and add their own graphic using p5.js.
         TODO: instructions on how to create custom graphic
@@ -209,11 +209,11 @@ Primitives are the building blocks of more complex composite classes, and repres
         :param string graphic: A string denoting the type of graphic to be added. Allows `"arc"` for arc, `"bar"` for progress bar, and `"custom"`, which creates an object called `this.graphic`, where the user can extend the draw method.
         :param object params: Dict containing params for the graphic. Both arc and bar graphics require width (`w`) and height (`h`)
 
-    .. py:method:: reset()
+    .. js:method:: reset()
 
         Reset the timer. Also used to start the timer.
 
-    .. py:method:: onTimeUp()
+    .. js:method:: onTimeUp()
 
         Empty method that can be set to a callback for when the timer elapses. For example: ::
 
@@ -223,20 +223,6 @@ Primitives are the building blocks of more complex composite classes, and repres
                 content.timer.reset();
             }
 
-    .. py:method:: pause()
+    .. js:method:: pause()
 
         Pause the timer.
-
-.. py:function:: send_message(sender, recipient, message_body, [priority=1])
-
-   Send a message to a recipient
-
-   :param str sender: The person sending the message
-   :param str recipient: The recipient of the message
-   :param str message_body: The body of the message
-   :param priority: The priority of the message, can be a number 1-5
-   :type priority: integer or None
-   :return: the message id
-   :rtype: int
-   :raises ValueError: if the message_body exceeds 160 characters
-   :raises TypeError: if the message_body is not a basestring

@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../code_docs/dom.html">Document Object Model (DOM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/aesthetics.html">Styles and Aesthetics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial: Ho, M. <em>et al.</em> (2022)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up">Setting Up</a></li>
@@ -69,6 +70,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/deploying.html">Deploying to the Internet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/contributing.html">Contributing to Psychex</a></li>
 </ul>
 
         </div>
@@ -104,7 +107,7 @@ Initially, all obstacles are visible during navigation (this is changed in later
 Finally, they are queried about their awareness of a particular obstacle during the trial.</p>
 <section id="setting-up">
 <h2>Setting Up<a class="headerlink" href="#setting-up" title="Link to this heading"></a></h2>
-<p>We’ll start by copying the skeleton folder from <em>examples</em>. This contains all the dependencies and boilerplate code we need to get started.
+<p>We’ll start by copying the starter kit folder from the Github repo. This contains all the dependencies and boilerplate code we need to get started.
 Next, we can open a terminal, navigate to the root directory, and deploy a server to serve static files. For example, using Python:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span>
 </pre></div>
@@ -113,7 +116,7 @@ Next, we can open a terminal, navigate to the root directory, and deploy a serve
 </section>
 <section id="building-a-gridworld">
 <h2>Building a Gridworld<a class="headerlink" href="#building-a-gridworld" title="Link to this heading"></a></h2>
-<p>From the skeleton, we’ve already got out preload, setup, and draw functions. Let’s delete the Psychex welcome text, so <em>setup</em> looks like this:</p>
+<p>From the starter kit, we’ve already got out preload, setup, and draw functions. Let’s delete the Psychex welcome text, so <em>setup</em> looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
     <span class="n">var</span> <span class="n">canvas</span> <span class="o">=</span> <span class="n">createCanvas</span><span class="p">(</span><span class="n">windowWidth</span><span class="p">,</span> <span class="n">windowHeight</span><span class="p">);</span>
     <span class="n">pixelDensity</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
@@ -129,7 +132,7 @@ You can look behind the scenes in more detail from the docs (TODO ref docs).</p>
 <h3>Gridworld Background<a class="headerlink" href="#gridworld-background" title="Link to this heading"></a></h3>
 <p>Before we fully dive into the tutorial, let’s explore a couple of the features of the gridworld class. If you’re already familiar with it, you may
 wish to skip this part. We can instantiate a gridworld in the following way:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">myGrid</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GridWorld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">nRows</span><span class="p">,</span> <span class="n">nCols</span><span class="p">,</span> <span class="n">align</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">);</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">myGrid</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GridWorld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">nRows</span><span class="p">,</span> <span class="n">nCols</span><span class="p">,</span> <span class="n">align</span><span class="p">,</span> <span class="p">{});</span>
 </pre></div>
 </div>
 <p>where <em>x, y</em> are the coordinates on the screen, <em>w, h</em> are the width and height of the gridworld respectively, <em>nRows, nCols</em> are the number of rows
@@ -211,7 +214,7 @@ as obstacles etc. for now, we’ll get to that. The cross is defined on row 5, c
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This uses <code class="docutils literal notranslate"><span class="pre">_.range()</span></code>, a function from <a class="reference external" href="https://lodash.com/">lodash</a>. Lodash is included in the skeleton library, so you can use all the
+<p>This uses <code class="docutils literal notranslate"><span class="pre">_.range()</span></code>, a function from <a class="reference external" href="https://lodash.com/">lodash</a>. Lodash is included in the starter kit, so you can use all the
 utlities it provides out of the box. The <cite>range(a, b)</cite> function creates an array of integers between <em>a</em> and <em>b-1</em>, which we can then iterate through.</p>
 <p>In the original paper, the authors use 12 base mazes, where each maze contains 7 teronimo-shaped obstacles. These base mazes can also be rotated, while the start and
 end points are kept fixed, to create visually different trials. Let’s start by defining a couple of methods:</p>
@@ -310,7 +313,6 @@ text, where you might want to fine-tune alignment. This also accepts negative of
 </section>
 <section id="movement-control-and-key-press-events">
 <h2>Movement Control and Key-Press Events<a class="headerlink" href="#movement-control-and-key-press-events" title="Link to this heading"></a></h2>
-<p><em>Make it mooooove</em></p>
 <p>Now we’ll go over how to attach events to key-presses, so the player can move the token. Psychex allows you to attach callbacks to any key-press. The
 browser will then listen for key-presses and run the appropriate function. The <em>Gridworld</em> class provides an additional wrapper for this, called <em>handleMovement</em>.</p>
 <p>When building a game like this where a player moves through a maze, you may want 2 separate callbacks:</p>

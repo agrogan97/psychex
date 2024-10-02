@@ -63,6 +63,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying.html">Deploying to the Internet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Psychex</a></li>
 </ul>
 
         </div>
@@ -91,17 +93,17 @@
              
   <section id="handling-static-content">
 <h1>Handling Static Content<a class="headerlink" href="#handling-static-content" title="Link to this heading"></a></h1>
-<p>Static content is loaded within the p5.js <cite>preload()</cite> function. It’s typically stored within the object <cite>assets</cite>, but this is optional.</p>
+<p>Static content is loaded within the <cite>preload()</cite> function. Static content is typically stored within a global variable object called <cite>assets</cite>, but this is optional.</p>
 <section id="images">
 <h2>Images<a class="headerlink" href="#images" title="Link to this heading"></a></h2>
 <p>Images are loaded within <em>preload</em> as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">preload</span><span class="p">(){</span>
-    <span class="n">assets</span><span class="o">.</span><span class="n">imgs</span><span class="p">[</span><span class="s2">&quot;image1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loadImage</span><span class="p">(</span><span class="s2">&quot;path/to/image1.png&quot;</span><span class="p">);</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">preload</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">assets</span><span class="p">.</span><span class="nx">imgs</span><span class="p">[</span><span class="s2">&quot;image1&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loadImage</span><span class="p">(</span><span class="s2">&quot;path/to/image1.png&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>To use this image, load it into a <em>pImage</em>, as such:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">let</span> <span class="n">img1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pImage</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">assets</span><span class="o">.</span><span class="n">imgs</span><span class="o">.</span><span class="n">image1</span><span class="p">);</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">img1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pImage</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">assets</span><span class="p">.</span><span class="nx">imgs</span><span class="p">.</span><span class="nx">image1</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>See the <em>pImage</em> docs for details on using this class. loadImage can also be used to load gifs.</p>
@@ -109,16 +111,16 @@
 <section id="fonts">
 <h2>Fonts<a class="headerlink" href="#fonts" title="Link to this heading"></a></h2>
 <p>Fonts are loaded within <em>preload</em> as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">preload</span><span class="p">(){</span>
-    <span class="n">assets</span><span class="o">.</span><span class="n">fonts</span><span class="p">[</span><span class="s2">&quot;font1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loadImage</span><span class="p">(</span><span class="s2">&quot;path/to/font1.ttf&quot;</span><span class="p">)</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">preload</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">assets</span><span class="p">.</span><span class="nx">fonts</span><span class="p">[</span><span class="s2">&quot;font1&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loadImage</span><span class="p">(</span><span class="s2">&quot;path/to/font1.ttf&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>To use the font, add it to the <cite>aesthetics</cite> object on a pText object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">let</span> <span class="n">newText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;My new text&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;fontFamily&quot;</span> <span class="p">:</span> <span class="n">assets</span><span class="o">.</span><span class="n">fonts</span><span class="o">.</span><span class="n">font1</span><span class="p">});</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">newText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;My new text&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;fontFamily&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">assets</span><span class="p">.</span><span class="nx">fonts</span><span class="p">.</span><span class="nx">font1</span><span class="p">});</span>
 </pre></div>
 </div>
-<p>For details on aesthetics, see <a class="reference internal" href="aesthetics.html"><span class="doc">Styles and Aesthetics</span></a>.</p>
+<p>For details on aesthetics, see <a class="reference internal" href="aesthetics.html"><span class="doc">Styles and Aesthetics</span></a>. You can download fonts (<em>.ttf</em> files) from somewhere like <a class="reference external" href="https://fonts.google.com/">Google fonts</a> .</p>
 </section>
 <section id="other">
 <h2>Other<a class="headerlink" href="#other" title="Link to this heading"></a></h2>

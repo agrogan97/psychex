@@ -19,7 +19,9 @@ Psychex offers a class that supports this and offers some helpful functionality.
         In order to turn the window into fullscreen mode, the user must agree by interacting (such as via a click).
         This method sets up the functionality to listen for a user click and launch fullscreen mode. It also takes 
         a callback from the user to run additional functionality - such as instructions to render some text explaining
-        that the user needs to click. ::
+        that the user needs to click. 
+
+        .. code-block:: javascript
 
             // Render some text explaining that the user can click to launch fullscreen
             var fs = new Fullscreen();
@@ -32,7 +34,9 @@ Psychex offers a class that supports this and offers some helpful functionality.
 
     .. py:method:: onFullscreenExit()
 
-        Method that is run once every draw loop when the user exits fullscreen mode. This method is **empty** and can be overwritten by the user. May be used to redirect to a new window, call a save method, etc. ::
+        Method that is run once every draw loop when the user exits fullscreen mode. This method is **empty** and can be overwritten by the user. May be used to redirect to a new window, call a save method, etc.
+
+        .. code-block:: javascript
 
             // Using a previously defined fullscreen instance called fs
             fs.onFullscreenExit = () => {
@@ -48,7 +52,9 @@ Psychex offers a class that supports this and offers some helpful functionality.
     .. py:method:: draw()
 
         A wrapper that runs one of 3 other methods: `beforeFullscreen` (before the user clicks to launch fullscreen), `detect` (loop that checks if the user is in fullscreen), and `onFullscreenExit` (that loops when fullscreen is exited).
-        This method is called in the global `draw` loop, just like any other renderable. For example: ::
+        This method is called in the global `draw` loop, just like any other renderable. For example
+
+        .. code-block:: javascript
 
             function draw(){
 
@@ -70,7 +76,7 @@ The following is an example of how fullscreen mode can be fully implemented into
     #. Render the game content as normal, and listen for if the player leaves fullscreen.
     #. Tell the user the game has detected they've left fullscreen.
 
-::
+.. code-block:: javascript
 
     // NB: `fullscreen` is protected by p5, and can't be used as a variable name
     var fs = new Fullscreen()
@@ -141,7 +147,7 @@ Game Manager
         :return: The promise of a response from the target endpoint.
         :rtype: Promise
 
-        ::
+        .. code-block:: javascript
 
             // Example Usage //
 
@@ -158,7 +164,7 @@ Game Manager
         :return: The promise of a response from the target endpoint.
         :rtype: Promise
 
-        ::
+        .. code-block:: javascript
 
             // Example Usage //
 
@@ -203,7 +209,7 @@ Game Manager
         :param any save: Optional data to be saved on component change.
         :param any params: Optional data to be passed to the next component's URL and accessed there. If a string is passed, will be converted to an object as {params: params} and Stringified. If an Object is passed, will also be Stringified. To access data later, use `JSON.parse()`. on the param `message`.
 
-        ::
+        .. code-block:: javascript
 
             // Example Usage //
 

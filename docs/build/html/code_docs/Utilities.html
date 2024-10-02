@@ -90,6 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/deploying.html">Deploying to the Internet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/contributing.html">Contributing to Psychex</a></li>
 </ul>
 
         </div>
@@ -134,11 +136,11 @@
 This method sets up the functionality to listen for a user click and launch fullscreen mode. It also takes
 a callback from the user to run additional functionality - such as instructions to render some text explaining
 that the user needs to click.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Render</span> <span class="n">some</span> <span class="n">text</span> <span class="n">explaining</span> <span class="n">that</span> <span class="n">the</span> <span class="n">user</span> <span class="n">can</span> <span class="n">click</span> <span class="n">to</span> <span class="n">launch</span> <span class="n">fullscreen</span>
-<span class="n">var</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Fullscreen</span><span class="p">();</span>
-<span class="n">fs</span><span class="o">.</span><span class="n">beforeFullscreen</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="n">This</span> <span class="n">uses</span> <span class="n">the</span> <span class="n">pText</span> <span class="n">static</span> <span class="n">method</span><span class="p">,</span> <span class="n">so</span> <span class="n">no</span> <span class="n">need</span> <span class="n">to</span> <span class="n">instantiate</span> <span class="n">the</span> <span class="n">text</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">advance</span>
-    <span class="n">pText</span><span class="o">.</span><span class="n">draw_</span><span class="p">(</span><span class="s2">&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">42</span><span class="p">});</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Render some text explaining that the user can click to launch fullscreen</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Fullscreen</span><span class="p">();</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">beforeFullscreen</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// This uses the pText static method, so no need to instantiate the text object in advance</span>
+<span class="w">    </span><span class="nx">pText</span><span class="p">.</span><span class="nx">draw_</span><span class="p">(</span><span class="s2">&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">42</span><span class="p">});</span>
 <span class="p">})</span>
 </pre></div>
 </div>
@@ -153,10 +155,10 @@ that the user needs to click.</p>
 <dt class="sig sig-object py" id="Fullscreen.onFullscreenExit">
 <span class="sig-name descname"><span class="pre">onFullscreenExit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.onFullscreenExit" title="Link to this definition"></a></dt>
 <dd><p>Method that is run once every draw loop when the user exits fullscreen mode. This method is <strong>empty</strong> and can be overwritten by the user. May be used to redirect to a new window, call a save method, etc.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Using</span> <span class="n">a</span> <span class="n">previously</span> <span class="n">defined</span> <span class="n">fullscreen</span> <span class="n">instance</span> <span class="n">called</span> <span class="n">fs</span>
-<span class="n">fs</span><span class="o">.</span><span class="n">onFullscreenExit</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="n">pText</span><span class="o">.</span><span class="n">draw_</span><span class="p">(</span><span class="s2">&quot;Fullscreen exit detected.&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">34</span><span class="p">})</span>
-    <span class="o">//</span> <span class="ow">or</span> <span class="n">perhaps</span> <span class="n">some</span> <span class="n">code</span> <span class="n">to</span> <span class="n">redirect</span> <span class="n">the</span> <span class="n">user</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Using a previously defined fullscreen instance called fs</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">onFullscreenExit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">pText</span><span class="p">.</span><span class="nx">draw_</span><span class="p">(</span><span class="s2">&quot;Fullscreen exit detected.&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">34</span><span class="p">})</span>
+<span class="w">    </span><span class="c1">// or perhaps some code to redirect the user</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -173,15 +175,15 @@ Once isFullScreen = false, the class <cite>draw</cite> method is replaced with <
 <dt class="sig sig-object py" id="Fullscreen.draw">
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Fullscreen.draw" title="Link to this definition"></a></dt>
 <dd><p>A wrapper that runs one of 3 other methods: <cite>beforeFullscreen</cite> (before the user clicks to launch fullscreen), <cite>detect</cite> (loop that checks if the user is in fullscreen), and <cite>onFullscreenExit</cite> (that loops when fullscreen is exited).
-This method is called in the global <cite>draw</cite> loop, just like any other renderable. For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+This method is called in the global <cite>draw</cite> loop, just like any other renderable. For example</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
 
-    <span class="n">fullscreenMode</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">fullscreenMode</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 
-    <span class="o">//</span> <span class="n">other</span> <span class="n">drawables</span> <span class="o">...</span>
-    <span class="o">//</span> <span class="n">eg</span><span class="o">.</span> <span class="n">text</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-    <span class="o">//</span> <span class="n">eg</span><span class="o">.</span> <span class="n">rect</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-    <span class="o">//</span> <span class="o">...</span> <span class="n">etc</span><span class="o">.</span>
+<span class="w">    </span><span class="c1">// other drawables ...</span>
+<span class="w">    </span><span class="c1">// eg. text.draw()</span>
+<span class="w">    </span><span class="c1">// eg. rect.draw()</span>
+<span class="w">    </span><span class="c1">// ... etc.</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -200,39 +202,39 @@ This method is called in the global <cite>draw</cite> loop, just like any other 
 </ol>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// NB: `fullscreen` is protected by p5, and can&#39;t be used as a variable name
-var fs = new Fullscreen()
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// NB: `fullscreen` is protected by p5, and can&#39;t be used as a variable name</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Fullscreen</span><span class="p">()</span>
 
-function setup(){
-    // ... Setup preamble ... //
-    // ... some game objects etc. ///
-    // ... //
+<span class="kd">function</span><span class="w"> </span><span class="nx">setup</span><span class="p">(){</span>
+<span class="w">    </span><span class="c1">// ... Setup preamble ... //</span>
+<span class="w">    </span><span class="c1">// ... some game objects etc. ///</span>
+<span class="w">    </span><span class="c1">// ... //</span>
 
-    // NB: that beforeFullscreen takes a callback, so it can handle other background logic
-    fs.beforeFullscreen(() =&gt; {
-        pText.draw_(&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;, 50, 50, {textSize: 42});
-        return true;
-    })
+<span class="w">    </span><span class="c1">// NB: that beforeFullscreen takes a callback, so it can handle other background logic</span>
+<span class="w">    </span><span class="nx">fs</span><span class="p">.</span><span class="nx">beforeFullscreen</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">pText</span><span class="p">.</span><span class="nx">draw_</span><span class="p">(</span><span class="s2">&quot;The game must be played in fullscreen. Click anywhere to launch.&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">42</span><span class="p">});</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">})</span>
 
-    // declare func to run when the user leaves fullscreeen
-    fs.onFullscreenExit = () =&gt; {
-        pText.draw_(&quot;Fullscreen exit detected.&quot;, 50, 50, {textSize: 34})
-        return true;
-    }
+<span class="w">    </span><span class="c1">// declare func to run when the user leaves fullscreeen</span>
+<span class="w">    </span><span class="nx">fs</span><span class="p">.</span><span class="nx">onFullscreenExit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">pText</span><span class="p">.</span><span class="nx">draw_</span><span class="p">(</span><span class="s2">&quot;Fullscreen exit detected.&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">34</span><span class="p">})</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-function draw(){
-    clear();
+<span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">clear</span><span class="p">();</span>
 
-    // We return true from our pre- and post- fullscreen methods, so we can use that to block any other renders
-    // While in fullscreen, draw just returns undefined
+<span class="w">    </span><span class="c1">// We return true from our pre- and post- fullscreen methods, so we can use that to block any other renders</span>
+<span class="w">    </span><span class="c1">// While in fullscreen, draw just returns undefined</span>
 
-    let block = fs.draw();
-    if (block) {return}
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">block</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="k">return</span><span class="p">}</span>
 
-    // ... draw other content as normal ... //
-}
+<span class="w">    </span><span class="c1">// ... draw other content as normal ... //</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -293,11 +295,11 @@ saving and loading methods, and playerId management.</p>
 <dd class="field-odd"><p>Promise</p>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example Usage //</span>
 
-<span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
-<span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">saveDataToServer</span><span class="p">({</span><span class="n">someData</span><span class="p">}:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]},</span> <span class="s2">&quot;https://myAPIServer/api/save/&quot;</span><span class="p">)</span>
-<span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">myGame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Game</span><span class="p">();</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">myGame</span><span class="p">.</span><span class="nx">saveDataToServer</span><span class="p">({</span><span class="nx">someData</span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">]},</span><span class="w"> </span><span class="s2">&quot;https://myAPIServer/api/save/&quot;</span><span class="p">)</span>
+<span class="c1">// etc TODO finish</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -320,11 +322,11 @@ saving and loading methods, and playerId management.</p>
 <dd class="field-odd"><p>Promise</p>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example Usage //</span>
 
-<span class="n">let</span> <span class="n">myGame</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Game</span><span class="p">();</span>
-<span class="n">let</span> <span class="n">res</span> <span class="o">=</span> <span class="n">myGame</span><span class="o">.</span><span class="n">loadDataFromServer</span><span class="p">(</span><span class="s2">&quot;https://myAPIServer/api/load/&quot;</span><span class="p">)</span>
-<span class="o">//</span> <span class="n">etc</span> <span class="n">TODO</span> <span class="n">finish</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">myGame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Game</span><span class="p">();</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">myGame</span><span class="p">.</span><span class="nx">loadDataFromServer</span><span class="p">(</span><span class="s2">&quot;https://myAPIServer/api/load/&quot;</span><span class="p">)</span>
+<span class="c1">// etc TODO finish</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -400,18 +402,18 @@ Ref: <a class="reference external" href="https://www.jatos.org/jatos.js-Referenc
 </ul>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Example</span> <span class="n">Usage</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example Usage //</span>
 
-<span class="o">//</span> <span class="o">&gt;</span> <span class="n">To</span> <span class="n">move</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">component</span> <span class="n">without</span> <span class="n">saving</span> <span class="ow">or</span> <span class="n">passing</span> <span class="n">parameters</span> <span class="p">(</span><span class="n">a</span> <span class="n">message</span><span class="p">)</span>
-<span class="n">Game</span><span class="o">.</span><span class="n">goToJatosComponent</span><span class="p">();</span>
+<span class="c1">// &gt; To move to the next component without saving or passing parameters (a message)</span>
+<span class="nx">Game</span><span class="p">.</span><span class="nx">goToJatosComponent</span><span class="p">();</span>
 
-<span class="o">//</span> <span class="o">&gt;</span> <span class="n">To</span> <span class="n">move</span> <span class="n">to</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">component</span> <span class="n">using</span> <span class="n">the</span> <span class="n">numeric</span> <span class="n">ID</span><span class="p">,</span> <span class="k">while</span> <span class="n">also</span> <span class="n">saving</span><span class="p">,</span> <span class="n">but</span> <span class="ow">not</span> <span class="n">passing</span> <span class="n">a</span> <span class="n">message</span>
-<span class="n">let</span> <span class="n">someComponentId</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="o">//</span> <span class="n">get</span> <span class="kn">from</span> <span class="nn">Jatos</span> <span class="n">backend</span> <span class="n">interface</span>
-<span class="n">Game</span><span class="o">.</span><span class="n">goToJatosComponent</span><span class="p">(</span><span class="n">someComponentId</span><span class="p">,</span> <span class="p">{</span><span class="n">myData</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]});</span>
+<span class="c1">// &gt; To move to a specific component using the numeric ID, while also saving, but not passing a message</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">someComponentId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5</span><span class="p">;</span><span class="w"> </span><span class="c1">// get from Jatos backend interface</span>
+<span class="nx">Game</span><span class="p">.</span><span class="nx">goToJatosComponent</span><span class="p">(</span><span class="nx">someComponentId</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">myData</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">4</span><span class="p">]});</span>
 
-<span class="o">//</span> <span class="o">&gt;</span> <span class="n">To</span> <span class="n">move</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">component</span> <span class="k">while</span> <span class="ow">not</span> <span class="n">saving</span> <span class="n">data</span><span class="p">,</span> <span class="n">but</span> <span class="n">passing</span> <span class="n">parameters</span>
-<span class="o">//</span> <span class="n">Note</span> <span class="n">that</span> <span class="n">here</span><span class="p">,</span> <span class="n">we</span> <span class="n">must</span> <span class="k">pass</span> <span class="ow">in</span> <span class="n">an</span> <span class="n">empty</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">lieu</span> <span class="n">of</span> <span class="n">the</span> <span class="n">save</span> <span class="n">inputs</span> <span class="o">-</span> <span class="n">since</span> <span class="n">JS</span> <span class="n">doesn</span><span class="s1">&#39;t use keyword args!</span>
-<span class="n">Game</span><span class="o">.</span><span class="n">goToJatosComponent</span><span class="p">(</span><span class="n">undefined</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="n">playerId</span><span class="p">:</span> <span class="mi">6</span><span class="p">});</span>
+<span class="c1">// &gt; To move to the next component while not saving data, but passing parameters</span>
+<span class="c1">// Note that here, we must pass in an empty object in lieu of the save inputs - since JS doesn&#39;t use keyword args!</span>
+<span class="nx">Game</span><span class="p">.</span><span class="nx">goToJatosComponent</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="p">{</span><span class="nx">playerId</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="p">});</span>
 </pre></div>
 </div>
 </dd></dl>

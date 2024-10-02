@@ -73,6 +73,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="js_background_knowledge.html">JavaScript - Important Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying.html">Deploying to the Internet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Psychex</a></li>
 </ul>
 
         </div>
@@ -116,41 +118,43 @@ shape fill colour, rectangle border thickness, etc.</p>
 <h2>Setting Default Styles<a class="headerlink" href="#setting-default-styles" title="Link to this heading"></a></h2>
 <p>All primitives, such as pText, pRectangle, pCircle, etc., have default aesthetics. These are contained within the global variable <cite>psychex.aesthetics</cite>.
 Within this, there contains objects for each of the primitives. You can get details on this by opening a console, and running:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">psychex</span><span class="p">.</span><span class="nx">aesthetics</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Similarly, to get details about the default settings on a specific primitive, run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">pText</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">psychex</span><span class="p">.</span><span class="nx">aesthetics</span><span class="p">.</span><span class="nx">pText</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Where <cite>pText</cite> can be replaced with any other primitive.</p>
 <p>The properties listed are the default settings for that primitive type. These properties are set for all primitives of that type, unless manually specified.
 We’ll cover manual settings in the next section.</p>
 <p>To edit the default properties, you can use the <cite>edit()</cite> function in each <cite>psychex.aesthetics</cite> object. Eg:</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="psychex.aesthetics.pText.edit">
-<span class="sig-prename descclassname"><span class="pre">psychex.aesthetics.pText.</span></span><span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psychex.aesthetics.pText.edit" title="Link to this definition"></a></dt>
+<dl class="js function">
+<dt class="sig sig-object js" id="psychex.aesthetics.pText.edit">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">psychex</span></span><span class="p"><span class="pre">.</span></span><span class="n"><span class="pre">aesthetics</span></span><span class="p"><span class="pre">.</span></span><span class="n"><span class="pre">pText</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">edit</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psychex.aesthetics.pText.edit" title="Link to this definition"></a></dt>
 <dd><p>Update the default settings for the chosen (in this case pText) primitive.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>aes</strong> (<em>object</em>) – A dict mapping property to the new default value. The named properties in this parameter must match the values in the object. You can view these parameters by running psychex.aesthetics.pText.show()</p>
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aes</strong> (<span><code class="xref js js-func docutils literal notranslate"><span class="pre">object()</span></code></span>) – A dict mapping property to the new default value. The named properties in this parameter must match the values in the object. You can view these parameters by running psychex.aesthetics.pText.show()</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <p>Here’s an example of how to set the global defaults for a pText object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
 
-<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">setup</span><span class="p">(){</span>
 
-    <span class="o">//</span> <span class="o">...</span> <span class="n">preamble</span> <span class="o">..</span> <span class="o">//</span>
+<span class="w">    </span><span class="c1">// ... preamble .. //</span>
 
-    <span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">pText</span><span class="o">.</span><span class="n">edit</span><span class="p">({</span><span class="n">fontColor</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">textSize</span><span class="p">:</span> <span class="mi">32</span><span class="p">});</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">myText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Welcome to Psychex&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">psychex</span><span class="p">.</span><span class="nx">aesthetics</span><span class="p">.</span><span class="nx">pText</span><span class="p">.</span><span class="nx">edit</span><span class="p">({</span><span class="nx">fontColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">32</span><span class="p">});</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;Welcome to Psychex&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">myText</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myText</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -159,18 +163,18 @@ We’ll cover manual settings in the next section.</p>
 <p>If you update the default aesthetics, only the elements defined <strong>after</strong> the update will have the new settings applied.
 If you wish to apply custom defaults to all elements, do this before defining any elements in <cite>setup()</cite>. To apply one set of defaults to a handful
 of elements, and different default settings to other elements, define the first group, then edit the settings, then define the next group. For instance:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">..</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">..</span> <span class="o">//</span>
-<span class="n">content</span><span class="o">.</span><span class="n">text1a</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Block 1&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-<span class="n">content</span><span class="o">.</span><span class="n">text1b</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Defaults 1&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">35</span><span class="p">);</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// .. setup preamble .. //</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">text1a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;Block 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">30</span><span class="p">);</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">text1b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;Defaults 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">35</span><span class="p">);</span>
 
-<span class="o">//</span> <span class="n">Define</span> <span class="n">new</span> <span class="n">defaults</span> <span class="o">//</span>
-<span class="n">psychex</span><span class="o">.</span><span class="n">aesthetics</span><span class="o">.</span><span class="n">pText</span><span class="o">.</span><span class="n">edit</span><span class="p">({</span><span class="n">fontColor</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">textSize</span><span class="p">:</span> <span class="mi">34</span><span class="p">});</span>
+<span class="c1">// Define new defaults //</span>
+<span class="nx">psychex</span><span class="p">.</span><span class="nx">aesthetics</span><span class="p">.</span><span class="nx">pText</span><span class="p">.</span><span class="nx">edit</span><span class="p">({</span><span class="nx">fontColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">34</span><span class="p">});</span>
 
-<span class="o">//</span> <span class="n">Text</span> <span class="k">with</span> <span class="n">new</span> <span class="n">defaults</span> <span class="o">//</span>
-<span class="n">content</span><span class="o">.</span><span class="n">text2a</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Now they&#39;re...&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-<span class="n">content</span><span class="o">.</span><span class="n">text2b</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Big and blue&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">55</span><span class="p">);</span>
+<span class="c1">// Text with new defaults //</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">text2a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;Now they&#39;re...&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">);</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">text2b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;Big and blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">55</span><span class="p">);</span>
 
-<span class="o">//</span> <span class="o">...</span> <span class="ow">and</span> <span class="n">draw</span> <span class="k">as</span> <span class="n">normal</span>
+<span class="c1">// ... and draw as normal</span>
 </pre></div>
 </div>
 </div>
@@ -181,9 +185,9 @@ of elements, and different default settings to other elements, define the first 
 For more details on this, check the <a class="reference internal" href="../code_docs/primitives.html"><span class="doc">Primitives</span></a> docs.</p>
 <p><cite>kwargs</cite> is an optional parameter included at the end of every Psychex class, that allows you to override settings.</p>
 <p>To update the aesthetics for an element, add the styles to <cite>kwargs</cite>, for instance:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="p">{</span><span class="n">fontColor</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">);</span>
-<span class="n">content</span><span class="o">.</span><span class="n">moreText</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pText</span><span class="p">(</span><span class="s2">&quot;I &lt;3 Psychex&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="p">{</span><span class="n">fontSize</span><span class="p">:</span> <span class="mi">48</span><span class="p">});</span>
-<span class="n">content</span><span class="o">.</span><span class="n">myRect</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">borderWidth</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">backgroundColor</span><span class="p">:</span> <span class="s1">&#39;yellow&#39;</span><span class="p">});</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">content</span><span class="p">.</span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">fontColor</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">moreText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pText</span><span class="p">(</span><span class="s2">&quot;I &lt;3 Psychex&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">60</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">48</span><span class="p">});</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pRectangle</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">borderWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;yellow&#39;</span><span class="p">});</span>
 </pre></div>
 </div>
 <p>Applying aesthetics in this way will <strong>override</strong> the specified properties, but <strong>keep</strong> any defaults not specified.</p>
@@ -192,12 +196,12 @@ For more details on this, check the <a class="reference internal" href="../code_
 <h2>Dynamic Styling<a class="headerlink" href="#dynamic-styling" title="Link to this heading"></a></h2>
 <p>Perhaps you want to update styles in a dynamic way, such as on user-click. No problem!</p>
 <p>Each <cite>primitive</cite> object has an <cite>update()</cite> method that allows you to update kwargs and aesthetics at any time. For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Imagine</span> <span class="n">a</span> <span class="n">rectangle</span> <span class="n">shape</span> <span class="n">that</span><span class="s1">&#39;s initialised with a red background</span>
-<span class="n">content</span><span class="o">.</span><span class="n">someRect</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">});</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Imagine a rectangle shape that&#39;s initialised with a red background</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">someRect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pRectangle</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">});</span>
 
-<span class="o">//</span> <span class="n">This</span> <span class="n">can</span> <span class="n">be</span> <span class="n">updated</span> <span class="n">by</span> <span class="n">calling</span> <span class="n">its</span> <span class="n">update</span> <span class="n">method</span><span class="p">:</span>
+<span class="c1">// This can be updated by calling its update method:</span>
 
-<span class="n">content</span><span class="o">.</span><span class="n">someRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">});</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">someRect</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">});</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -212,19 +216,19 @@ For more details on this, check the <a class="reference internal" href="../code_
 <h3>Change On-Click<a class="headerlink" href="#change-on-click" title="Link to this heading"></a></h3>
 <p>Imagine you want the colour of a rectangle to change when it’s clicked by a user. This might be used to give the player feedback on an interaction, for example.
 Firstly, we’ll create a rectangle object inside setup:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
 
-<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
-    <span class="o">//</span> <span class="o">...</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">setup</span><span class="p">(){</span>
+<span class="w">    </span><span class="c1">// ... setup preamble ... //</span>
 
-    <span class="o">//</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">pRectangle</span> <span class="n">inside</span> <span class="n">content</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
+<span class="w">    </span><span class="c1">// Create a pRectangle inside content</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pRectangle</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">});</span>
 
 <span class="p">}</span>
 
-<span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
 
-    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 
 <span class="p">}</span>
 </pre></div>
@@ -232,24 +236,24 @@ Firstly, we’ll create a rectangle object inside setup:</p>
 <p>The rectangle is initially rendered with a green background, and a green border.</p>
 <p>Let’s now make the shape clickable, and edit its <cite>onClick()</cite> property. For a deeper dive into user interactions,
 check out the tutorial on <a class="reference internal" href="interactions.html"><span class="doc">Handling User Interactions</span></a>. Let’s register the shape as a clickable object, and edit <cite>onClick</cite>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">previous</span> <span class="n">setup</span> <span class="n">code</span> <span class="o">...</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ... previous setup code ... //</span>
 
-<span class="o">//</span> <span class="n">tell</span> <span class="n">Psychex</span> <span class="n">to</span> <span class="n">listen</span> <span class="k">for</span> <span class="n">clicks</span> <span class="n">on</span> <span class="n">this</span> <span class="nb">object</span>
-<span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">toggleClickable</span><span class="p">();</span>
-<span class="o">//</span> <span class="n">Define</span> <span class="n">the</span> <span class="n">function</span> <span class="n">to</span> <span class="n">be</span> <span class="n">run</span> <span class="n">when</span> <span class="n">the</span> <span class="nb">object</span> <span class="ow">is</span> <span class="n">clicked</span>
-<span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">});</span>
+<span class="c1">// tell Psychex to listen for clicks on this object</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">toggleClickable</span><span class="p">();</span>
+<span class="c1">// Define the function to be run when the object is clicked</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span><span class="p">});</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Simple as that! Now, when the user clicks the rectangle, it’s background and border colour will turn yellow.</p>
 <p>We can set this to automatically change back after some time by adding a timeout within the same function:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">});</span>
-    <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="n">Change</span> <span class="n">colour</span> <span class="n">back</span> <span class="n">to</span> <span class="n">green</span> <span class="n">after</span> <span class="mi">1</span> <span class="n">second</span> <span class="p">(</span><span class="mi">1000</span> <span class="n">milliseconds</span><span class="p">)</span>
-        <span class="n">content</span><span class="o">.</span><span class="n">myRect</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
-    <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span><span class="p">});</span>
+<span class="w">    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Change colour back to green after 1 second (1000 milliseconds)</span>
+<span class="w">        </span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">});</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -260,25 +264,25 @@ check out the tutorial on <a class="reference internal" href="interactions.html"
 For this, we want 3 lights (green, amber, and red), that go from red -&gt; red + amber -&gt; green, and then from green -&gt;
 green + amber -&gt; red.</p>
 <p>Let’s start by defining all our shapes in <cite>setup</cite>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">content</span> <span class="o">=</span> <span class="p">{};</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
 
-<span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
-    <span class="o">//</span> <span class="o">...</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">setup</span><span class="p">(){</span>
+<span class="w">    </span><span class="c1">// ... setup preamble ... //</span>
 
-    <span class="o">//</span> <span class="n">Define</span> <span class="mi">3</span> <span class="n">lights</span><span class="p">,</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">button</span> <span class="n">to</span> <span class="n">request</span> <span class="n">a</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">lights</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">redLight</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">});</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">});</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pRectangle</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">crossing</span> <span class="o">=</span> <span class="n">new</span> <span class="n">pButton</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">borderColor</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">})</span>
-        <span class="o">.</span><span class="n">addText</span><span class="p">(</span><span class="s2">&quot;Go&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">textSize</span><span class="p">:</span> <span class="mi">24</span><span class="p">});</span>
+<span class="w">    </span><span class="c1">// Define 3 lights, and a button to request a change in lights</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">redLight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pRectangle</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">});</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pRectangle</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">21</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;orange&quot;</span><span class="p">});</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">greenLight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pRectangle</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">32</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">});</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">crossing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">pButton</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">45</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;black&quot;</span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">addText</span><span class="p">(</span><span class="s2">&quot;Go&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">textSize</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="p">});</span>
 <span class="p">}</span>
 
-<span class="n">function</span> <span class="n">draw</span><span class="p">()</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="n">draw</span> <span class="n">the</span> <span class="n">lights</span> <span class="ow">and</span> <span class="n">button</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">redLight</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">crossing</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// draw the lights and button</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">redLight</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">greenLight</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">crossing</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -286,61 +290,61 @@ green + amber -&gt; red.</p>
 but we do need to specify what will happen <cite>onClick</cite>. Buttons can also contain either <cite>pText</cite> or <cite>pImage</cite> objects. Here, we’re adding some text
 through the <cite>addText</cite> method.</p>
 <p>Let’s go through and add all the rules for changing lights into <cite>onClick</cite>, under our previous definitions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">previous</span> <span class="n">setup</span><span class="p">()</span> <span class="n">code</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ... previous setup() code //</span>
 
-<span class="n">content</span><span class="o">.</span><span class="n">crossing</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="n">Set</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span> <span class="n">to</span> <span class="n">come</span> <span class="n">on</span> <span class="n">after</span> <span class="mi">1</span> <span class="n">second</span>
-    <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">});</span>
-        <span class="o">//</span> <span class="n">turn</span> <span class="n">on</span> <span class="n">the</span> <span class="n">gren</span> <span class="n">light</span> <span class="n">after</span> <span class="n">another</span> <span class="n">second</span>
-        <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-            <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">});</span>
-            <span class="o">//</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span>
-            <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
-            <span class="o">//</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">red</span> <span class="n">light</span>
-            <span class="n">content</span><span class="o">.</span><span class="n">redLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">crossing</span><span class="p">.</span><span class="nx">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set the amber light to come on after 1 second</span>
+<span class="w">    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;orange&quot;</span><span class="p">});</span>
+<span class="w">        </span><span class="c1">// turn on the gren light after another second</span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">content</span><span class="p">.</span><span class="nx">greenLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">});</span>
+<span class="w">            </span><span class="c1">// turn off the amber light</span>
+<span class="w">            </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">});</span>
+<span class="w">            </span><span class="c1">// turn off the red light</span>
+<span class="w">            </span><span class="nx">content</span><span class="p">.</span><span class="nx">redLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">});</span>
 
-            <span class="o">//</span> <span class="n">Reset</span> <span class="nb">all</span>
-            <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-                <span class="o">//</span> <span class="n">Turn</span> <span class="n">on</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span><span class="p">,</span> <span class="ow">and</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">green</span> <span class="n">light</span>
-                <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">});</span>
-                <span class="n">content</span><span class="o">.</span><span class="n">greenLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
-                <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-                    <span class="o">//</span> <span class="n">turn</span> <span class="n">on</span> <span class="n">the</span> <span class="n">red</span> <span class="n">light</span><span class="p">,</span> <span class="ow">and</span> <span class="n">turn</span> <span class="n">off</span> <span class="n">the</span> <span class="n">amber</span> <span class="n">light</span>
-                    <span class="n">content</span><span class="o">.</span><span class="n">redLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">});</span>
-                    <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">});</span>
-                <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
-            <span class="p">},</span> <span class="mi">3000</span><span class="p">)</span>
-        <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// Reset all</span>
+<span class="w">            </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="c1">// Turn on the amber light, and turn off the green light</span>
+<span class="w">                </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;orange&quot;</span><span class="p">});</span>
+<span class="w">                </span><span class="nx">content</span><span class="p">.</span><span class="nx">greenLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">});</span>
+<span class="w">                </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="c1">// turn on the red light, and turn off the amber light</span>
+<span class="w">                    </span><span class="nx">content</span><span class="p">.</span><span class="nx">redLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">});</span>
+<span class="w">                    </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">});</span>
+<span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">            </span><span class="p">},</span><span class="w"> </span><span class="mf">3000</span><span class="p">)</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
 
-    <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>That’s it! We’re using several nested setTimeouts() to schedule events, but this is just one way of doing it.
 This could also be simplified by predefining the colour changes, such as by defining:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">lightChanges</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">green</span><span class="p">:</span> <span class="p">{</span>
-        <span class="n">on</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">},</span>
-        <span class="n">off</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
-    <span class="p">},</span>
-    <span class="n">amber</span><span class="p">:</span> <span class="p">{</span>
-        <span class="n">on</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">},</span>
-        <span class="n">off</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
-    <span class="p">},</span>
-    <span class="n">red</span><span class="p">:</span> <span class="p">{</span>
-        <span class="n">on</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">},</span>
-        <span class="n">off</span><span class="p">:</span> <span class="p">{</span><span class="n">backgroundColor</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
-    <span class="p">}</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">lightChanges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">green</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">on</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">off</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">amber</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">on</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;orange&quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">off</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">red</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">on</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">off</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="o">//</span> <span class="ow">and</span> <span class="n">making</span> <span class="n">the</span> <span class="n">logic</span> <span class="n">slightly</span> <span class="n">easier</span> <span class="n">to</span> <span class="n">read</span><span class="p">:</span>
+<span class="c1">// and making the logic slightly easier to read:</span>
 
-<span class="n">content</span><span class="o">.</span><span class="n">crossing</span><span class="o">.</span><span class="n">onClick</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="n">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="n">content</span><span class="o">.</span><span class="n">amberLight</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lightChanges</span><span class="o">.</span><span class="n">amber</span><span class="o">.</span><span class="n">on</span><span class="p">)</span>
-        <span class="o">//</span> <span class="n">etc</span><span class="o">.</span> <span class="o">//</span>
-    <span class="p">},</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">crossing</span><span class="p">.</span><span class="nx">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">lightChanges</span><span class="p">.</span><span class="nx">amber</span><span class="p">.</span><span class="nx">on</span><span class="p">)</span>
+<span class="w">        </span><span class="c1">// etc. //</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
 
 <span class="p">}</span>
 </pre></div>
@@ -350,45 +354,45 @@ This could also be simplified by predefining the colour changes, such as by defi
 <h3>Colour-Changing Timer<a class="headerlink" href="#colour-changing-timer" title="Link to this heading"></a></h3>
 <p>Finally, this example shows how we can update the styling on a composite item - i.e. a class that contains primitives.
 For this, we’ll use the Countdown class. Let’s start by initialising a countdown timer:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">setup</span><span class="p">(){</span>
-    <span class="o">//</span> <span class="o">...</span> <span class="n">setup</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">setup</span><span class="p">(){</span>
+<span class="w">    </span><span class="c1">// ... setup preamble ... //</span>
 
-    <span class="o">//</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">countdown</span> <span class="nb">object</span> <span class="k">with</span> <span class="n">a</span> <span class="mi">5</span><span class="o">-</span><span class="n">second</span> <span class="n">timer</span>
-    <span class="n">content</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Countdown</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Create a countdown object with a 5-second timer</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Countdown</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="n">function</span> <span class="n">draw</span><span class="p">(){</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
 
-    <span class="n">content</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">draw</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Currently, this has no graphics object (eg. a progress bar etc.) attached to it. The class provides 2 built-in objects: an arc, and a progress bar.
 Let’s attach an arc graphic to the underlying countdown logic.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="o">...</span> <span class="n">preamble</span> <span class="o">...</span> <span class="o">//</span>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ... preamble ... //</span>
 
-<span class="o">//</span> <span class="n">previous</span> <span class="n">code</span> <span class="o">//</span>
-<span class="n">content</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Countdown</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
-<span class="o">//</span> <span class="n">add</span> <span class="n">an</span> <span class="n">arc</span> <span class="n">graphic</span> <span class="k">with</span> <span class="n">a</span> <span class="n">width</span> <span class="n">of</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">height</span> <span class="n">of</span> <span class="mi">10</span>
-<span class="n">content</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">setGraphic</span><span class="p">(</span><span class="s2">&quot;arc&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">w</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="mi">10</span><span class="p">});</span>
+<span class="c1">// previous code //</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Countdown</span><span class="p">(</span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">);</span>
+<span class="c1">// add an arc graphic with a width of 5 and a height of 10</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">setGraphic</span><span class="p">(</span><span class="s2">&quot;arc&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">w</span><span class="o">:</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="nx">h</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">});</span>
 </pre></div>
 </div>
 <p>This shape starts with the same default graphics as <em>pCircle</em>. Similarly, the <em>progressBar</em> graphic uses the <em>pRectangle</em> defaults.</p>
 <p>Let’s change the timer so that, when it elapses, the background colour changes randomly. Under the last code we wrote, add the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// ... previous code ... //
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ... previous code ... //</span>
 
-// write a callback - i.e. a function that calls when the timer elapses
-// NB: onTimeUp is a class-specific name - so this method name must be used!
-content.timer.onTimeUp = () =&gt; {
-    // randomly sample from a list of colours
-    content.timer.graphic.update({backgroundColor: _.sample([&quot;green&quot;, &quot;yellow&quot;, &quot;pink&quot;, &quot;blue&quot;])});
-    // Reset the timer once it elapses
-    content.timer.reset();
-}
+<span class="c1">// write a callback - i.e. a function that calls when the timer elapses</span>
+<span class="c1">// NB: onTimeUp is a class-specific name - so this method name must be used!</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">onTimeUp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// randomly sample from a list of colours</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">graphic</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="nx">_</span><span class="p">.</span><span class="nx">sample</span><span class="p">([</span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pink&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">])});</span>
+<span class="w">    </span><span class="c1">// Reset the timer once it elapses</span>
+<span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+<span class="p">}</span>
 
-// And reset it at the start, so it begins once the page loads
-content.timer.reset();
+<span class="c1">// And reset it at the start, so it begins once the page loads</span>
+<span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>The key point here is that we call the update on <em>content.timer.graphic</em>, <strong>not</strong> <em>content.timer</em> - the countdown object is just a container for code

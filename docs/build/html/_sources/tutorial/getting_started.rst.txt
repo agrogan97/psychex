@@ -6,20 +6,18 @@ In this section, we'll go through the steps necessary to set up Psychex and use 
 Installation
 ------------
 
-Psychex can be installed from the Psychex Github repo. There are 2 Psychex versions available:
+Psychex can be installed from the Psychex Github repo. The source file can be found at:
 
-- src/psychex.dev.js
-- src/psychex.production.js
+- src/psychex.js
 
-The former includes code docs and tooltips, which offer a handy way of getting details about classes and methods within
+This includes code docs and tooltips, which offer a handy way of getting details about classes and methods within
 an editor such as VS Code. It's also the version to use if you wish to extend contribute to Psychex.
-The latter is a production-optimised version that can be used when your experiment is made playable by real people on the internet.
-This version has unnecessary data such as comments and whitespace removed, making it smaller and faster-loading for your participants.
-We recommend using the *dev* version for developing, and the *production* build for the real thing.
+
+When running in production, consider minifying your code using something like `Terser <https://terser.org/>`_. This will remove extra whitespace and comments and make file-size smaller, improving performance.
 
 Once you've downloaded the code file, place it somewhere in your project, and import the file into your project by referencing in your base HTML file, as such::
 
-    <script src="lib/psychex.dev.js"></script>
+    <script src="lib/psychex.js"></script>
 
 Psychex is a wrapper for the `p5.js <https://p5js.org/>`_ library and uses the same required functions.
 

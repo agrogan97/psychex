@@ -104,18 +104,15 @@
 <p>In this section, we’ll go through the steps necessary to set up Psychex and use it within an HTML project.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
-<p>Psychex can be installed from the Psychex Github repo. There are 2 Psychex versions available:</p>
+<p>Psychex can be installed from the Psychex Github repo. The source file can be found at:</p>
 <ul class="simple">
-<li><p>src/psychex.dev.js</p></li>
-<li><p>src/psychex.production.js</p></li>
+<li><p>src/psychex.js</p></li>
 </ul>
-<p>The former includes code docs and tooltips, which offer a handy way of getting details about classes and methods within
-an editor such as VS Code. It’s also the version to use if you wish to extend contribute to Psychex.
-The latter is a production-optimised version that can be used when your experiment is made playable by real people on the internet.
-This version has unnecessary data such as comments and whitespace removed, making it smaller and faster-loading for your participants.
-We recommend using the <em>dev</em> version for developing, and the <em>production</em> build for the real thing.</p>
+<p>This includes code docs and tooltips, which offer a handy way of getting details about classes and methods within
+an editor such as VS Code. It’s also the version to use if you wish to extend contribute to Psychex.</p>
+<p>When running in production, consider minifying your code using something like <a class="reference external" href="https://terser.org/">Terser</a>. This will remove extra whitespace and comments and make file-size smaller, improving performance.</p>
 <p>Once you’ve downloaded the code file, place it somewhere in your project, and import the file into your project by referencing in your base HTML file, as such:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;lib/psychex.dev.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;lib/psychex.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>Psychex is a wrapper for the <a class="reference external" href="https://p5js.org/">p5.js</a> library and uses the same required functions.</p>

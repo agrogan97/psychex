@@ -1,6 +1,6 @@
 Usage
 =====
 
-When transferring over docs, make sure the directory structure here is `docs/index.html` - i.e. move all the content from the src/ directory in the sphinx build into a docs directory. 
+To update from dev directory, checkout this branch and run `git checkout dev -- docs`. Make sure there is an empty `.nojekyll` file within the docs/build/html/ folder so that statics load.
 
-Make sure also to include the `.nojekyll` in the `docs/` directory. Github pages expects to find the root html here.
+Rename the docs file to `src/`, and copy `docs/build/html` (the whole folder) into the root. Rename this folder `docs`. It's ready to serve now.

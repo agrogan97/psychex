@@ -26,7 +26,7 @@ Psychex is a wrapper for the `p5.js <https://p5js.org/>`_ library and uses the s
 Starter Kit Setup 
 -----------------
 
-Alternatively, download the folder *starter_kit* - this contains barebones files that will work out of the box, and is a good foundation from which to build your project. If you choose to do this, you can serve the file by opening a terminal of your choice, navigating to the project root, and running
+Alternatively, clone the repo and copy the folder *starter_kit* into your project directory - this contains barebones files that will work out of the box, and is a good foundation from which to build your project. If you choose to do this, you can serve the file by opening a terminal of your choice, navigating to the project root, and running
 something like: ::
 
     python -m http.server
@@ -52,7 +52,7 @@ For details on how to get the most out of Psychex + JATOS, see :doc:`../tutorial
 Manual Setup
 ------------
 
-If you're using the starter kit, the file *main.js* contains the following functions by default.
+If you're using the starter kit, the file *static/js/main.js* contains the following functions by default.
 
 The following can be used as a basic template::
 
@@ -110,8 +110,7 @@ This powers animations and dynamically rendered content. The frame rate can be q
 Next steps
 ----------
 
-This describes the barebones content required to use Psychex. In the next steps, we'll show how to create 
-an experiment from scratch.
+To continue learning about Psychex, either read through the function docs, or (recommended) work through the provided tutorials.
 
 
 

@@ -59,7 +59,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#manually-overriding-and-setting-specific-styles">Manually Overriding and Setting Specific Styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-styling">Dynamic Styling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tutorials">Tutorials</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#change-on-click">Change On-Click</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#traffic-lights">Traffic Lights</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#colour-changing-timer">Colour-Changing Timer</a></li>
@@ -69,6 +69,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="interactions.html">Handling User Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="n_arm_bandit.html">Tutorial: N-Arm Bandit Task</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/ho_22_example.html">Tutorial: Ho, M. <em>et al.</em> (2022)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/faq.html">FAQ</a></li>
@@ -209,8 +210,8 @@ For more details on this, check the <a class="reference internal" href="../code_
 <p>Calling <cite>update()</cite> and passing in parameters will update only the specified parameters, while keeping all others at their default value.</p>
 </div>
 </section>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading"></a></h2>
 <p>Let’s consider a couple of examples where we might want to apply styling dynamically or from an interaction.</p>
 <section id="change-on-click">
 <h3>Change On-Click<a class="headerlink" href="#change-on-click" title="Link to this heading"></a></h3>
@@ -227,6 +228,8 @@ Firstly, we’ll create a rectangle object inside setup:</p>
 <span class="p">}</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
+<span class="w">    </span><span class="c1">// Always include clear()!</span>
+<span class="w">    </span><span class="nx">clear</span><span class="p">();</span>
 
 <span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">myRect</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 
@@ -278,6 +281,7 @@ green + amber -&gt; red.</p>
 <span class="p">}</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">clear</span><span class="p">();</span>
 <span class="w">    </span><span class="c1">// draw the lights and button</span>
 <span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">redLight</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 <span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">amberLight</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
@@ -352,8 +356,8 @@ This could also be simplified by predefining the colour changes, such as by defi
 </section>
 <section id="colour-changing-timer">
 <h3>Colour-Changing Timer<a class="headerlink" href="#colour-changing-timer" title="Link to this heading"></a></h3>
-<p>Finally, this example shows how we can update the styling on a composite item - i.e. a class that contains primitives.
-For this, we’ll use the Countdown class. Let’s start by initialising a countdown timer:</p>
+<p>Finally, this example shows how we can update the styling on a composite item - i.e. a class composed of multiple primitives - such as a custom class you’d write for your own experiments.
+In this example, we’ll use the Countdown class. Let’s start by initialising a countdown timer:</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">setup</span><span class="p">(){</span>
 <span class="w">    </span><span class="c1">// ... setup preamble ... //</span>
 
@@ -362,6 +366,7 @@ For this, we’ll use the Countdown class. Let’s start by initialising a count
 <span class="p">}</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">draw</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">clear</span><span class="p">();</span>
 
 <span class="w">    </span><span class="nx">content</span><span class="p">.</span><span class="nx">timer</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
 

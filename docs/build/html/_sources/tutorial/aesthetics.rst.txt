@@ -117,8 +117,8 @@ Each `primitive` object has an `update()` method that allows you to update kwarg
 .. note::
     Calling `update()` and passing in parameters will update only the specified parameters, while keeping all others at their default value.
 
-Examples
---------
+Tutorials
+---------
 
 Let's consider a couple of examples where we might want to apply styling dynamically or from an interaction.
 
@@ -141,6 +141,8 @@ Firstly, we'll create a rectangle object inside setup:
     }
 
     function draw(){
+        // Always include clear()!
+        clear();
 
         content.myRect.draw();
 
@@ -201,6 +203,7 @@ Let's start by defining all our shapes in `setup`:
     }
 
     function draw() {
+        clear();
         // draw the lights and button
         content.redLight.draw();
         content.amberLight.draw();
@@ -279,8 +282,8 @@ This could also be simplified by predefining the colour changes, such as by defi
 Colour-Changing Timer
 *********************
 
-Finally, this example shows how we can update the styling on a composite item - i.e. a class that contains primitives.
-For this, we'll use the Countdown class. Let's start by initialising a countdown timer: 
+Finally, this example shows how we can update the styling on a composite item - i.e. a class composed of multiple primitives - such as a custom class you'd write for your own experiments.
+In this example, we'll use the Countdown class. Let's start by initialising a countdown timer: 
 
 .. code-block:: javascript
 
@@ -292,6 +295,7 @@ For this, we'll use the Countdown class. Let's start by initialising a countdown
     }
 
     function draw(){
+        clear();
 
         content.timer.draw();
 

@@ -1,5 +1,3 @@
-testing/
-src/
 *.py
 .DS_Store
 .venv

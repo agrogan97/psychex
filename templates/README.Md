@@ -6,3 +6,5 @@ In this file we include some templates for commonly used tools that solve a rang
 
 ## ExpressJS
 
+The ExpressJS server included here provides a simple method of serving HTML pages, and provides an endpoint for loading data, and an endpoint for saving data locally as JSON.
+It should serve as a jumping-off point, not necesarily as a production server.

@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = 8000;
 const cors = require('cors');
 
 // Middleware to parse incoming JSON data from POST requests

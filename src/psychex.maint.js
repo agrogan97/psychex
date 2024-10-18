@@ -1,3 +1,6 @@
+// --------------------------------------------------------------------------
+// Psychex v.0.2
+// --------------------------------------------------------------------------
 // Check prerequisites
 if (_ == undefined){throw new Error("Psychex requires lodash to be loaded.")}
 if (p5 == undefined){throw new Error("Psychex requires p5.js to be loaded.")}

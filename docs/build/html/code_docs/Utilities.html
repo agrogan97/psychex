@@ -65,6 +65,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Utils.getUrlParams"><code class="docutils literal notranslate"><span class="pre">Utils.getUrlParams()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Utils.getJatosParams"><code class="docutils literal notranslate"><span class="pre">Utils.getJatosParams()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Utils.isTouchDevice"><code class="docutils literal notranslate"><span class="pre">Utils.isTouchDevice()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Utils.isLandscape"><code class="docutils literal notranslate"><span class="pre">Utils.isLandscape()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -264,6 +267,54 @@ params by including them in the array <em>searchParams</em>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Utils.getJatosParams">
+<span class="sig-name descname"><span class="pre">getJatosParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">searchParams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Utils.getJatosParams" title="Link to this definition"></a></dt>
+<dd><p>Static method that can be used to read Jatos URL params. Jatos takes URL parameters initially appended to the experiment link and stores them as a variable called <cite>jatos.urlQueryParams</cite>.
+It removes them from the browser-URL, but makes them accessible within each component through this object. This method is a wrapper for the Jatos method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>searchParams</strong> (<em>Array</em>) – An optional array of parameters to search for. Including this will return only the specified parameters.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dict-object mapping URL-param key to value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Utils.isTouchDevice">
+<span class="sig-name descname"><span class="pre">isTouchDevice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Utils.isTouchDevice" title="Link to this definition"></a></dt>
+<dd><p>Return a boolean indicating if the device is a touch screen device (mobile or tablet).
+Courtesy of detectmobilebrowsers.com
+NB: Parsing device type from user agent is not the most stable process, so worth testing before uses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if touch device (mobile or tablet), else false</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Utils.isLandscape">
+<span class="sig-name descname"><span class="pre">isLandscape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Utils.isLandscape" title="Link to this definition"></a></dt>
+<dd><p>Detect if the device is in portrait or landscape mode. If in landscape return true, if not return false.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return true if device is in landscape, false if not</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>boolean</p>
 </dd>
 </dl>
 </dd></dl>

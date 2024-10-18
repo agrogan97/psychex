@@ -130,6 +130,31 @@ Utilities
         :return: A dict-object mapping URL-Param key to value
         :rtype: Object
 
+    .. py:method:: getJatosParams(searchParams=[])
+
+        Static method that can be used to read Jatos URL params. Jatos takes URL parameters initially appended to the experiment link and stores them as a variable called `jatos.urlQueryParams`. 
+        It removes them from the browser-URL, but makes them accessible within each component through this object. This method is a wrapper for the Jatos method.
+
+        :param Array searchParams: An optional array of parameters to search for. Including this will return only the specified parameters.
+        :return: A dict-object mapping URL-param key to value
+        :rtype: Object
+
+    .. py:method:: isTouchDevice()
+
+        Return a boolean indicating if the device is a touch screen device (mobile or tablet).
+        Courtesy of detectmobilebrowsers.com
+        NB: Parsing device type from user agent is not the most stable process, so worth testing before uses.
+
+        :return: true if touch device (mobile or tablet), else false
+        :rtype: boolean
+    
+    .. py:method:: isLandscape()
+
+        Detect if the device is in portrait or landscape mode. If in landscape return true, if not return false.
+        
+        :return: return true if device is in landscape, false if not
+        :rtype: boolean
+
 Game Manager
 ------------
 

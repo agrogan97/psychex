@@ -671,12 +671,12 @@ Code Documentation
     :param string id: Unique identifier string for this element
     :param object kwargs: CSS styles for this element
 
-.. js:class:: Element(x, y, el, value="", id=undefined, kwargs={})
+.. js:class:: DomElement(x, y, el, value="", id=undefined, kwargs={})
 
     Create a new specified HTML element of any type, by naming the type. 
     For example, to create a new <h2> element:::
 
-        content.dom.newEl = new Element(50, 10, "h2", "My Custom Heading", "h2el", {})
+        content.dom.newEl = new DomElement(50, 10, "h2", "My Custom Heading", "h2el", {})
     
     :param number x: Horizontal position of the element
     :param number y: Vertical position of the element
